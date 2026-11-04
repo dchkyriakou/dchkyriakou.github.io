@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Dimitrios Kyriakou — Electrical &amp; Computer Engineer</title>
-  <meta name="description" content="Electrical & Computer Engineer (AUTh, 2026), drawn to biomedical engineering, with a foundation in signals, machine learning, electronics and energy. Research at Fudan University (China) and Texas A&M University (USA). Diploma thesis graded 10/10.">
+  <meta name="description" content="Electrical & Computer Engineer (AUTh, 2026) working on biomedical signals and machine learning. Research at Texas A&M (USA) and Fudan University (China). Wrist-PPG thesis graded 10/10. European medallist in Taekwon-Do.">
   <meta name="theme-color" content="#0c1a24">
   <link rel="canonical" href="https://dchkyriakou.github.io/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dchkyriakou.github.io/">
-  <meta property="og:title" content="Dimitrios Kyriakou — Electrical & Computer Engineer, drawn to biomedical engineering">
-  <meta property="og:description" content="Signals, machine learning, electronics and energy, put to work in research at Fudan University and Texas A&M. Wrist-PPG thesis graded 10/10. European bronze medallist in Taekwon-Do.">
+  <meta property="og:title" content="Dimitrios Kyriakou — Electrical & Computer Engineer · biomedical signals & ML">
+  <meta property="og:description" content="Research at Texas A&M and Fudan University. Wrist-PPG thesis graded 10/10: +0.30 ROC-AUC for Parkinson's over age and sex. European medallist.">
   <meta property="og:image" content="https://dchkyriakou.github.io/assets/img/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="Dimitrios Kyriakou beside a 3D spectrogram of a pulse signal.">
+  <meta property="og:image:alt" content="Dimitrios Kyriakou beside a spectrogram of a pulse signal.">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
@@ -27,16 +27,17 @@
 </head>
 <body>
   <div class="progress" aria-hidden="true"><span></span></div>
-  <a class="skip" href="#thesis">Skip to content</a>
+  <a class="skip" href="#work">Skip to content</a>
 
   <header class="masthead">
     <a class="wordmark" href="#top" aria-label="D. Kyriakou, back to top">D. Kyriakou</a>
     <nav aria-label="Sections">
       <ul class="nav">
-        <li><a class="hover-link" href="#thesis">Thesis</a></li>
-        <li><a class="hover-link" href="#research">Research</a></li>
-        <li><a class="hover-link" href="#capabilities">Capabilities</a></li>
+        <li><a class="hover-link" href="#work">Work</a></li>
+        <li><a class="hover-link" href="#experience">Experience</a></li>
+        <li><a class="hover-link" href="#beyond">Beyond</a></li>
         <li><a class="hover-link" href="#contact">Contact</a></li>
+        <li><a class="hover-link" href="thesis/">Thesis</a></li>
       </ul>
     </nav>
   </header>
@@ -50,8 +51,8 @@
           <span class="mask"><span class="mask-in heavy">Dimitrios</span></span>
           <span class="mask"><span class="mask-in light">Kyriakou</span></span>
         </h1>
-        <p class="hero-lead">Electrical &amp; computer engineer, drawn to biomedical engineering. A foundation in signals, machine learning, electronics and energy, put to work in research in China and the USA.</p>
-        <p class="hero-open">Open to roles in medtech, signal processing &amp; ML · Thessaloniki, open to relocation</p>
+        <p class="hero-lead">Electrical &amp; Computer Engineer · biomedical signals &amp; ML</p>
+        <p class="hero-open intro-fade">Open to roles in medtech, signal processing &amp; ML · Thessaloniki, open to relocation</p>
         <div class="hero-actions intro-fade">
           <a class="button magnetic" href="Dimitrios_Kyriakou_CV_2026.pdf" download>
             <span class="button-label">
@@ -60,7 +61,12 @@
             </span>
           </a>
           <a class="hover-link text-link" href="mailto:dchkyriakou@gmail.com">dchkyriakou@gmail.com</a>
+          <a class="hover-link text-link" href="https://www.linkedin.com/in/dimitris-kyriakou-284069203/" rel="noopener me" target="_blank">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a>
         </div>
+        <ul class="proof intro-fade" aria-label="Highlights">
+          <li>Research in the USA &amp; China</li>
+          <li>European medallist</li>
+        </ul>
       </div>
 
       <figure class="hero-portrait">
@@ -77,701 +83,160 @@
           <img class="hero-still" src="assets/img/hero-still-1600.webp" width="1400" height="651" alt="" decoding="async">
         </picture>
       </div>
-      <p class="hero-caption intro-fade">Short-time Fourier spectrum of a simulated wrist pulse, 0.5–4 Hz. The orange ridge is the heart rate.</p>
+      <p class="hero-caption intro-fade">Spectrum of a simulated wrist pulse; the orange ridge is the heart rate.</p>
     </section>
 
-    <!-- ============ TICKER ============ -->
-    <section class="ticker" aria-label="At a glance" tabindex="0">
-      <ul class="ticker-track">
-        <li><b>3</b> countries</li>
-        <li><b>249M</b> signal windows</li>
-        <li><b>10/10</b> thesis</li>
-        <li><b>European</b> bronze</li>
-        <li><b>5×</b> national champion</li>
-      </ul>
-    </section>
-
-    <!-- ============ THESIS ============ -->
-    <section id="thesis" class="thesis dark" aria-labelledby="thesis-title">
+    <!-- ============ SELECTED WORK ============ -->
+    <section id="work" class="work" aria-labelledby="work-title">
       <div class="wrap">
-        <h2 id="thesis-title" class="head thesis-title" data-reveal>A Parkinson's signal in the wrist pulse</h2>
-        <div class="thesis-intro">
-          <div data-reveal-group>
-            <p class="lead" data-reveal>My diploma thesis, graded 10/10: digital biomarkers from wrist photoplethysmography (PPG) for Parkinson's disease discrimination using machine learning.</p>
-            <p class="meta" data-reveal>Supervisor: Prof. Leontios Hadjileontiadis · 30 ECTS · Aristotle University of Thessaloniki</p>
-            <p class="evidence-links" data-reveal><a class="hover-link" href="thesis-abstract.html">Thesis abstract (EN)</a></p>
-          </div>
-          <dl class="pipeline" data-reveal-group>
-            <div data-reveal><dt>Data</dt><dd>Free-living PPG and accelerometer recordings from the PPMI cohort: 344 participants with Parkinson's, prodromal, and healthy controls.</dd></div>
-            <div data-reveal><dt>Quality gate</dt><dd>Four stages: motion, waveform shape, template correlation ≥ 0.70, post-motion buffer.</dd></div>
-            <div data-reveal><dt>Features</dt><dd>27 pulse-rate-variability indices at 30 s and 5 min scales, day and night: 594 features per participant.</dd></div>
-            <div data-reveal><dt>Models</dt><dd>Logistic Regression, Random Forest, XGBoost and SVM, with participant-level nested cross-validation and Nadeau–Bengio corrected tests.</dd></div>
-          </dl>
-        </div>
-
-        <figure class="gate" id="gate" aria-labelledby="gate-title">
-          <div class="gate-top">
-            <h3 id="gate-title" class="sub">Run the signal-quality gate</h3>
-            <p class="gate-note">Illustrative trace; figures from the thesis.</p>
-          </div>
-
-          <div class="gate-counters">
-            <div class="gate-count">
-              <p class="gate-count-num"><span data-gate="windows">249.3 M</span></p>
-              <p class="gate-count-label" data-gate="windows-label">249,275,571 candidate 30-second windows</p>
+        <h2 id="work-title" class="head" data-reveal>Selected work</h2>
+        <div class="work-grid">
+          <article class="work-card" data-reveal>
+            <a class="work-media" href="thesis/" tabindex="-1" aria-hidden="true">
+              <img src="assets/img/work-thesis-900.webp" srcset="assets/img/work-thesis-560.webp 560w, assets/img/work-thesis-900.webp 900w" sizes="(min-width: 900px) 31vw, 100vw" width="900" height="675" loading="lazy" alt="">
+            </a>
+            <div class="work-body">
+              <h3 class="work-title">Diploma thesis · graded 10/10</h3>
+              <p class="work-what">Wrist-PPG biomarkers for Parkinson's: 249 M raw signal windows cleaned to 101 M.</p>
+              <p class="work-result">+0.30 ROC-AUC over age and sex, in all four models (p &lt; 0.05).</p>
+              <a class="work-link hover-link" href="thesis/">Pipeline, demo and decisions</a>
             </div>
-            <p class="gate-trace-count" data-gate="trace-count">This trace: 10 of 10 windows kept</p>
-          </div>
-
-          <div class="gate-scope">
-            <svg class="gate-svg" viewBox="0 0 1200 220" preserveAspectRatio="none" role="img" aria-label="Illustrative PPG trace split into ten 30-second windows; windows rejected by the active stages are greyed out.">
-              <g class="gate-windows"></g>
-              <g class="gate-traces"></g>
-            </svg>
-          </div>
-
-          <ol class="gate-stages" aria-label="Gate stages">
-            <li><button type="button" class="gate-stage" data-stage-btn="motion" aria-pressed="false"><span class="gs-name">Motion</span><span class="gs-rule">Var(|a|) ≤ 0.025 g², tremor-band check</span><span class="gs-state">Off</span></button></li>
-            <li><button type="button" class="gate-stage" data-stage-btn="shape" aria-pressed="false"><span class="gs-name">Waveform shape</span><span class="gs-rule">Skewness −1.5 to 4.0, kurtosis 1.2 to 20</span><span class="gs-state">Off</span></button></li>
-            <li><button type="button" class="gate-stage" data-stage-btn="template" aria-pressed="false"><span class="gs-name">Template correlation</span><span class="gs-rule">Mean r ≥ 0.70 with the median pulse</span><span class="gs-state">Off</span></button></li>
-            <li><button type="button" class="gate-stage" data-stage-btn="buffer" aria-pressed="false"><span class="gs-name">Post-motion buffer</span><span class="gs-rule">45 s after motion</span><span class="gs-state">Off</span></button></li>
-          </ol>
-          <div class="gate-actions">
-            <button type="button" class="gate-run" data-gate-run>Run all four stages</button>
-            <button type="button" class="gate-reset hover-link" data-gate-reset>Reset</button>
-          </div>
-
-          <div class="gate-result" data-gate="result">
-            <div class="gate-result-inner">
-              <div class="gate-result-body">
-                <p class="gate-result-num">+0.30 <span>ROC-AUC over age and sex</span></p>
-                <div class="gate-result-text">
-                  <p>Parkinson's vs controls: pulse-rate-variability features improved ROC-AUC by 0.298 to 0.323 over age and sex in all four models (p &lt; 0.05), stable across sensitivity analyses.</p>
-                  <p class="gate-result-note">Prodromal vs controls: no added value shown, and reported as such (the PPMI prodromal group is heterogeneous).</p>
-                </div>
-              </div>
+          </article>
+          <article class="work-card" data-reveal>
+            <a class="work-media" href="assets/docs/tamu-2024-ppg-poster.pdf" tabindex="-1" aria-hidden="true">
+              <img class="work-img--tamu" src="assets/img/tamu-poster-800.webp" srcset="assets/img/tamu-poster-800.webp 800w, assets/img/tamu-poster-1600.webp 1600w" sizes="(min-width: 900px) 31vw, 100vw" width="800" height="600" loading="lazy" alt="Dimitrios explaining his research poster at Texas A&amp;M.">
+            </a>
+            <div class="work-body">
+              <h3 class="work-title">Texas A&amp;M · Summer 2024</h3>
+              <p class="work-what">IRB-approved study of two wearable PPG sensors at chest, forehead and finger, at three contact pressures.</p>
+              <p class="work-result">Validated against a Masimo oximeter; first-author research poster.</p>
+              <a class="work-link hover-link" href="assets/docs/tamu-2024-ppg-poster.pdf">Poster (PDF)</a>
             </div>
-          </div>
-          <p class="visually-hidden" aria-live="polite" data-gate="live"></p>
-          <figcaption class="visually-hidden">Interactive illustration of the four-stage signal-quality gate: 249,275,571 candidate 30-second windows reduced to 101,310,466 clean windows.</figcaption>
-        </figure>
-
-        <div class="decisions" id="decisions">
-          <div class="decisions-head" data-reveal-group>
-            <h3 class="sub decisions-title" data-reveal>How the thesis pipeline was built</h3>
-            <p class="decisions-lead" data-reveal>The choices behind the pipeline: the problem, what I decided, and why.</p>
-            <button type="button" class="decisions-toggle hover-link" data-decisions-toggle aria-expanded="false" data-reveal>Expand all</button>
-          </div>
-
-          <div class="decision-grid">
-            <details class="decision" data-reveal>
-              <summary><span class="decision-title">Synchronisation</span><span class="decision-gist">Two sensors, two sample rates, gaps in the recording</span></summary>
-              <dl class="decision-body">
-                <div><dt>Problem</dt><dd>PPG at about 30 Hz and accelerometer at 100 Hz, recorded in daily life with gaps.</dd></div>
-                <div><dt>Decision</dt><dd>Both onto a common 30 Hz grid. A gap longer than 0.5 s starts a new segment; interpolation only inside continuous segments; filtering per segment, not per window. Local time from the recorded UTC offset, with each day anchored 07:00 to 07:00.</dd></div>
-                <div><dt>Why</dt><dd>Interpolating across a gap would invent signal, and filtering every window separately would put edge transients into every window.</dd></div>
-              </dl>
-            </details>
-
-            <details class="decision" data-reveal>
-              <summary><span class="decision-title">Windows</span><span class="decision-gist">30 s long, 15 s step</span></summary>
-              <dl class="decision-body">
-                <div><dt>Problem</dt><dd>Choosing a window long enough for pulse-rate variability, short enough to fit between movements.</dd></div>
-                <div><dt>Decision</dt><dd>30-second windows with a 15-second step.</dd></div>
-                <div><dt>Why</dt><dd>Periods of rest in daily life are short.</dd></div>
-              </dl>
-            </details>
-
-            <details class="decision" data-reveal>
-              <summary><span class="decision-title">Quality gate</span><span class="decision-gist">249,275,571 windows in, 101,310,466 out (40.64%)</span></summary>
-              <dl class="decision-body">
-                <div><dt>Problem</dt><dd>Free-living wrist PPG is dominated by motion and poor contact.</dd></div>
-                <div><dt>Decision</dt><dd><ol class="decision-steps">
-                  <li><b>Motion:</b> Var(|a|) ≤ 0.025 g²; reject when at least 10% of |a| power lies in 3.5–7.5 Hz (the Parkinsonian tremor band) and the dominant |a| and PPG frequencies are within 0.5 Hz of each other.</li>
-                  <li><b>Shape:</b> skewness in [−1.5, 4.0], kurtosis in [1.2, 20].</li>
-                  <li><b>Template:</b> mean correlation with the median pulse ≥ 0.70.</li>
-                  <li><b>Buffer:</b> 45 s after motion.</li>
-                </ol></dd></div>
-                <div><dt>Why</dt><dd>The buffer allows haemodynamic recovery after movement. The tremor rule targets the frequency band of Parkinsonian tremor specifically.</dd></div>
-                <div><dt>Result</dt><dd>40.64% of windows kept; about 55% of night windows were clean against about 13% by day.</dd></div>
-              </dl>
-            </details>
-
-            <details class="decision" data-reveal>
-              <summary><span class="decision-title">Beat detection</span><span class="decision-gist">Sub-sample timing from a 30 Hz signal</span></summary>
-              <dl class="decision-body">
-                <div><dt>Problem</dt><dd>At 30 Hz, beat timing is uncertain by ±16.65 ms.</dd></div>
-                <div><dt>Decision</dt><dd>Peaks above the 40th percentile with prominence ≥ 10% of the range, refined by parabolic 3-point interpolation. Inter-beat intervals kept within 333–2000 ms (30–180 bpm); a rolling-median filter removes intervals more than 25% from the median of 5 neighbours. A window needs ≤ 1 removal, ≥ 15 clean intervals and ≥ 14 valid pairs.</dd></div>
-                <div><dt>Why</dt><dd>Interpolating the peak recovers timing finer than the sampling grid.</dd></div>
-              </dl>
-            </details>
-
-            <details class="decision" data-reveal>
-              <summary><span class="decision-title">Features</span><span class="decision-gist">27 indices × night/day × 11 statistics = 594</span></summary>
-              <dl class="decision-body">
-                <div><dt>Problem</dt><dd>Overlapping windows are not independent samples.</dd></div>
-                <div><dt>Decision</dt><dd>6 PRV indices per 30 s window; 21 indices on reconstructed 5-minute segments (intervals to a cubic spline at 4 Hz, Welch with 64 s Hann windows, 50% overlap, detrending; LF 0.04–0.15 Hz, HF 0.15–0.40 Hz). Summarised per participant: 27 indices × night/day × 11 statistics = 594 features.</dd></div>
-                <div><dt>Why</dt><dd>The participant, not the window, is the unit of analysis.</dd></div>
-              </dl>
-            </details>
-
-            <details class="decision" data-reveal>
-              <summary><span class="decision-title">Parameters without ground truth</span><span class="decision-gist">No ECG reference to tune against</span></summary>
-              <dl class="decision-body">
-                <div><dt>Problem</dt><dd>No ECG ground truth in the free-living data.</dd></div>
-                <div><dt>Decision</dt><dd>Parameters chosen by day-to-day repeatability, ICC(3,1), on a 30-person development subset (10 per group).</dd></div>
-                <div><dt>Limitation</dt><dd>ICC measures repeatability, not accuracy, and the thesis states this.</dd></div>
-              </dl>
-            </details>
-
-            <details class="decision" data-reveal>
-              <summary><span class="decision-title">Validation</span><span class="decision-gist">Nested cross-validation, corrected tests</span></summary>
-              <dl class="decision-body">
-                <div><dt>Problem</dt><dd>A small cohort, many features, and training sets that overlap across folds.</dd></div>
-                <div><dt>Decision</dt><dd>5 outer folds stratified at participant level × 10 repeats (seeds 42–51). 3 inner folds for feature selection (drop features with more than 20% missing or zero variance, prune Spearman |ρ| &gt; 0.90, SelectKBest with k ∈ {3, 5, 10, 20}), hyperparameters and decision threshold. Balanced class weights; age and sex as a parallel baseline branch.</dd></div>
-                <div><dt>Why</dt><dd>Nadeau–Bengio corrected t-tests, because the training sets overlap.</dd></div>
-              </dl>
-            </details>
-
-            <details class="decision" data-reveal>
-              <summary><span class="decision-title">Results</span><span class="decision-gist">+0.298 to +0.323 ROC-AUC; an honest negative too</span></summary>
-              <dl class="decision-body">
-                <div><dt>Parkinson's vs controls</dt><dd>ROC-AUC +0.298 to +0.323 over age and sex in all four models (p &lt; 0.05), stable across sensitivity analyses (residualised on age and sex, correlation filters at 0.80 and 0.70, L1 selection).</dd></div>
-                <div><dt>Prodromal vs controls</dt><dd>No added value shown, reported as such (PPMI prodromal heterogeneity).</dd></div>
-                <div><dt>Most selected</dt><dd>HF in normalised units and LF/HF variability (88–94% of runs), SD1/SD2 extremes, and nocturnal entropy for the prodromal group.</dd></div>
-              </dl>
-            </details>
-          </div>
-
-          <h4 class="decisions-sub" data-reveal>Earlier research</h4>
-          <div class="decision-grid">
-            <details class="decision" data-reveal>
-              <summary><span class="decision-title">Texas A&amp;M 2024</span><span class="decision-gist">Which device, site and pressure gives the cleanest PPG?</span></summary>
-              <dl class="decision-body">
-                <div><dt>Setup</dt><dd>Two devices, MAX86173 and MAXM86161, at chest, forehead and finger, at contact pressures of 15, 50 and 90 mmHg.</dd></div>
-                <div><dt>Measures</dt><dd>Signal quality by perfusion index; SpO2 from the empirical SpO2 = 110 − 25·R, compared against a Masimo oximeter.</dd></div>
-              </dl>
-            </details>
-            <details class="decision" data-reveal>
-              <summary><span class="decision-title">Fudan 2025</span><span class="decision-gist">Neural signals, DBS and closed-loop design</span></summary>
-              <dl class="decision-body">
-                <div><dt>Acquisition</dt><dd>Sampling and Nyquist; FIR and IIR filtering; 50/60 Hz line noise and EMG/EOG artifacts.</dd></div>
-                <div><dt>Analysis</dt><dd>Coherence and phase-locking value; entropy (ApEn); Welch PSD, spectrograms and FOOOF on clinical LFP.</dd></div>
-                <div><dt>Stimulation</dt><dd>130 Hz DBS artifact removal; a closed-loop in-vitro rig (host PC, MCU, recorder, stimulator, saline bath) with charge-balanced biphasic stimulation.</dd></div>
-              </dl>
-            </details>
-          </div>
+          </article>
+          <article class="work-card" data-reveal>
+            <a class="work-media" href="thesis/#fudan-2025" tabindex="-1" aria-hidden="true">
+              <img class="work-img--fudan" src="assets/img/grips-talk-800.webp" srcset="assets/img/grips-talk-800.webp 800w, assets/img/grips-talk-1600.webp 1600w" sizes="(min-width: 900px) 31vw, 100vw" width="800" height="600" loading="lazy" alt="Dimitrios presenting a closed-loop neuromodulation system at GRIPS 2025.">
+            </a>
+            <div class="work-body">
+              <h3 class="work-title">Fudan University · GRIPS 2025</h3>
+              <p class="work-what">Clinical LFP recordings from a Parkinson's patient, deep brain stimulation off and on.</p>
+              <p class="work-result">Beta oscillations via Welch PSD and FOOOF; 130 Hz DBS artifacts removed.</p>
+              <a class="work-link hover-link" href="thesis/#fudan-2025">Methods</a>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <!-- ============ MAP SCENE ============ -->
-    <section id="research" class="mapscene" aria-labelledby="research-title">
-      <div class="mapscene-sticky">
-        <div class="mapscene-head">
-          <h2 id="research-title" class="head">Research in Shanghai and Texas</h2>
-          <p class="lead">Two research placements and one global design competition took me from Thessaloniki to College Station, Texas, and to Shanghai.</p>
-        </div>
-        <div class="map" role="img" aria-label="World map with routes from Thessaloniki to College Station, Texas (2022 and 2024) and to Shanghai (2025).">
-          <img class="map-dots" src="assets/img/world-dots.svg" width="145" height="60" alt="" loading="lazy">
-          <svg class="map-overlay" viewBox="0 0 145 60" aria-hidden="true">
-            <path class="map-pulse"/>
-            <path class="map-arc map-arc--cs" pathLength="1"/>
-            <path class="map-arc map-arc--sh" pathLength="1"/>
-            <g class="map-pin" data-pin="thessaloniki"><circle class="map-pin-halo" r="2.6"/><circle class="map-pin-dot" r="0.95"/></g>
-            <g class="map-pin" data-pin="college-station"><circle class="map-pin-halo" r="2.6"/><circle class="map-pin-dot" r="0.95"/></g>
-            <g class="map-pin" data-pin="shanghai"><circle class="map-pin-halo" r="2.6"/><circle class="map-pin-dot" r="0.95"/></g>
-            <circle class="map-head" r="1.1"/>
-          </svg>
-          <span class="map-label" data-label="thessaloniki">Thessaloniki</span>
-          <span class="map-label" data-label="college-station">College Station</span>
-          <span class="map-label" data-label="shanghai">Shanghai</span>
-        </div>
-        <ol class="map-legend">
-          <li data-step="thessaloniki"><b>Thessaloniki</b> Aristotle University, home base</li>
-          <li data-step="college-station"><b>College Station</b> Texas A&amp;M, 2022 and 2024</li>
-          <li data-step="shanghai"><b>Shanghai</b> Fudan University, 2025</li>
+    <!-- ============ EXPERIENCE ============ -->
+    <section id="experience" class="experience" aria-labelledby="experience-title">
+      <div class="wrap">
+        <h2 id="experience-title" class="head" data-reveal>Experience</h2>
+        <ol class="xp">
+          <li class="xp-row" data-reveal>
+            <div class="xp-main"><h3 class="xp-role">Research Intern, GRIPS 2025</h3><p class="xp-org">Fudan University, ISTBI · Shanghai, China</p></div>
+            <p class="xp-date">Summer 2025</p>
+          </li>
+          <li class="xp-row" data-reveal>
+            <div class="xp-main"><h3 class="xp-role">Undergraduate Research Intern</h3><p class="xp-org">Texas A&amp;M University, Optical Biosensing Lab · College Station, USA</p></div>
+            <p class="xp-date">Summer 2024</p>
+          </li>
+          <li class="xp-row" data-reveal>
+            <div class="xp-main"><h3 class="xp-role">Top finalist · People's Choice winner</h3><p class="xp-org">Invent for the Planet, Texas A&amp;M · College Station, USA</p></div>
+            <p class="xp-date">Mar – Apr 2022</p>
+          </li>
+          <li class="xp-row" data-reveal>
+            <div class="xp-main"><h3 class="xp-role">Founder</h3><p class="xp-org">ART.IO, 3D virtual tours</p></div>
+            <p class="xp-date">Side venture</p>
+          </li>
+          <li class="xp-row" data-reveal>
+            <div class="xp-main"><h3 class="xp-role">Owner, website and operations</h3><p class="xp-org">Elysium Retreat · Thessaloniki</p></div>
+            <p class="xp-date">2022 – present</p>
+          </li>
+        </ol>
+        <h3 class="xp-group" data-reveal>Education</h3>
+        <ol class="xp">
+          <li class="xp-row" data-reveal>
+            <div class="xp-main"><h3 class="xp-role">MEng, Electrical &amp; Computer Engineering</h3><p class="xp-org">Aristotle University of Thessaloniki · GPA 7.42 / 10 · thesis 10 / 10</p></div>
+            <p class="xp-date">2021 – 2026</p>
+          </li>
         </ol>
       </div>
     </section>
 
-    <!-- ============ CHAPTERS (split stage) ============ -->
-    <section class="chapters" aria-label="Research placements and programs">
-      <div class="split">
-        <div class="column">
-
-          <article class="program" aria-labelledby="p-grips" data-stage="card-shanghai">
-            <div class="chapter-card chapter-card--inline" aria-hidden="true">
-              <p class="cc-city">Shanghai</p>
-              <p class="cc-coords"><span class="cc-dot"></span>31.2° N, 121.5° E</p>
-              <p class="cc-year">2025</p>
-            </div>
-            <div data-reveal-group>
-              <h3 id="p-grips" class="sub" data-reveal>Fudan University, Shanghai</h3>
-              <p class="meta" data-reveal>GRIPS 2025 Research Intern · Summer 2025</p>
-              <p data-reveal data-stage="poster">Selected for the Global Research Immersion Program for Young Scientists, with a recommendation from Prof. Gerard L. Coté (Texas A&amp;M). I worked at the Neural and Intelligent Engineering Centre, ISTBI, under Prof. Shouyan Wang, Vice Dean of the institute.</p>
-            </div>
-            <figure class="inline-figure" data-reveal>
-              <img src="assets/img/grips-poster-720.webp" width="720" height="960" loading="lazy" alt="Dimitrios beside the team's GRIPS Summer 2025 poster, “Neural Signal Processing: From Theory to Application in Parkinson's Disease”, holding a certificate of completion.">
-              <figcaption>With our team's poster, GRIPS Summer 2025.</figcaption>
-            </figure>
-            <div class="program-step" data-stage="talk" data-reveal-group>
-              <p data-reveal>In a five-person international team, we analysed clinical local field potential (LFP) recordings from a Parkinson's patient, with deep brain stimulation off and on.</p>
-              <p data-reveal>I built the Python pipeline: beta oscillations (13–30 Hz) via Welch PSD, spectrograms and FOOOF, and 130 Hz DBS artifacts removed with a predict–blank–interpolate method.</p>
-            </div>
-            <figure class="inline-figure" data-reveal>
-              <img src="assets/img/grips-talk-800.webp" width="800" height="600" loading="lazy" alt="Dimitrios presenting a slide of a closed-loop system with an LFP recorder, stimulator and saline bath.">
-              <figcaption>Presenting at GRIPS 2025.</figcaption>
-            </figure>
-            <div class="gained" data-stage="closing" data-reveal-group>
-              <p class="gained-text" data-reveal><strong>What I gained:</strong> Neural signal processing (time-frequency, connectivity, entropy), closed-loop neuromodulation system design, and research in a multinational team.</p>
-            </div>
-            <figure class="inline-figure" data-reveal>
-              <img src="assets/img/grips-closing-800.webp" width="800" height="600" loading="lazy" alt="GRIPS Summer 2025 participants at the closing ceremony, each holding the sign of their home university; Dimitrios holds Aristotle University of Thessaloniki's.">
-              <figcaption>GRIPS 2025 closing ceremony.</figcaption>
-            </figure>
-          </article>
-
-          <article class="program" aria-labelledby="p-tamu" data-stage="card-cs-2024">
-            <div class="chapter-card chapter-card--inline" aria-hidden="true">
-              <p class="cc-city">College Station</p>
-              <p class="cc-coords"><span class="cc-dot"></span>30.6° N, 96.3° W</p>
-              <p class="cc-year">2024</p>
-            </div>
-            <div data-reveal-group>
-              <h3 id="p-tamu" class="sub" data-reveal>Texas A&amp;M University, College Station</h3>
-              <p class="meta" data-reveal>Undergraduate Research Intern, Optical Biosensing Laboratory · Summer 2024</p>
-              <p data-reveal data-stage="tamu-poster">Paired with a PhD student in Prof. Gerard L. Coté's lab (Center for Remote Health Technologies and Systems) on wearable multiwavelength optical sensors.</p>
-              <p data-reveal>I ran an IRB-approved human-subjects study: two PPG devices at chest, forehead and finger, at three contact pressures, validated against a Masimo oximeter. I wrote the Python processing and visualisation (perfusion-index heatmaps, 3D comparisons) and presented the work as first author of a research poster.</p>
-            </div>
-            <figure class="inline-figure" data-reveal>
-              <img src="assets/img/tamu-poster-800.webp" width="800" height="600" loading="lazy" alt="Dimitrios explaining his research poster on PPG sensor signal quality to a visitor.">
-              <figcaption>Presenting my research poster, Texas A&amp;M, Summer 2024.</figcaption>
-            </figure>
-            <p class="evidence-links" data-reveal><a class="hover-link" href="assets/docs/tamu-2024-ppg-poster.pdf">Read the poster (PDF, 1.7 MB)</a></p>
-            <blockquote class="quote" data-reveal data-stage="tamu-colleagues">
-              <p>Prof. Coté's recommendation letter says I stood out “compared to other students at his educational level”.</p>
-            </blockquote>
-            <figure class="inline-figure" data-reveal>
-              <img src="assets/img/tamu-colleagues-720.webp" width="720" height="960" loading="lazy" alt="Dimitrios standing with two lab colleagues beside his research poster.">
-              <figcaption>At the poster session with lab colleagues, Texas A&amp;M 2024.</figcaption>
-            </figure>
-            <div class="gained" data-stage="tamu-group" data-reveal-group>
-              <p class="gained-text" data-reveal><strong>What I gained:</strong> Clinical study protocols and sensor validation.</p>
-            </div>
-            <figure class="inline-figure" data-reveal>
-              <img src="assets/img/tamu-group-800.webp" width="800" height="600" loading="lazy" alt="Group photo of the lab's poster session in front of Dimitrios's research poster.">
-              <figcaption>Optical Biosensing Lab poster session, Texas A&amp;M 2024.</figcaption>
-            </figure>
-          </article>
-
-          <article class="program" aria-labelledby="p-iftp" data-stage="card-cs-2022">
-            <div class="chapter-card chapter-card--inline" aria-hidden="true">
-              <p class="cc-city">College Station</p>
-              <p class="cc-coords"><span class="cc-dot"></span>30.6° N, 96.3° W</p>
-              <p class="cc-year">2022</p>
-            </div>
-            <div data-reveal-group>
-              <h3 id="p-iftp" class="sub" data-reveal>Invent for the Planet 2022</h3>
-              <p class="meta" data-reveal>Texas A&amp;M University · March – April 2022</p>
-              <p data-reveal>A 48-hour global design competition: build a working prototype and pitch it to judges. Our team, BIO-thess (AUTh), was chosen as a top finalist and flown to College Station, Texas, for the live final, with travel funded by Texas A&amp;M.</p>
-            </div>
-            <p class="callout" data-stage="pitch" data-reveal>People's Choice award among 25 teams, with a $1,000 team prize, for “Energy from Home to Home”: an anaerobic digester turning household organic waste into gas for building heating.</p>
-            <figure class="inline-figure inline-figure--small" data-reveal>
-              <img src="assets/img/tamu-pitch-501.webp" width="501" height="493" loading="lazy" alt="Dimitrios pitching in front of a Texas A&amp;M Engineering backdrop.">
-              <figcaption>Pitching at Texas A&amp;M Engineering, College Station.</figcaption>
-            </figure>
-            <div class="gained" data-reveal-group>
-              <p class="gained-text" data-reveal><strong>What I gained:</strong> Rapid engineering design, prototyping and pitching to an international jury.</p>
-            </div>
-          </article>
-
-          <p class="aside" data-reveal>Also: mentor at Junior Achievement Europe's Foodathon 2023 (16 October – 10 November 2023), as a volunteer.</p>
-        </div>
-
-        <aside class="stage" aria-label="Photographs from the programs">
-          <div class="stage-frame">
-            <div class="stage-item chapter-card is-active" data-key="card-shanghai" aria-hidden="true">
-              <p class="cc-city">Shanghai</p>
-              <p class="cc-coords"><span class="cc-dot"></span>31.2° N, 121.5° E · Fudan University</p>
-              <p class="cc-year">2025</p>
-            </div>
-            <figure class="stage-item" data-key="poster">
-              <img src="assets/img/grips-poster-1200.webp" width="1200" height="1600" loading="lazy" alt="Dimitrios beside the team's GRIPS Summer 2025 poster.">
-              <figcaption class="stage-cap">Poster session, GRIPS Summer 2025</figcaption>
-            </figure>
-            <figure class="stage-item stage-item--talk" data-key="talk">
-              <img src="assets/img/grips-talk-1600.webp" width="1600" height="1200" loading="lazy" alt="Dimitrios presenting a closed-loop LFP system slide.">
-              <figcaption class="stage-cap">Presenting at GRIPS 2025</figcaption>
-            </figure>
-            <figure class="stage-item stage-item--closing" data-key="closing">
-              <img src="assets/img/grips-closing-1600.webp" width="1600" height="1200" loading="lazy" alt="GRIPS 2025 participants at the closing ceremony.">
-              <figcaption class="stage-cap">GRIPS 2025 closing ceremony</figcaption>
-            </figure>
-            <div class="stage-item chapter-card" data-key="card-cs-2024" aria-hidden="true">
-              <p class="cc-city">College Station</p>
-              <p class="cc-coords"><span class="cc-dot"></span>30.6° N, 96.3° W · Texas A&amp;M University</p>
-              <p class="cc-year">2024</p>
-            </div>
-            <figure class="stage-item stage-item--tamu-poster" data-key="tamu-poster">
-              <img src="assets/img/tamu-poster-1600.webp" width="1600" height="1200" loading="lazy" alt="Dimitrios explaining his research poster to a visitor.">
-              <figcaption class="stage-cap">Presenting my research poster, Texas A&amp;M, Summer 2024</figcaption>
-            </figure>
-            <figure class="stage-item" data-key="tamu-colleagues">
-              <img src="assets/img/tamu-colleagues-1200.webp" width="1200" height="1600" loading="lazy" alt="Dimitrios with two lab colleagues beside his poster.">
-              <figcaption class="stage-cap">At the poster session with lab colleagues, Texas A&amp;M 2024</figcaption>
-            </figure>
-            <figure class="stage-item stage-item--tamu-group" data-key="tamu-group">
-              <img src="assets/img/tamu-group-1600.webp" width="1600" height="1200" loading="lazy" alt="Group photo of the lab's poster session.">
-              <figcaption class="stage-cap">Optical Biosensing Lab poster session, Texas A&amp;M 2024</figcaption>
-            </figure>
-            <div class="stage-item chapter-card" data-key="card-cs-2022" aria-hidden="true">
-              <p class="cc-city">College Station</p>
-              <p class="cc-coords"><span class="cc-dot"></span>30.6° N, 96.3° W · Invent for the Planet</p>
-              <p class="cc-year">2022</p>
-            </div>
-            <figure class="stage-item stage-item--print" data-key="pitch">
-              <img src="assets/img/tamu-pitch-501.webp" width="501" height="493" loading="lazy" alt="Dimitrios pitching at Texas A&amp;M Engineering.">
-              <figcaption class="stage-cap">Pitching at Texas A&amp;M Engineering</figcaption>
-            </figure>
-          </div>
-        </aside>
-      </div>
-    </section>
-
-    <!-- ============ CAPABILITIES (knowledge map) ============ -->
-    <section id="capabilities" class="know dark" aria-labelledby="know-title">
+    <!-- ============ BEYOND ENGINEERING ============ -->
+    <section id="beyond" class="beyond dark" aria-labelledby="beyond-title">
       <div class="wrap">
-        <div class="know-head" data-reveal-group>
-          <h2 id="know-title" class="head" data-reveal>Capabilities, traced to evidence</h2>
-          <p class="lead" data-reveal>Each point is a capability; orange points are the projects that show it. Select one to see the projects and the coursework behind it.</p>
-        </div>
-        <div class="km" data-km data-ui>
-          <div class="km-legend" role="group" aria-label="Knowledge domains"></div>
-          <div class="km-body">
-            <div class="km-stage" aria-hidden="true">
-              <div class="km-labels"></div>
-              <p class="km-hint">Drag to rotate · select a point</p>
-            </div>
-            <aside class="km-panel" aria-live="polite" aria-label="Evidence"></aside>
-          </div>
-<!-- KNOWLEDGE:START (generated by tools/build_knowledge.py) -->
-<div class="km-list" data-km-list>
-  <details class="km-domain" data-domain="signals" data-label="Signal processing">
-    <summary><span class="km-domain-name">Signal processing</span></summary>
-    <ul class="km-caps">
-      <li data-id="cap-biosignals" data-projects="thesis tamu fudan">Biomedical signal processing (PPG, accelerometry, LFP)</li>
-      <li data-id="cap-spectral" data-projects="thesis fudan">Spectral and time-frequency analysis (Welch PSD, spectrograms, FOOOF)</li>
-      <li data-id="cap-quality" data-projects="thesis fudan">Signal-quality assessment and artifact removal</li>
-      <li data-id="cap-prv" data-projects="thesis">HRV / PRV analysis</li>
-      <li data-id="cap-filtering" data-projects="fudan">Filtering and sampling (FIR / IIR, Nyquist)</li>
-    </ul>
-    <p class="km-sub">Coursework</p>
-    <ul class="km-courses">
-      <li><span>Signals &amp; Systems</span></li>
-      <li data-grade="8"><span>Stochastic Signals &amp; Processes</span> <span class="km-grade">8</span></li>
-      <li data-grade="8"><span>Probability &amp; Statistics</span> <span class="km-grade">8</span></li>
-      <li data-grade="8.5"><span>Estimation &amp; Detection Theory</span> <span class="km-grade">8.5</span></li>
-      <li><span>Time Series</span></li>
-      <li><span>Digital Image Processing</span></li>
-      <li><span>Telecommunication Systems I &amp; II</span></li>
-      <li data-grade="9"><span>Applications of Telecom Devices</span> <span class="km-grade">9</span></li>
-    </ul>
-    <p class="km-used">Shown in: <a href="#thesis">Diploma thesis</a>, <a href="#p-tamu">Texas A&amp;M optical biosensing</a>, <a href="#p-grips">Fudan neural signals &amp; DBS</a></p>
-  </details>
-  <details class="km-domain" data-domain="ml" data-label="Machine learning &amp; statistics">
-    <summary><span class="km-domain-name">Machine learning &amp; statistics</span></summary>
-    <ul class="km-caps">
-      <li data-id="cap-validation" data-projects="thesis">Nested cross-validation and corrected statistical tests</li>
-      <li data-id="cap-features" data-projects="thesis">Feature engineering and selection</li>
-      <li data-id="cap-models" data-projects="thesis">Logistic Regression, Random Forest, XGBoost, SVM</li>
-      <li data-id="cap-stats" data-projects="thesis">ICC repeatability, ANCOVA</li>
-      <li data-id="cap-nn" data-projects="">Neural networks and deep learning</li>
-    </ul>
-    <p class="km-sub">Coursework</p>
-    <ul class="km-courses">
-      <li><span>Pattern Recognition &amp; Machine Learning</span></li>
-      <li data-grade="9.6"><span>Neural Networks &amp; Deep Learning</span> <span class="km-grade">9.6</span></li>
-      <li data-grade="9.5"><span>Computational Intelligence</span> <span class="km-grade">9.5</span></li>
-      <li><span>Optimization Techniques</span></li>
-      <li data-grade="10"><span>Data Analysis</span> <span class="km-grade">10</span></li>
-      <li><span>Numerical Analysis</span></li>
-      <li><span>Applied Mathematics I &amp; II</span></li>
-      <li><span>Linear Algebra</span></li>
-    </ul>
-    <p class="km-used">Shown in: <a href="#thesis">Diploma thesis</a></p>
-  </details>
-  <details class="km-domain" data-domain="bio" data-label="Biomedical engineering">
-    <summary><span class="km-domain-name">Biomedical engineering</span></summary>
-    <ul class="km-caps">
-      <li data-id="cap-wearable" data-projects="thesis tamu">Wearable PPG sensing</li>
-      <li data-id="cap-clinical" data-projects="tamu">IRB-approved human-subjects study</li>
-      <li data-id="cap-neuro" data-projects="fudan">Neural recordings and deep brain stimulation</li>
-    </ul>
-    <p class="km-sub">Coursework</p>
-    <ul class="km-courses">
-      <li data-grade="10"><span>Biomedical Technology</span> <span class="km-grade">10</span></li>
-    </ul>
-    <p class="km-used">Shown in: <a href="#thesis">Diploma thesis</a>, <a href="#p-tamu">Texas A&amp;M optical biosensing</a>, <a href="#p-grips">Fudan neural signals &amp; DBS</a></p>
-  </details>
-  <details class="km-domain" data-domain="electronics" data-label="Electronics &amp; measurement">
-    <summary><span class="km-domain-name">Electronics &amp; measurement</span></summary>
-    <ul class="km-caps">
-      <li data-id="cap-sensorval" data-projects="tamu">Sensor validation against a clinical reference</li>
-      <li data-id="cap-spo2" data-projects="tamu">Perfusion index and SpO2 estimation</li>
-      <li data-id="cap-electronics" data-projects="">Analog and digital electronics</li>
-    </ul>
-    <p class="km-sub">Coursework</p>
-    <ul class="km-courses">
-      <li><span>Electronics I</span></li>
-      <li data-grade="10"><span>Electronics II</span> <span class="km-grade">10</span></li>
-      <li data-grade="10"><span>Measurement Systems</span> <span class="km-grade">10</span></li>
-      <li><span>Electric Circuits I &amp; II</span></li>
-      <li><span>Logic Design</span></li>
-      <li><span>Computer Organization</span></li>
-      <li><span>Electromagnetic Fields I &amp; II</span></li>
-      <li><span>Electrical Materials</span></li>
-    </ul>
-    <p class="km-used">Shown in: <a href="#p-tamu">Texas A&amp;M optical biosensing</a></p>
-  </details>
-  <details class="km-domain" data-domain="control" data-label="Control">
-    <summary><span class="km-domain-name">Control</span></summary>
-    <ul class="km-caps">
-      <li data-id="cap-closedloop" data-projects="fudan">Closed-loop system design</li>
-    </ul>
-    <p class="km-sub">Coursework</p>
-    <ul class="km-courses">
-      <li><span>Automatic Control Systems I &amp; II</span></li>
-    </ul>
-    <p class="km-used">Shown in: <a href="#p-grips">Fudan neural signals &amp; DBS</a></p>
-  </details>
-  <details class="km-domain" data-domain="energy" data-label="Energy &amp; power">
-    <summary><span class="km-domain-name">Energy &amp; power</span></summary>
-    <ul class="km-caps">
-      <li data-id="cap-power" data-projects="">Power systems and renewable energy</li>
-      <li data-id="cap-dg" data-projects="">Distributed generation</li>
-      <li data-id="cap-w2e" data-projects="iftp">Waste-to-energy prototyping</li>
-    </ul>
-    <p class="km-sub">Coursework</p>
-    <ul class="km-courses">
-      <li><span>Power Systems I &amp; II</span></li>
-      <li data-grade="8.5"><span>Renewable Energy Sources</span> <span class="km-grade">8.5</span></li>
-      <li data-grade="10"><span>Distributed Generation</span> <span class="km-grade">10</span></li>
-      <li><span>Applied Thermodynamics</span></li>
-    </ul>
-    <p class="km-used">Shown in: <a href="#p-iftp">Invent for the Planet 2022</a></p>
-  </details>
-  <details class="km-domain" data-domain="software" data-label="Software &amp; data">
-    <summary><span class="km-domain-name">Software &amp; data</span></summary>
-    <ul class="km-caps">
-      <li data-id="cap-python" data-projects="thesis tamu fudan">Python data stack (NumPy, Pandas, SciPy, scikit-learn, statsmodels)</li>
-      <li data-id="cap-sql" data-projects="">SQL / PostgreSQL</li>
-      <li data-id="cap-web" data-projects="artio elysium">Web development, SEO and performance</li>
-      <li data-id="cap-algo" data-projects="">Data structures and algorithms</li>
-    </ul>
-    <p class="km-sub">Coursework</p>
-    <ul class="km-courses">
-      <li><span>Structured Programming</span></li>
-      <li data-grade="8.5"><span>Object-Oriented Programming</span> <span class="km-grade">8.5</span></li>
-      <li><span>Data Structures</span></li>
-      <li><span>Algorithm Analysis &amp; Design</span></li>
-      <li data-grade="8"><span>Operating Systems</span> <span class="km-grade">8</span></li>
-      <li data-grade="8"><span>Databases</span> <span class="km-grade">8</span></li>
-      <li data-grade="8"><span>Software Engineering I</span> <span class="km-grade">8</span></li>
-      <li data-grade="9"><span>Computer Networks I</span> <span class="km-grade">9</span></li>
-      <li data-grade="8"><span>Network Theory</span> <span class="km-grade">8</span></li>
-    </ul>
-    <p class="km-used">Shown in: <a href="#thesis">Diploma thesis</a>, <a href="#p-tamu">Texas A&amp;M optical biosensing</a>, <a href="#p-grips">Fudan neural signals &amp; DBS</a>, <a href="#ventures">ART.IO (founder)</a>, <a href="#ventures">Elysium Retreat</a></p>
-  </details>
-  <details class="km-domain" data-domain="physics" data-label="Physics">
-    <summary><span class="km-domain-name">Physics</span></summary>
-    <ul class="km-caps">
-      <li data-id="cap-physics" data-projects="">Physics fundamentals, including quantum physics</li>
-    </ul>
-    <p class="km-sub">Coursework</p>
-    <ul class="km-courses">
-      <li><span>Physics</span></li>
-      <li data-grade="10"><span>Quantum Physics</span> <span class="km-grade">10</span></li>
-    </ul>
-  </details>
-  <details class="km-domain" data-domain="econ" data-label="Economics &amp; ventures">
-    <summary><span class="km-domain-name">Economics &amp; ventures</span></summary>
-    <ul class="km-caps">
-      <li data-id="cap-venture" data-projects="artio">Founding and building a product</li>
-      <li data-id="cap-ops" data-projects="elysium">Operations and guest communication</li>
-      <li data-id="cap-invest" data-projects="">Investment evaluation</li>
-    </ul>
-    <p class="km-sub">Coursework</p>
-    <ul class="km-courses">
-      <li><span>Principles of Economics</span></li>
-      <li data-grade="10"><span>Investment Evaluation</span> <span class="km-grade">10</span></li>
-    </ul>
-    <p class="km-used">Shown in: <a href="#ventures">ART.IO (founder)</a>, <a href="#ventures">Elysium Retreat</a></p>
-  </details>
-  <ul class="km-projects-data" hidden>
-    <li data-id="thesis" data-domain="bio" data-href="#thesis" data-label="Diploma thesis">Wrist-PPG biomarkers for Parkinson&#x27;s, graded 10/10: 249.3 M candidate windows through a four-stage quality gate to 101.3 M clean, 594 features per participant, +0.30 ROC-AUC over age and sex in all four models.</li>
-    <li data-id="tamu" data-domain="bio" data-href="#p-tamu" data-label="Texas A&amp;M optical biosensing">IRB-approved human-subjects study (2024): two PPG devices at chest, forehead and finger, three contact pressures, validated against a Masimo oximeter; first-author poster.</li>
-    <li data-id="fudan" data-domain="bio" data-href="#p-grips" data-label="Fudan neural signals &amp; DBS">GRIPS 2025: Python pipeline for clinical LFP recordings (Welch PSD, spectrograms, FOOOF) and 130 Hz DBS artifact removal; closed-loop neuromodulation system design.</li>
-    <li data-id="iftp" data-domain="energy" data-href="#p-iftp" data-label="Invent for the Planet 2022">People&#x27;s Choice among 25 teams: an anaerobic digester turning household organic waste into gas for building heating.</li>
-    <li data-id="artio" data-domain="econ" data-href="#ventures" data-label="ART.IO (founder)">Founded a 3D virtual-tour venture and built the product and its website.</li>
-    <li data-id="elysium" data-domain="econ" data-href="#ventures" data-label="Elysium Retreat">Own short-term rental since 2022: designed and built the website, run guest communication and operations.</li>
-  </ul>
-</div>
-<!-- KNOWLEDGE:END -->
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ ROLES + DEGREE ============ -->
-    <section id="roles" class="roles" aria-labelledby="roles-title">
-      <div class="wrap">
-        <div class="roles-head" data-reveal-group>
-          <h2 id="roles-title" class="head" data-reveal>Three roles that fit my evidence</h2>
-          <p class="lead" data-reveal>The next role may not be my thesis topic. Each path below links to its evidence on this page.</p>
-        </div>
-        <ol class="role-list">
-          <li class="role" data-reveal>
-            <h3 class="role-title">Medtech &amp; wearable signals</h3>
-            <p class="role-scope">Signal engineering for medical devices and wearables</p>
-            <ul class="role-evidence">
-              <li>A wrist-PPG pipeline from raw free-living data to features: <a href="#thesis">the thesis</a>.</li>
-              <li>PPG devices compared across body sites against a clinical oximeter: <a href="assets/docs/tamu-2024-ppg-poster.pdf">poster (PDF)</a>.</li>
-              <li>Biomedical Technology 10, Measurement Systems 10.</li>
-            </ul>
-            <p class="role-map">In the map: <a href="#capabilities" data-km-select="bio">Biomedical engineering</a> <a href="#capabilities" data-km-select="signals">Signal processing</a></p>
+        <h2 id="beyond-title" class="head" data-reveal>Beyond engineering</h2>
+        <ul class="tiles">
+          <li class="tile" data-reveal>
+            <figure>
+              <img src="assets/img/tkd-podium-560.webp" srcset="assets/img/tkd-podium-560.webp 560w, assets/img/tkd-podium-900.webp 900w" sizes="(min-width: 900px) 23vw, 50vw" width="560" height="700" loading="lazy" alt="Dimitrios on the podium with a bronze medal and the Greek flag, European Taekwon-Do Championships 2018.">
+              <figcaption>Bronze, European Taekwon-Do Championship 2018 (ITF); 5× Greek national champion.</figcaption>
+            </figure>
           </li>
-          <li class="role" data-reveal>
-            <h3 class="role-title">ML on time-series data</h3>
-            <p class="role-scope">Health, energy, telecom or finance</p>
-            <ul class="role-evidence">
-              <li>Participant-level nested cross-validation with corrected tests, and a negative result reported as such: <a href="#decisions">decisions</a>.</li>
-              <li>Spectral features from PPG and LFP time series: <a href="#p-grips">Fudan</a>.</li>
-              <li>Neural Networks &amp; Deep Learning 9.6, Computational Intelligence 9.5, Data Analysis 10.</li>
-            </ul>
-            <p class="role-map">In the map: <a href="#capabilities" data-km-select="ml">Machine learning &amp; statistics</a> <a href="#capabilities" data-km-select="signals">Signal processing</a></p>
+          <li class="tile" data-reveal>
+            <figure>
+              <img src="assets/img/sailing-trophy-560.webp" srcset="assets/img/sailing-trophy-560.webp 560w, assets/img/sailing-trophy-900.webp 900w" sizes="(min-width: 900px) 23vw, 50vw" width="560" height="700" loading="lazy" alt="Dimitrios holding a sailing trophy at a marina at night.">
+              <figcaption>1st, Panhellenic Offshore Sailing Championship 2023 · ORC B.</figcaption>
+            </figure>
           </li>
-          <li class="role" data-reveal>
-            <h3 class="role-title">Sensors, measurement &amp; test</h3>
-            <p class="role-scope">Hardware validation</p>
-            <ul class="role-evidence">
-              <li>Two optical sensors, three body sites, three contact pressures; perfusion index and SpO2 against a Masimo reference: <a href="#p-tamu">Texas A&amp;M</a>.</li>
-              <li>Closed-loop neuromodulation system design: <a href="#p-grips">Fudan</a>.</li>
-              <li>Measurement Systems 10, Electronics II 10.</li>
-            </ul>
-            <p class="role-map">In the map: <a href="#capabilities" data-km-select="electronics">Electronics &amp; measurement</a> <a href="#capabilities" data-km-select="control">Control</a></p>
-          </li>
-        </ol>
-
-        <div class="degree" id="degree">
-          <div class="degree-main" data-reveal-group>
-            <h3 class="sub" data-reveal>Degree and grades</h3>
-            <p class="degree-name" data-reveal>Integrated Master of Engineering (MEng), Electrical &amp; Computer Engineering, Aristotle University of Thessaloniki, 2021–2026</p>
-            <dl class="degree-facts" data-reveal>
-              <div><dt>GPA</dt><dd>7.42 / 10 (weighted)</dd></div>
-              <div><dt>Thesis</dt><dd>10 / 10</dd></div>
-              <div><dt>Credits</dt><dd>302 ECTS · EQF Level 7</dd></div>
-            </dl>
-            <dl class="tools" data-reveal>
-              <div><dt>Tools</dt><dd>Python (NumPy, Pandas, SciPy, scikit-learn, statsmodels, Matplotlib), Jupyter, SQL / PostgreSQL, HTML / CSS / JS, Decap CMS, Netlify</dd></div>
-              <div><dt>Languages</dt><dd>Greek (native), English (C2, MSU-CELP), Russian (A1, Saint Petersburg State University, 2023)</dd></div>
-              <div><dt>Certificate</dt><dd>Data Analysis with Python, IBM / Coursera, 2024</dd></div>
-            </dl>
-          </div>
-          <table class="grades" data-reveal>
-            <caption>Top grades</caption>
-            <tbody>
-              <tr><th scope="row">Data Analysis</th><td>10</td></tr>
-              <tr><th scope="row">Biomedical Technology</th><td>10</td></tr>
-              <tr><th scope="row">Measurement Systems</th><td>10</td></tr>
-              <tr><th scope="row">Electronics II</th><td>10</td></tr>
-              <tr><th scope="row">Neural Networks &amp; Deep Learning</th><td>9.6</td></tr>
-              <tr><th scope="row">Computational Intelligence</th><td>9.5</td></tr>
-              <tr><th scope="row">Computer Networks I</th><td>9</td></tr>
-              <tr><th scope="row">Estimation &amp; Detection Theory</th><td>8.5</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ ATHLETICS & VENTURES ============ -->
-    <section id="athletics" class="athletics dark" aria-labelledby="athletics-title">
-      <div class="wrap">
-        <div class="athletics-head" data-reveal-group>
-          <h2 id="athletics-title" class="head" data-reveal>Taekwon-Do, sailing and two ventures</h2>
-          <p class="lead" data-reveal>Years of competitive sport alongside engineering: daily training, performing under pressure, and crew work offshore. Outside the lab, I also build 3D-tour and web products for real businesses.</p>
-        </div>
-        <ul class="medals">
-          <li class="medal medal--bronze" data-tilt data-reveal>
-            <div class="medal-face">
-              <p class="medal-num">Bronze</p>
-              <p class="medal-what">European Championship 2018</p>
-              <p class="medal-sport">Taekwon-Do (ITF)</p>
-            </div>
-          </li>
-          <li class="medal" data-tilt data-reveal>
-            <div class="medal-face">
-              <p class="medal-num">5×</p>
-              <p class="medal-what">Greek National Champion</p>
-              <p class="medal-sport">Taekwon-Do (ITF)</p>
-            </div>
-          </li>
-          <li class="medal" data-tilt data-reveal>
-            <div class="medal-face">
-              <p class="medal-num">1st</p>
-              <p class="medal-what">Panhellenic Offshore Sailing Championship 2023</p>
-              <p class="medal-sport">Offshore sailing, ORC B class</p>
-            </div>
-          </li>
-        </ul>
-
-        <ul class="ventures-list" id="ventures" aria-label="Ventures">
-          <li class="venture" data-reveal>
-            <a class="venture-link" href="https://artio3d.github.io/artio-website-new/" rel="noopener" target="_blank">
-              <span class="venture-name">ART.IO</span>
-              <span class="venture-role">Founder · 3D virtual tours</span>
-              <span class="venture-desc">A side venture: I built the product and its website. Interactive 3D walkthroughs with a dollhouse view for real estate, hospitality, event venues, architecture and yachting.</span>
-              <span class="venture-go" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M8 20 20 8M10 8h10v10" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></span>
+          <li class="tile tile--type" data-reveal>
+            <a class="tile-card" href="https://artio3d.github.io/artio-website-new/" rel="noopener" target="_blank">
+              <span class="tile-name">ART.IO</span>
+              <span class="tile-go" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 28 28" fill="none"><path d="M8 20 20 8M10 8h10v10" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg></span>
               <span class="visually-hidden">(opens in a new tab)</span>
             </a>
+            <p class="tile-caption">Founder: 3D virtual tours with a dollhouse view, product and website.</p>
           </li>
-          <li class="venture" data-reveal>
-            <a class="venture-link" href="https://elysiumretreat.gr/" rel="noopener" target="_blank">
-              <span class="venture-name">Elysium Retreat</span>
-              <span class="venture-role">Owner · boutique short-term rental, since 2022</span>
-              <span class="venture-desc">My own rental in central Thessaloniki. I designed and built the website (photo tour, amenities, parking guide, booking link) and handle guest communication and operations.</span>
-              <span class="venture-go" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M8 20 20 8M10 8h10v10" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></span>
+          <li class="tile tile--type tile--alt" data-reveal>
+            <a class="tile-card" href="https://elysiumretreat.gr/" rel="noopener" target="_blank">
+              <span class="tile-name">Elysium Retreat</span>
+              <span class="tile-go" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 28 28" fill="none"><path d="M8 20 20 8M10 8h10v10" stroke="currentColor" stroke-width="2.2" stroke-linecap="square"/></svg></span>
               <span class="visually-hidden">(opens in a new tab)</span>
             </a>
+            <p class="tile-caption">My short-term rental since 2022: website, guests and operations.</p>
           </li>
         </ul>
       </div>
+    </section>
+
+    <!-- ============ CONTACT + WHAT I CAN DO ============ -->
+    <section id="contact" class="contact" aria-labelledby="contact-title">
+      <div class="wrap contact-grid">
+        <div class="contact-main" data-reveal-group>
+          <h2 id="contact-title" class="head" data-reveal>Hiring in medtech, signals or ML?</h2>
+          <p class="contact-mail" data-reveal><a class="hover-link" href="mailto:dchkyriakou@gmail.com">dchkyriakou@gmail.com</a></p>
+          <div class="contact-actions" data-reveal>
+            <a class="button magnetic" href="Dimitrios_Kyriakou_CV_2026.pdf" download>
+              <span class="button-label">
+                <svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2.5v9m0 0-3.75-3.75M9 11.5l3.75-3.75M3 15.5h12" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/></svg>
+                Download CV
+              </span>
+            </a>
+            <a class="hover-link contact-li" href="https://www.linkedin.com/in/dimitris-kyriakou-284069203/" rel="noopener me" target="_blank">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a>
+          </div>
+          <p class="contact-place" data-reveal>Thessaloniki, Greece · open to relocation</p>
+        </div>
+
+        <div class="can-do" data-reveal-group>
+          <h3 class="sub" data-reveal>What I can do</h3>
+          <ul class="can-list">
+            <li data-reveal><b>Medtech &amp; wearable signals.</b> PPG pipelines from raw free-living data to features.</li>
+            <li data-reveal><b>ML on time-series data.</b> Nested cross-validation, feature selection, corrected statistical tests.</li>
+            <li data-reveal><b>Sensors, measurement &amp; test.</b> Sensor validation against a clinical reference.</li>
+          </ul>
+          <ul class="tags" aria-label="Skills" data-reveal>
+            <li>Python</li><li>NumPy · SciPy · Pandas</li><li>scikit-learn</li><li>XGBoost</li><li>statsmodels</li>
+            <li>Welch PSD · spectrograms</li><li>FOOOF</li><li>HRV / PRV</li><li>Signal-quality indices</li>
+            <li>Nested CV</li><li>SQL / PostgreSQL</li><li>HTML / CSS / JS</li>
+          </ul>
+          <p class="langs" data-reveal>Greek (native) · English (C2, MSU-CELP) · Russian (A1)</p>
+        </div>
+      </div>
+      <p class="legal wrap">© 2026 Dimitrios Christos Kyriakou · <a class="hover-link" href="thesis/">Thesis</a></p>
     </section>
   </main>
-
-  <!-- ============ CONTACT ============ -->
-  <footer id="contact" class="contact dark" aria-labelledby="contact-title">
-    <img class="contact-bg" src="assets/img/grips-closing-800.webp" srcset="assets/img/grips-closing-800.webp 800w, assets/img/grips-closing-1600.webp 1600w" sizes="100vw" width="1600" height="1200" loading="lazy" alt="">
-    <div class="contact-inner wrap">
-      <div class="contact-main" data-reveal-group>
-        <h2 id="contact-title" class="head" data-reveal>Hiring in medtech, signals or ML?</h2>
-        <p class="lead" data-reveal>For roles, research collaborations, or Prof. Coté's reference letter, which is available on request, write to me.</p>
-        <p class="contact-mail" data-reveal><a class="hover-link" href="mailto:dchkyriakou@gmail.com">dchkyriakou@gmail.com</a></p>
-        <div class="contact-actions" data-reveal>
-          <a class="button magnetic" href="Dimitrios_Kyriakou_CV_2026.pdf" download>
-            <span class="button-label">
-              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2.5v9m0 0-3.75-3.75M9 11.5l3.75-3.75M3 15.5h12" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/></svg>
-              Download CV
-            </span>
-          </a>
-          <a class="hover-link contact-li" href="https://www.linkedin.com/in/dimitris-kyriakou-284069203/" rel="noopener me" target="_blank">LinkedIn<span class="visually-hidden"> (opens in a new tab)</span></a>
-          <span class="contact-place">Thessaloniki, Greece</span>
-        </div>
-      </div>
-      <p class="contact-name" aria-hidden="true">Kyriakou</p>
-      <p class="contact-legal">© 2026 Dimitrios Christos Kyriakou</p>
-    </div>
-  </footer>
 
   <a class="cv-dock" href="Dimitrios_Kyriakou_CV_2026.pdf" download aria-label="Download CV (PDF)">
     <svg aria-hidden="true" width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 2.5v9m0 0-3.75-3.75M9 11.5l3.75-3.75M3 15.5h12" stroke="currentColor" stroke-width="1.9" stroke-linecap="square"/></svg>
@@ -779,6 +244,5 @@
   </a>
 
   <script src="assets/js/site.js" defer></script>
-  <script src="assets/js/gate.js" defer></script>
 </body>
 </html>
