@@ -13,6 +13,8 @@ Inferred from the owner's written brief (no interview held; assumptions marked).
   ventures and side projects (range, exploratory mindset).
 - **Never show:** birth date, ID numbers, transcript contents, phone number.
 - **Stack:** static HTML/CSS/JS, no build step, GitHub Pages from the repo root.
-- **Visual world:** split stage (fixed photograph beside a reading column). Cool white paper,
-  sea-blue near-black ink, a single signal-orange accent used only on "Download CV".
-  Work Sans, self-hosted.
+- **Visual world:** split stage with a light/dark rhythm. Cool white paper, sea-blue
+  near-black ink, signal orange for "Download CV" and for the one recurring motif: a PPG
+  pulse line that beats in the hero, collapses into Thessaloniki on the dot-matrix map
+  and becomes the route, then returns as the noisy trace the thesis gate cleans.
+  Work Sans (self-hosted variable), heavy 820 against light 200.

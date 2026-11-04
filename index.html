@@ -20,8 +20,7 @@
   <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preload" href="assets/fonts/work-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="assets/img/portrait-1250.webp" as="image" type="image/webp" media="(min-width: 900px)">
-  <link rel="preload" href="assets/img/portrait-720.webp" as="image" type="image/webp" media="(max-width: 899px)">
+  <link rel="preload" as="image" type="image/webp" imagesrcset="assets/img/portrait-720.webp 720w, assets/img/portrait-1250.webp 1250w" imagesizes="(min-width: 900px) 45vw, 100vw" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/site.css">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Dimitrios Christos Kyriakou","jobTitle":"Electrical & Computer Engineer","email":"mailto:dchkyriakou@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Thessaloniki","addressCountry":"GR"},"alumniOf":{"@type":"CollegeOrUniversity","name":"Aristotle University of Thessaloniki"},"url":"https://dchkyriakou.github.io/"}</script>
   <script>document.documentElement.classList.add('js')</script>
@@ -31,7 +30,7 @@
   <a class="skip" href="#research">Skip to content</a>
 
   <header class="masthead">
-    <a class="wordmark" href="#top" aria-label="Dimitrios Kyriakou, back to top">D. Kyriakou</a>
+    <a class="wordmark" href="#top" aria-label="D. Kyriakou, back to top">D. Kyriakou</a>
     <nav aria-label="Sections">
       <ul class="nav">
         <li><a class="hover-link" href="#research">Research</a></li>
@@ -82,7 +81,7 @@
     </section>
 
     <!-- ============ TICKER ============ -->
-    <section class="ticker" aria-label="At a glance">
+    <section class="ticker" aria-label="At a glance" tabindex="0">
       <ul class="ticker-track">
         <li><b><span data-count="3">3</span></b> countries</li>
         <li><b><span data-count="249">249</span>M</b> signal windows</li>
@@ -151,8 +150,7 @@
               <figcaption>Presenting at GRIPS 2025.</figcaption>
             </figure>
             <div class="gained" data-stage="closing" data-reveal-group>
-              <p class="gained-label" data-reveal>What I gained</p>
-              <p class="gained-text" data-reveal>Neural signal processing (time-frequency, connectivity, entropy), closed-loop neuromodulation system design, and research in a multinational team.</p>
+              <p class="gained-text" data-reveal><strong>What I gained:</strong> Neural signal processing (time-frequency, connectivity, entropy), closed-loop neuromodulation system design, and research in a multinational team.</p>
             </div>
             <figure class="inline-figure" data-reveal>
               <img src="assets/img/grips-closing-800.webp" width="800" height="600" loading="lazy" alt="GRIPS Summer 2025 participants at the closing ceremony, each holding the sign of their home university; Dimitrios holds Aristotle University of Thessaloniki's.">
@@ -176,8 +174,7 @@
               <p>Prof. Coté's recommendation letter says I stood out “compared to other students at his educational level”.</p>
             </blockquote>
             <div class="gained" data-reveal-group>
-              <p class="gained-label" data-reveal>What I gained</p>
-              <p class="gained-text" data-reveal>Clinical study protocols and sensor validation.</p>
+              <p class="gained-text" data-reveal><strong>What I gained:</strong> Clinical study protocols and sensor validation.</p>
             </div>
           </article>
 
@@ -198,8 +195,7 @@
               <figcaption>Pitching at Texas A&amp;M Engineering, College Station.</figcaption>
             </figure>
             <div class="gained" data-reveal-group>
-              <p class="gained-label" data-reveal>What I gained</p>
-              <p class="gained-text" data-reveal>Rapid engineering design, prototyping and pitching to an international jury.</p>
+              <p class="gained-text" data-reveal><strong>What I gained:</strong> Rapid engineering design, prototyping and pitching to an international jury.</p>
             </div>
           </article>
 
@@ -430,7 +426,7 @@
 
   <!-- ============ CONTACT ============ -->
   <footer id="contact" class="contact dark" aria-labelledby="contact-title">
-    <img class="contact-bg" src="assets/img/grips-closing-1600.webp" width="1600" height="1200" loading="lazy" alt="">
+    <img class="contact-bg" src="assets/img/grips-closing-800.webp" srcset="assets/img/grips-closing-800.webp 800w, assets/img/grips-closing-1600.webp 1600w" sizes="100vw" width="1600" height="1200" loading="lazy" alt="">
     <div class="contact-inner wrap">
       <div class="contact-main" data-reveal-group>
         <h2 id="contact-title" class="head" data-reveal>Get in touch</h2>

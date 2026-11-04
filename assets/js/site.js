@@ -123,6 +123,8 @@
     }
     setMarquee();
     window.addEventListener('resize', setMarquee);
+    // Tap to pause / resume the moving ticker (WCAG 2.2.2); hover and focus pause it in CSS.
+    ticker.addEventListener('click', function () { if (marqueeOn) ticker.classList.toggle('is-paused'); });
 
     if (reduce || !hasIO) return;
     nums.forEach(function (n) { n.textContent = '0'; });
@@ -279,18 +281,23 @@
         if (items[k] !== prev && items[k] !== next) items[k].classList.remove('is-active', 'is-leaving', 'is-entering');
       });
       prev.classList.remove('is-active', 'is-entering');
-      prev.classList.add('is-leaving');
+      if (!reduce) prev.classList.add('is-leaving');
+      clearTimeout(leaveTimer);
+      leaveTimer = setTimeout(clearLeaving, 1200); // in case animationend never fires
       next.classList.remove('is-leaving', 'is-entering');
       if (!reduce) { void next.offsetWidth; next.classList.add('is-entering'); }
       next.classList.add('is-active');
       var img = next.querySelector('img[loading="lazy"]');
       if (img) img.loading = 'eager';
     }
-    el.addEventListener('animationend', function (e) {
-      if (e.animationName !== 'wipe') return;
+    var leaveTimer = null;
+    function clearLeaving() {
       Object.keys(items).forEach(function (k) {
         if (k !== current) items[k].classList.remove('is-leaving');
       });
+    }
+    el.addEventListener('animationend', function (e) {
+      if (e.animationName === 'wipe') clearLeaving();
     });
 
     function update() {
