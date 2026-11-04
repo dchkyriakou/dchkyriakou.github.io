@@ -378,12 +378,52 @@
     }, { passive: true });
   }
 
+  /* ---------------- WebGL (lazy, desktop only, motion allowed) ---------------- */
+  function loadGL() {
+    if (reduce || !wide.matches) return;
+    if (navigator.connection && navigator.connection.saveData) return;
+    var ok = false;
+    try {
+      var c = document.createElement('canvas');
+      var ctx = c.getContext('webgl2') || c.getContext('webgl');
+      ok = !!ctx;
+      var lose = ctx && ctx.getExtension('WEBGL_lose_context');
+      if (lose) lose.loseContext();
+    } catch (e) { ok = false; }
+    if (!ok) return;
+    var go = function () {
+      import('./gl.js').then(function (m) { m.init(); }).catch(function () { /* keep the static fallbacks */ });
+    };
+    var idle = window.requestIdleCallback || function (f) { return setTimeout(f, 300); };
+    if (document.readyState === 'complete') idle(go, { timeout: 1500 });
+    else window.addEventListener('load', function () { idle(go, { timeout: 1500 }); });
+  }
+
+  /* Links elsewhere on the page that point into the knowledge map */
+  function setupKmLinks() {
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest('[data-km-select]');
+      if (!a) return;
+      var id = a.getAttribute('data-km-select');
+      var km = document.querySelector('[data-km]');
+      if (!km) return;
+      if (km.classList.contains('has-gl')) {
+        km.dispatchEvent(new CustomEvent('km:select', { detail: { type: 'domain', id: id } }));
+      } else {
+        var d = km.querySelector('.km-domain[data-domain="' + id + '"]');
+        if (d) d.open = true;
+      }
+    });
+  }
+
   /* ---------------- Boot ---------------- */
   setupReveals();
   setupTicker();
   setupTilt();
   setupMagnetic();
   startIntro();
+  setupKmLinks();
+  loadGL();
   window.addEventListener('scroll', request, { passive: true });
   window.addEventListener('resize', function () { if (heroPulse) heroPulse.build(); request(); });
   onFrame();
