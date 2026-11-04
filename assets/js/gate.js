@@ -150,12 +150,12 @@
 
     if (all) {
       tweenCount(101.3);
-      countLabel.textContent = 'clean 30-second windows, 40.6% of the candidates';
+      countLabel.textContent = '101,310,466 clean windows: 40.64% of the candidates';
     } else {
       if (shown !== 249.3) tweenCount(249.3);
       countLabel.textContent = active.size
-        ? 'candidate 30-second windows · ' + active.size + ' of 4 stages on'
-        : 'candidate 30-second windows';
+        ? '249,275,571 candidate 30-second windows · ' + active.size + ' of 4 stages on'
+        : '249,275,571 candidate 30-second windows';
     }
     if (announce && live) {
       live.textContent = all

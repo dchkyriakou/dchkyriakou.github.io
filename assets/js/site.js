@@ -416,6 +416,24 @@
     });
   }
 
+  /* Expand / collapse all engineering-decision cards */
+  function setupDecisions() {
+    var btn = document.querySelector('[data-decisions-toggle]');
+    if (!btn) return;
+    var cards = Array.prototype.slice.call(document.querySelectorAll('.decision'));
+    function sync() {
+      var all = cards.every(function (d) { return d.open; });
+      btn.textContent = all ? 'Collapse all' : 'Expand all';
+      btn.setAttribute('aria-expanded', String(all));
+    }
+    btn.addEventListener('click', function () {
+      var open = !cards.every(function (d) { return d.open; });
+      cards.forEach(function (d) { d.open = open; });
+      sync();
+    });
+    cards.forEach(function (d) { d.addEventListener('toggle', sync); });
+  }
+
   /* ---------------- Boot ---------------- */
   setupReveals();
   setupTicker();
@@ -423,6 +441,7 @@
   setupMagnetic();
   startIntro();
   setupKmLinks();
+  setupDecisions();
   loadGL();
   window.addEventListener('scroll', request, { passive: true });
   window.addEventListener('resize', function () { if (heroPulse) heroPulse.build(); request(); });
