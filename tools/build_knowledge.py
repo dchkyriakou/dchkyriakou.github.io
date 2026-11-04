@@ -1,97 +1,105 @@
 #!/usr/bin/env python3
-"""Generates the "What I know" accordion (also the data source for the 3D map) and
-writes it into index.html between the KNOWLEDGE markers. Run: python3 tools/build_knowledge.py
+"""Generates the capabilities accordion (also the data source for the 3D map) and writes it
+into index.html between the KNOWLEDGE markers. Run: python3 tools/build_knowledge.py
 
-Grades are out of 10 and only listed where the owner provided them.
-Project -> course edges are the courses each project drew on, kept deliberately conservative.
+Nodes in the 3D map are capabilities and projects. Courses appear only as evidence in the
+panel / accordion. Grades are out of 10 and only listed where the owner provided them.
+Each capability lists the projects that show it (kept deliberately conservative).
 """
 import html
 import pathlib
 import re
 
+# (domain id, label, [capabilities (id, label, [project ids])], [courses (label, grade)])
 DOMAINS = [
-    ("signals", "Signals & information", [
-        ("signals-systems", "Signals & Systems", None),
-        ("stochastic", "Stochastic Signals & Processes", "8"),
-        ("prob-stats", "Probability & Statistics", "8"),
-        ("estimation", "Estimation & Detection Theory", "8.5"),
-        ("time-series", "Time Series", None),
-        ("dip", "Digital Image Processing", None),
-        ("telecom", "Telecommunication Systems I & II", None),
-        ("telecom-devices", "Applications of Telecom Devices", "9"),
+    ("signals", "Signal processing", [
+        ("cap-biosignals", "Biomedical signal processing (PPG, accelerometry, LFP)", ["thesis", "tamu", "fudan"]),
+        ("cap-spectral", "Spectral and time-frequency analysis (Welch PSD, spectrograms, FOOOF)", ["thesis", "fudan"]),
+        ("cap-quality", "Signal-quality assessment and artifact removal", ["thesis", "fudan"]),
+        ("cap-prv", "HRV / PRV analysis", ["thesis"]),
+        ("cap-filtering", "Filtering and sampling (FIR / IIR, Nyquist)", ["fudan"]),
+    ], [
+        ("Signals & Systems", None), ("Stochastic Signals & Processes", "8"), ("Probability & Statistics", "8"),
+        ("Estimation & Detection Theory", "8.5"), ("Time Series", None), ("Digital Image Processing", None),
+        ("Telecommunication Systems I & II", None), ("Applications of Telecom Devices", "9"),
     ]),
-    ("ml", "Machine learning & computation", [
-        ("pr-ml", "Pattern Recognition & Machine Learning", None),
-        ("nn-dl", "Neural Networks & Deep Learning", "9.6"),
-        ("ci", "Computational Intelligence", "9.5"),
-        ("optimization", "Optimization Techniques", None),
-        ("data-analysis", "Data Analysis", "10"),
-        ("numerical", "Numerical Analysis", None),
-        ("applied-math", "Applied Mathematics I & II", None),
-        ("linear-algebra", "Linear Algebra", None),
+    ("ml", "Machine learning & statistics", [
+        ("cap-validation", "Nested cross-validation and corrected statistical tests", ["thesis"]),
+        ("cap-features", "Feature engineering and selection", ["thesis"]),
+        ("cap-models", "Logistic Regression, Random Forest, XGBoost, SVM", ["thesis"]),
+        ("cap-stats", "ICC repeatability, ANCOVA", ["thesis"]),
+        ("cap-nn", "Neural networks and deep learning", []),
+    ], [
+        ("Pattern Recognition & Machine Learning", None), ("Neural Networks & Deep Learning", "9.6"),
+        ("Computational Intelligence", "9.5"), ("Optimization Techniques", None), ("Data Analysis", "10"),
+        ("Numerical Analysis", None), ("Applied Mathematics I & II", None), ("Linear Algebra", None),
     ]),
-    ("bio", "Biomedical", [
-        ("biomed-tech", "Biomedical Technology", "10"),
+    ("bio", "Biomedical engineering", [
+        ("cap-wearable", "Wearable PPG sensing", ["thesis", "tamu"]),
+        ("cap-clinical", "IRB-approved human-subjects study", ["tamu"]),
+        ("cap-neuro", "Neural recordings and deep brain stimulation", ["fudan"]),
+    ], [
+        ("Biomedical Technology", "10"),
     ]),
     ("electronics", "Electronics & measurement", [
-        ("electronics-1", "Electronics I", None),
-        ("electronics-2", "Electronics II", "10"),
-        ("measurement", "Measurement Systems", "10"),
-        ("circuits", "Electric Circuits I & II", None),
-        ("logic", "Logic Design", None),
-        ("comp-org", "Computer Organization", None),
-        ("em-fields", "Electromagnetic Fields I & II", None),
-        ("materials", "Electrical Materials", None),
-    ]),
-    ("energy", "Energy & power", [
-        ("power", "Power Systems I & II", None),
-        ("renewable", "Renewable Energy Sources", "8.5"),
-        ("dist-gen", "Distributed Generation", "10"),
-        ("thermo", "Applied Thermodynamics", None),
+        ("cap-sensorval", "Sensor validation against a clinical reference", ["tamu"]),
+        ("cap-spo2", "Perfusion index and SpO2 estimation", ["tamu"]),
+        ("cap-electronics", "Analog and digital electronics", []),
+    ], [
+        ("Electronics I", None), ("Electronics II", "10"), ("Measurement Systems", "10"),
+        ("Electric Circuits I & II", None), ("Logic Design", None), ("Computer Organization", None),
+        ("Electromagnetic Fields I & II", None), ("Electrical Materials", None),
     ]),
     ("control", "Control", [
-        ("control-sys", "Automatic Control Systems I & II", None),
+        ("cap-closedloop", "Closed-loop system design", ["fudan"]),
+    ], [
+        ("Automatic Control Systems I & II", None),
     ]),
-    ("software", "Software & data systems", [
-        ("structured", "Structured Programming", None),
-        ("oop", "Object-Oriented Programming", "8.5"),
-        ("data-structures", "Data Structures", None),
-        ("algorithms", "Algorithm Analysis & Design", None),
-        ("os", "Operating Systems", "8"),
-        ("databases", "Databases", "8"),
-        ("soft-eng", "Software Engineering I", "8"),
-        ("networks", "Computer Networks I", "9"),
-        ("network-theory", "Network Theory", "8"),
+    ("energy", "Energy & power", [
+        ("cap-power", "Power systems and renewable energy", []),
+        ("cap-dg", "Distributed generation", []),
+        ("cap-w2e", "Waste-to-energy prototyping", ["iftp"]),
+    ], [
+        ("Power Systems I & II", None), ("Renewable Energy Sources", "8.5"), ("Distributed Generation", "10"),
+        ("Applied Thermodynamics", None),
+    ]),
+    ("software", "Software & data", [
+        ("cap-python", "Python data stack (NumPy, Pandas, SciPy, scikit-learn, statsmodels)", ["thesis", "tamu", "fudan"]),
+        ("cap-sql", "SQL / PostgreSQL", []),
+        ("cap-web", "Web development, SEO and performance", ["artio", "elysium"]),
+        ("cap-algo", "Data structures and algorithms", []),
+    ], [
+        ("Structured Programming", None), ("Object-Oriented Programming", "8.5"), ("Data Structures", None),
+        ("Algorithm Analysis & Design", None), ("Operating Systems", "8"), ("Databases", "8"),
+        ("Software Engineering I", "8"), ("Computer Networks I", "9"), ("Network Theory", "8"),
     ]),
     ("physics", "Physics", [
-        ("physics-1", "Physics", None),
-        ("quantum", "Quantum Physics", "10"),
+        ("cap-physics", "Physics fundamentals, including quantum physics", []),
+    ], [
+        ("Physics", None), ("Quantum Physics", "10"),
     ]),
     ("econ", "Economics & ventures", [
-        ("econ-principles", "Principles of Economics", None),
-        ("investment", "Investment Evaluation", "10"),
+        ("cap-venture", "Founding and building a product", ["artio"]),
+        ("cap-ops", "Operations and guest communication", ["elysium"]),
+        ("cap-invest", "Investment evaluation", []),
+    ], [
+        ("Principles of Economics", None), ("Investment Evaluation", "10"),
     ]),
 ]
 
 PROJECTS = [
     ("thesis", "Diploma thesis", "bio", "#thesis",
-     "Wrist-PPG biomarkers for Parkinson's, graded 10/10: 249.3 M candidate windows through a four-stage quality gate to 101.3 M clean, 594 features per participant, +0.30 ROC-AUC over age and sex in all four models.",
-     ["signals-systems", "stochastic", "prob-stats", "estimation", "time-series", "pr-ml", "data-analysis", "biomed-tech"]),
+     "Wrist-PPG biomarkers for Parkinson's, graded 10/10: 249.3 M candidate windows through a four-stage quality gate to 101.3 M clean, 594 features per participant, +0.30 ROC-AUC over age and sex in all four models."),
     ("tamu", "Texas A&M optical biosensing", "bio", "#p-tamu",
-     "IRB-approved human-subjects study (2024): two PPG devices at chest, forehead and finger, three contact pressures, validated against a Masimo oximeter; first-author poster.",
-     ["biomed-tech", "measurement", "electronics-2", "signals-systems", "data-analysis"]),
+     "IRB-approved human-subjects study (2024): two PPG devices at chest, forehead and finger, three contact pressures, validated against a Masimo oximeter; first-author poster."),
     ("fudan", "Fudan neural signals & DBS", "bio", "#p-grips",
-     "GRIPS 2025: Python pipeline for clinical LFP recordings (Welch PSD, spectrograms, FOOOF) and 130 Hz DBS artifact removal; closed-loop neuromodulation system design.",
-     ["signals-systems", "stochastic", "time-series", "biomed-tech", "control-sys"]),
+     "GRIPS 2025: Python pipeline for clinical LFP recordings (Welch PSD, spectrograms, FOOOF) and 130 Hz DBS artifact removal; closed-loop neuromodulation system design."),
     ("iftp", "Invent for the Planet 2022", "energy", "#p-iftp",
-     "People's Choice among 25 teams: an anaerobic digester turning household organic waste into gas for building heating.",
-     ["renewable", "thermo"]),
+     "People's Choice among 25 teams: an anaerobic digester turning household organic waste into gas for building heating."),
     ("artio", "ART.IO (founder)", "econ", "#ventures",
-     "Founded a 3D virtual-tour venture and built the product and its website.",
-     ["soft-eng", "econ-principles"]),
+     "Founded a 3D virtual-tour venture and built the product and its website."),
     ("elysium", "Elysium Retreat", "econ", "#ventures",
-     "Own short-term rental since 2022: designed and built the website, run guest communication and operations.",
-     ["soft-eng", "econ-principles"]),
+     "Own short-term rental since 2022: designed and built the website, run guest communication and operations."),
 ]
 
 
@@ -100,31 +108,34 @@ def e(s):
 
 
 def build():
-    course_domain = {cid: did for did, _, cs in DOMAINS for cid, _, _ in cs}
+    proj = {p[0]: p for p in PROJECTS}
     out = ['<div class="km-list" data-km-list>']
-    for did, label, courses in DOMAINS:
-        projs = [p for p in PROJECTS if p[2] == did or any(course_domain.get(u) == did for u in p[5])]
-        graded = [c for c in courses if c[2]]
-        count = f'{len(courses)} course{"s" if len(courses) != 1 else ""}'
-        if projs:
-            count += f' · {len(projs)} project{"s" if len(projs) != 1 else ""}'
+    for did, label, caps, courses in DOMAINS:
+        pids = []
+        for _, _, ps in caps:
+            for p in ps:
+                if p not in pids:
+                    pids.append(p)
         out.append(f'  <details class="km-domain" data-domain="{did}" data-label="{e(label)}">')
-        out.append(f'    <summary><span class="km-domain-name">{e(label)}</span><span class="km-count">{count}</span></summary>')
+        out.append(f'    <summary><span class="km-domain-name">{e(label)}</span></summary>')
+        out.append('    <ul class="km-caps">')
+        for cid, clabel, ps in caps:
+            out.append(f'      <li data-id="{cid}" data-projects="{" ".join(ps)}">{e(clabel)}</li>')
+        out.append('    </ul>')
+        out.append('    <p class="km-sub">Coursework</p>')
         out.append('    <ul class="km-courses">')
-        for cid, name, grade in courses:
+        for cname, grade in courses:
             g = f' data-grade="{grade}"' if grade else ''
             gs = f' <span class="km-grade">{grade}</span>' if grade else ''
-            out.append(f'      <li data-id="{cid}"{g}><span>{e(name)}</span>{gs}</li>')
+            out.append(f'      <li{g}><span>{e(cname)}</span>{gs}</li>')
         out.append('    </ul>')
-        if projs:
-            links = ', '.join(f'<a href="{p[3]}">{e(p[1])}</a>' for p in projs)
-            out.append(f'    <p class="km-used">Used in: {links}</p>')
-        if graded:
-            pass
+        if pids:
+            links = ', '.join(f'<a href="{proj[p][3]}">{e(proj[p][1])}</a>' for p in pids)
+            out.append(f'    <p class="km-used">Shown in: {links}</p>')
         out.append('  </details>')
     out.append('  <ul class="km-projects-data" hidden>')
-    for pid, name, home, href, evidence, uses in PROJECTS:
-        out.append(f'    <li data-id="{pid}" data-domain="{home}" data-href="{href}" data-uses="{" ".join(uses)}" data-label="{e(name)}">{e(evidence)}</li>')
+    for pid, name, home, href, evidence in PROJECTS:
+        out.append(f'    <li data-id="{pid}" data-domain="{home}" data-href="{href}" data-label="{e(name)}">{e(evidence)}</li>')
     out.append('  </ul>')
     out.append('</div>')
     return '\n'.join(out)

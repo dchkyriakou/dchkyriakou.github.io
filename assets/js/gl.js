@@ -135,19 +135,24 @@ function createKnowledgeMap(root) {
   // ---- read the graph from the accessible accordion ----
   const domains = [...root.querySelectorAll('.km-domain')].map((d) => ({
     id: d.dataset.domain, label: d.dataset.label,
+    caps: [...d.querySelectorAll('.km-caps li')].map((li) => ({
+      id: li.dataset.id, label: li.textContent.trim(), projects: (li.dataset.projects || '').split(' ').filter(Boolean),
+    })),
     courses: [...d.querySelectorAll('.km-courses li')].map((li) => ({
-      id: li.dataset.id, label: li.querySelector('span').textContent, grade: li.dataset.grade || null,
+      label: li.querySelector('span').textContent, grade: li.dataset.grade || null,
     })),
   }));
   const projects = [...root.querySelectorAll('.km-projects-data li')].map((li) => ({
     id: li.dataset.id, label: li.dataset.label, domain: li.dataset.domain, href: li.dataset.href,
-    uses: li.dataset.uses.split(' ').filter(Boolean), evidence: li.textContent.trim(),
+    evidence: li.textContent.trim(), uses: [],
   }));
+  const projById = Object.fromEntries(projects.map((p) => [p.id, p]));
+  domains.forEach((d) => d.caps.forEach((c) => c.projects.forEach((pid) => { if (projById[pid]) projById[pid].uses.push(c.id); })));
 
-  // ---- layout: domains on a sphere, courses around their domain, projects between ----
+  // ---- layout: domains on a sphere, capabilities around their domain, projects between ----
   const rand = rng(11);
   const R = 5.1;
-  const nodes = []; // {kind, id, label, domain, grade, pos, size, color, project?}
+  const nodes = [];
   const byId = {};
   const centers = {};
   domains.forEach((d, i) => {
@@ -155,12 +160,10 @@ function createKnowledgeMap(root) {
     const phi = Math.acos(1 - (2 * k) / n), theta = Math.PI * (1 + Math.sqrt(5)) * k;
     const c = new Vector3(Math.cos(theta) * Math.sin(phi), Math.cos(phi) * 0.82, Math.sin(theta) * Math.sin(phi)).multiplyScalar(R);
     centers[d.id] = c;
-    d.courses.forEach((cs) => {
-      const v = new Vector3(rand() - 0.5, rand() - 0.5, rand() - 0.5).normalize().multiplyScalar(0.7 + rand() * 1.1);
-      const g = cs.grade ? parseFloat(cs.grade) : 0;
-      const node = { kind: 'course', id: cs.id, label: cs.label, grade: cs.grade, domain: d.id,
-        pos: c.clone().add(v), size: g >= 10 ? 22 : g ? 18 : 14 };
-      nodes.push(node); byId[cs.id] = node;
+    d.caps.forEach((cap) => {
+      const v = new Vector3(rand() - 0.5, rand() - 0.5, rand() - 0.5).normalize().multiplyScalar(0.8 + rand() * 0.9);
+      const node = { kind: 'cap', id: cap.id, label: cap.label, domain: d.id, cap, pos: c.clone().add(v), size: cap.projects.length ? 20 : 15 };
+      nodes.push(node); byId[cap.id] = node;
     });
   });
   projects.forEach((p) => {
@@ -168,10 +171,9 @@ function createKnowledgeMap(root) {
     const avg = new Vector3();
     ds.forEach((d) => avg.add(centers[d]));
     avg.divideScalar(ds.length);
-    const len = avg.length();
-    const pos = avg.clone().normalize().multiplyScalar(Math.max(2.2, Math.min(len * 0.9 + 1.2, R * 0.85)));
+    const pos = avg.clone().normalize().multiplyScalar(Math.max(2.2, Math.min(avg.length() * 0.9 + 1.2, R * 0.85)));
     pos.add(new Vector3(rand() - 0.5, rand() - 0.5, rand() - 0.5).multiplyScalar(0.6));
-    const node = { kind: 'project', id: p.id, label: p.label, domain: p.domain, pos, size: 36, project: p };
+    const node = { kind: 'project', id: p.id, label: p.label, domain: p.domain, pos, size: 34, project: p };
     nodes.push(node); byId[p.id] = node;
   });
 
@@ -179,11 +181,11 @@ function createKnowledgeMap(root) {
   const N = nodes.length;
   const pos = new Float32Array(N * 3), col = new Float32Array(N * 3), siz = new Float32Array(N), alp = new Float32Array(N);
   const alphaTarget = new Float32Array(N).fill(1);
-  const COURSE = new Color('#c8d3da'), GRADED = new Color('#ffffff');
+  const CAP = new Color('#d3dce2'), CAP_QUIET = new Color('#8fa1ad');
   nodes.forEach((n, i) => {
     n.index = i;
     pos.set([n.pos.x, n.pos.y, n.pos.z], i * 3);
-    const c = n.kind === 'project' ? ORANGE : (n.grade && parseFloat(n.grade) >= 9.5 ? GRADED : COURSE);
+    const c = n.kind === 'project' ? ORANGE : (n.cap.projects.length ? CAP : CAP_QUIET);
     col.set([c.r, c.g, c.b], i * 3);
     siz[i] = n.size; alp[i] = 1;
   });
@@ -194,23 +196,22 @@ function createKnowledgeMap(root) {
   pGeo.setAttribute('aAlpha', new BufferAttribute(alp, 1));
   const points = new Points(pGeo, pointMaterial());
 
-  // edges: course -> domain hub, project -> course used
   const edges = [];
-  nodes.forEach((n) => { if (n.kind === 'course') edges.push({ a: n.pos, b: centers[n.domain], kind: 'hub', from: n, to: null, domain: n.domain }); });
+  nodes.forEach((n) => { if (n.kind === 'cap') edges.push({ a: n.pos, b: centers[n.domain], kind: 'hub', from: n, to: null }); });
   projects.forEach((p) => p.uses.forEach((u) => { if (byId[u]) edges.push({ a: byId[p.id].pos, b: byId[u].pos, kind: 'use', from: byId[p.id], to: byId[u] }); }));
   const ePos = new Float32Array(edges.length * 6), eCol = new Float32Array(edges.length * 8);
   const HUB = new Color('#5f7889');
   edges.forEach((e, i) => {
     ePos.set([e.a.x, e.a.y, e.a.z, e.b.x, e.b.y, e.b.z], i * 6);
     const c = e.kind === 'use' ? ORANGE : HUB;
-    const a = e.kind === 'use' ? 0.32 : 0.42;
+    const a = e.kind === 'use' ? 0.34 : 0.42;
     eCol.set([c.r, c.g, c.b, a, c.r, c.g, c.b, a], i * 8);
   });
   const eGeo = new BufferGeometry();
   eGeo.setAttribute('position', new BufferAttribute(ePos, 3));
   eGeo.setAttribute('color', new BufferAttribute(eCol, 4));
   const lines = new LineSegments(eGeo, new LineBasicMaterial({ vertexColors: true, transparent: true, depthWrite: false }));
-  const edgeBase = edges.map((e) => (e.kind === 'use' ? 0.32 : 0.42));
+  const edgeBase = edges.map((e) => (e.kind === 'use' ? 0.34 : 0.42));
   const edgeTarget = edgeBase.slice();
   const edgeNow = edgeBase.slice();
 
@@ -231,32 +232,33 @@ function createKnowledgeMap(root) {
   camera.position.set(0, 0.3, 13.6);
   camera.lookAt(0, 0, 0);
 
-  // ---- HTML labels (domains + projects), projected each frame ----
+  // ---- HTML labels (domains + projects), placed without overlaps each frame ----
   const labelFor = [];
   domains.forEach((d) => {
     const el = document.createElement('span');
     el.className = 'km-label km-label--domain';
     el.textContent = d.label;
     labelsEl.appendChild(el);
-    labelFor.push({ el, pos: centers[d.id], domain: d.id });
+    labelFor.push({ el, pos: centers[d.id], domain: d.id, prio: 2, dy: -1.9 });
   });
   projects.forEach((p) => {
     const el = document.createElement('span');
     el.className = 'km-label km-label--project';
     el.textContent = p.label;
     labelsEl.appendChild(el);
-    labelFor.push({ el, pos: byId[p.id].pos, project: p.id });
+    labelFor.push({ el, pos: byId[p.id].pos, project: p.id, prio: 1, dy: 0.7 });
   });
   const tip = document.createElement('span');
   tip.className = 'km-label km-label--tip';
   labelsEl.appendChild(tip);
+  function measure() { labelFor.forEach((l) => { l.w = l.el.offsetWidth; l.h = l.el.offsetHeight; }); }
 
   // ---- legend buttons (keyboard path into the map) ----
   domains.forEach((d) => {
     const b = document.createElement('button');
     b.type = 'button'; b.className = 'km-chip'; b.dataset.domain = d.id;
     b.setAttribute('aria-pressed', 'false');
-    b.innerHTML = `<span>${d.label}</span><span class="km-chip-n">${d.courses.length}</span>`;
+    b.textContent = d.label;
     b.addEventListener('click', () => select({ type: 'domain', id: d.id }));
     legend.appendChild(b);
   });
@@ -264,21 +266,18 @@ function createKnowledgeMap(root) {
   // ---- highlight + selection ----
   let hoverIdx = -1;
   let selection = null;
+  const domainOf = (id) => domains.find((x) => x.id === id);
 
   function related(sel) {
-    const set = new Set();
     if (!sel) return null;
+    const set = new Set();
     if (sel.type === 'domain') {
-      nodes.forEach((n) => { if (n.domain === sel.id && n.kind === 'course') set.add(n.index); });
-      projects.forEach((p) => { if (p.domain === sel.id || p.uses.some((u) => byId[u] && byId[u].domain === sel.id)) set.add(byId[p.id].index); });
+      nodes.forEach((n) => { if (n.kind === 'cap' && n.domain === sel.id) { set.add(n.index); n.cap.projects.forEach((p) => byId[p] && set.add(byId[p].index)); } });
     } else {
       const n = byId[sel.id];
       set.add(n.index);
       if (n.kind === 'project') n.project.uses.forEach((u) => byId[u] && set.add(byId[u].index));
-      else {
-        nodes.forEach((m) => { if (m.domain === n.domain && m.kind === 'course') set.add(m.index); });
-        projects.forEach((p) => { if (p.uses.includes(n.id)) set.add(byId[p.id].index); });
-      }
+      else n.cap.projects.forEach((p) => byId[p] && set.add(byId[p].index));
     }
     return set;
   }
@@ -290,33 +289,39 @@ function createKnowledgeMap(root) {
     edges.forEach((e, i) => {
       if (!set) { edgeTarget[i] = edgeBase[i]; return; }
       const on = e.kind === 'use' ? set.has(e.from.index) && set.has(e.to.index) : set.has(e.from.index);
-      edgeTarget[i] = on ? (e.kind === 'use' ? 0.85 : 0.6) : 0.04;
+      edgeTarget[i] = on ? (e.kind === 'use' ? 0.9 : 0.6) : 0.04;
     });
     labelFor.forEach((l) => {
-      const dim = set && ((l.domain && !(sel.type === 'domain' ? sel.id === l.domain : [...set].some((i) => nodes[i].domain === l.domain)))
-        || (l.project && !set.has(byId[l.project].index)));
-      l.el.classList.toggle('is-dim', !!dim);
+      let dim = false;
+      if (set) {
+        if (l.project) dim = !set.has(byId[l.project].index);
+        else dim = !(sel.type === 'domain' ? sel.id === l.domain : [...set].some((i) => nodes[i].domain === l.domain && nodes[i].kind === 'cap'));
+      }
+      l.dim = dim;
+      l.el.classList.toggle('is-dim', dim);
     });
   }
 
-  function gradeText(g) { return g ? `${g} / 10` : 'Completed'; }
-  function btn(type, id, text) { return `<button type="button" class="km-link" data-select-type="${type}" data-select-id="${id}">${text}</button>`; }
+  const btn = (type, id, text) => `<button type="button" class="km-link" data-select-type="${type}" data-select-id="${id}">${text}</button>`;
+  const courseList = (d) => `<p class="km-panel-sub">Coursework</p><ul class="km-panel-list km-panel-courses">${d.courses.map((c) => `<li><span>${c.label}</span><span class="km-grade">${c.grade || ''}</span></li>`).join('')}</ul>`;
 
   function renderPanel() {
     if (!selection) {
-      const graded = nodes.filter((n) => n.grade && parseFloat(n.grade) >= 9.5).length;
+      const nCaps = nodes.filter((n) => n.kind === 'cap').length;
       panel.innerHTML = `<h3 class="km-panel-title">Pick a domain or a point</h3>
-        <p class="km-panel-meta">${domains.length} domains · ${nodes.filter((n) => n.kind === 'course').length} courses · ${projects.length} projects</p>
-        <p class="km-panel-text">Orange points are projects; their lines run to the courses they drew on. Brighter points are courses graded 9.5 or higher (${graded} of them).</p>`;
+        <p class="km-panel-meta">${domains.length} domains · ${nCaps} capabilities · ${projects.length} projects</p>
+        <p class="km-panel-text">Orange points are projects; their lines run to the capabilities they show. Coursework and grades sit behind each domain.</p>`;
       return;
     }
     if (selection.type === 'domain') {
-      const d = domains.find((x) => x.id === selection.id);
-      const ps = projects.filter((p) => p.domain === d.id || p.uses.some((u) => byId[u] && byId[u].domain === d.id));
+      const d = domainOf(selection.id);
+      const pids = [...new Set(d.caps.flatMap((c) => c.projects))];
       panel.innerHTML = `<h3 class="km-panel-title">${d.label}</h3>
         <p class="km-panel-meta">Domain</p>
-        <ul class="km-panel-list">${d.courses.map((c) => `<li>${btn('node', c.id, c.label)}<span class="km-grade">${c.grade || ''}</span></li>`).join('')}</ul>
-        ${ps.length ? `<p class="km-panel-sub">Used in</p><ul class="km-panel-list">${ps.map((p) => `<li>${btn('node', p.id, p.label)}</li>`).join('')}</ul>` : ''}`;
+        <p class="km-panel-sub">Capabilities</p>
+        <ul class="km-panel-list">${d.caps.map((c) => `<li>${btn('node', c.id, c.label)}</li>`).join('')}</ul>
+        ${pids.length ? `<p class="km-panel-sub">Shown in</p><ul class="km-panel-list">${pids.map((p) => `<li>${btn('node', p, projById[p].label)}</li>`).join('')}</ul>` : ''}
+        ${courseList(d)}`;
     } else {
       const n = byId[selection.id];
       if (n.kind === 'project') {
@@ -324,16 +329,17 @@ function createKnowledgeMap(root) {
         panel.innerHTML = `<h3 class="km-panel-title">${p.label}</h3>
           <p class="km-panel-meta">Project</p>
           <p class="km-panel-text">${p.evidence}</p>
-          <p class="km-panel-sub">Drew on</p>
-          <ul class="km-panel-list">${p.uses.map((u) => `<li>${btn('node', u, byId[u].label)}<span class="km-grade">${byId[u].grade || ''}</span></li>`).join('')}</ul>
+          <p class="km-panel-sub">Capabilities shown</p>
+          <ul class="km-panel-list">${p.uses.map((u) => `<li>${btn('node', u, byId[u].label)}</li>`).join('')}</ul>
           <p><a class="km-go hover-link" href="${p.href}">Read about ${p.label}</a></p>`;
       } else {
-        const d = domains.find((x) => x.id === n.domain);
-        const ps = projects.filter((p) => p.uses.includes(n.id));
+        const d = domainOf(n.domain);
         panel.innerHTML = `<h3 class="km-panel-title">${n.label}</h3>
-          <p class="km-panel-meta">Course · ${btn('domain', d.id, d.label)}</p>
-          <p class="km-panel-grade">${gradeText(n.grade)}</p>
-          ${ps.length ? `<p class="km-panel-sub">Used in</p><ul class="km-panel-list">${ps.map((p) => `<li>${btn('node', p.id, p.label)}</li>`).join('')}</ul>` : ''}`;
+          <p class="km-panel-meta">Capability · ${btn('domain', d.id, d.label)}</p>
+          ${n.cap.projects.length
+            ? `<p class="km-panel-sub">Shown in</p><ul class="km-panel-list">${n.cap.projects.map((p) => `<li>${btn('node', p, projById[p].label)}</li>`).join('')}</ul>`
+            : '<p class="km-panel-text">A foundation from coursework, not yet shown in a project.</p>'}
+          ${courseList(d)}`;
       }
     }
   }
@@ -345,7 +351,7 @@ function createKnowledgeMap(root) {
   function select(sel) {
     selection = sel;
     legend.querySelectorAll('.km-chip').forEach((c) => {
-      const on = !!sel && ((sel.type === 'domain' && c.dataset.domain === sel.id) || (sel.type === 'node' && byId[sel.id] && byId[sel.id].kind === 'course' && byId[sel.id].domain === c.dataset.domain));
+      const on = !!sel && ((sel.type === 'domain' && c.dataset.domain === sel.id) || (sel.type === 'node' && byId[sel.id] && byId[sel.id].kind === 'cap' && byId[sel.id].domain === c.dataset.domain));
       c.setAttribute('aria-pressed', String(on));
     });
     renderPanel();
@@ -377,21 +383,24 @@ function createKnowledgeMap(root) {
     if (!dragging) return;
     dragging = false; host.classList.remove('is-dragging');
     try { host.releasePointerCapture(e.pointerId); } catch (_) { /* already released */ }
-    if (moved < 6) { // a tap / click
-      if (hoverIdx >= 0) select({ type: 'node', id: nodes[hoverIdx].id });
-      else select(null);
-    }
+    if (moved < 6) { if (hoverIdx >= 0) select({ type: 'node', id: nodes[hoverIdx].id }); else select(null); }
   };
   host.addEventListener('pointerup', end);
   host.addEventListener('pointercancel', end);
   host.addEventListener('pointerleave', () => { ndc.set(-9, -9); });
-
-  // external selection (role paths link here)
   root.addEventListener('km:select', (e) => select(e.detail));
 
   // ---- per-frame ----
   const tmp = new Vector3();
   let w = 1, h = 1;
+  const placed = [];
+  function overlaps(r) {
+    for (let i = 0; i < placed.length; i++) {
+      const q = placed[i];
+      if (r.x < q.x + q.w + 8 && r.x + r.w + 8 > q.x && r.y < q.y + q.h + 4 && r.y + r.h + 4 > q.y) return true;
+    }
+    return false;
+  }
   function update(dt) {
     if (!dragging) {
       velY *= 0.94; velX *= 0.9;
@@ -401,20 +410,14 @@ function createKnowledgeMap(root) {
     group.rotation.set(rotX, rotY, 0);
     group.updateMatrixWorld();
 
-    // hover
     let hit = -1;
     if (ndc.x > -2) {
       ray.setFromCamera(ndc, camera);
       const hits = ray.intersectObject(points);
       if (hits.length) hit = hits[0].index;
     }
-    if (hit !== hoverIdx) {
-      hoverIdx = hit;
-      host.classList.toggle('is-hovering', hit >= 0);
-      applyFocus();
-    }
+    if (hit !== hoverIdx) { hoverIdx = hit; host.classList.toggle('is-hovering', hit >= 0); applyFocus(); }
 
-    // ease alphas
     const a = pGeo.attributes.aAlpha;
     for (let i = 0; i < N; i++) a.array[i] += (alphaTarget[i] - a.array[i]) * Math.min(1, dt * 10);
     a.needsUpdate = true;
@@ -425,31 +428,41 @@ function createKnowledgeMap(root) {
     }
     c.needsUpdate = true;
 
-    // labels
-    labelFor.forEach((l) => {
-      tmp.copy(l.pos).applyMatrix4(group.matrixWorld);
-      const depth = tmp.z;
-      tmp.project(camera);
-      const x = (tmp.x * 0.5 + 0.5) * w, y = (-tmp.y * 0.5 + 0.5) * h;
-      l.el.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) ${l.project ? 'translate(-50%, 70%)' : 'translate(-50%, -190%)'}`;
-      l.el.style.opacity = String(Math.max(0.25, Math.min(1, 0.62 + depth / 9)));
-    });
+    // tooltip first, then labels by priority (undimmed and nearer first); hide any that would overlap
+    placed.length = 0;
     if (hoverIdx >= 0) {
       const n = nodes[hoverIdx];
       tmp.copy(n.pos).applyMatrix4(group.matrixWorld).project(camera);
-      tip.textContent = n.kind === 'course' ? (n.grade ? `${n.label} · ${n.grade}` : n.label) : n.label;
-      tip.style.transform = `translate3d(${((tmp.x * 0.5 + 0.5) * w).toFixed(1)}px, ${((-tmp.y * 0.5 + 0.5) * h).toFixed(1)}px, 0) translate(-50%, 18px)`;
+      const x = (tmp.x * 0.5 + 0.5) * w, y = (-tmp.y * 0.5 + 0.5) * h;
+      tip.textContent = n.label;
+      const tw = tip.offsetWidth, th = tip.offsetHeight;
+      tip.style.transform = `translate3d(${(x - tw / 2).toFixed(1)}px, ${(y + 16).toFixed(1)}px, 0)`;
       tip.classList.add('is-on');
+      placed.push({ x: x - tw / 2, y: y + 16, w: tw, h: th });
     } else tip.classList.remove('is-on');
+
+    labelFor.forEach((l) => {
+      tmp.copy(l.pos).applyMatrix4(group.matrixWorld);
+      l.depth = tmp.z;
+      tmp.project(camera);
+      l.x = (tmp.x * 0.5 + 0.5) * w; l.y = (-tmp.y * 0.5 + 0.5) * h;
+      l.score = (l.dim ? 0 : 10) + l.prio * 2 + l.depth * 0.2;
+    });
+    labelFor.slice().sort((p, q) => q.score - p.score).forEach((l) => {
+      const r = { x: l.x - l.w / 2, y: l.y + l.dy * l.h - l.h / 2, w: l.w, h: l.h };
+      const show = !overlaps(r) && r.x > -l.w * 0.3 && r.x + r.w < w + l.w * 0.3;
+      if (show) placed.push(r);
+      l.el.style.transform = `translate3d(${r.x.toFixed(1)}px, ${r.y.toFixed(1)}px, 0)`;
+      l.el.style.opacity = show ? String(Math.max(0.35, Math.min(1, 0.62 + l.depth / 9))) : '0';
+    });
   }
 
   root.classList.add('has-gl');
   return {
     host, scene, camera, update, clear: FIELD, clearAlpha: 0,
-    resize(W, H) { w = W; h = H; },
+    resize(W, H) { w = W; h = H; measure(); },
   };
 }
-
 
 /* ------------------------------------------------------------------ */
 /* Hero: live waterfall spectrogram of a simulated wrist pulse          */

@@ -94,16 +94,10 @@
     return { build: build, setAmp: setAmp };
   })();
 
-  /* ---------------- Ticker: count-up + marquee ---------------- */
+  /* ---------------- Ticker: marquee on narrow screens ---------------- */
   function setupTicker() {
     var ticker = document.querySelector('.ticker');
     if (!ticker) return;
-    var nums = ticker.querySelectorAll('[data-count]');
-    nums.forEach(function (n) {
-      n.style.display = 'inline-block';
-      n.style.minWidth = n.dataset.count.length + 'ch';
-      n.style.textAlign = 'right';
-    });
 
     var track = ticker.querySelector('.ticker-track');
     var marqueeOn = false;
@@ -126,21 +120,6 @@
     // Tap to pause / resume the moving ticker (WCAG 2.2.2); hover and focus pause it in CSS.
     ticker.addEventListener('click', function () { if (marqueeOn) ticker.classList.toggle('is-paused'); });
 
-    if (reduce || !hasIO) return;
-    nums.forEach(function (n) { n.textContent = '0'; });
-    var io = new IntersectionObserver(function (entries) {
-      if (!entries.some(function (e) { return e.isIntersecting; })) return;
-      io.disconnect();
-      var start = performance.now(), dur = 1400;
-      (function tick(now) {
-        var t = easeOut(clamp((now - start) / dur, 0, 1));
-        ticker.querySelectorAll('[data-count]').forEach(function (n) {
-          n.textContent = String(Math.round(t * Number(n.dataset.count)));
-        });
-        if (t < 1) requestAnimationFrame(tick);
-      })(start);
-    }, { threshold: 0.6 });
-    io.observe(ticker);
   }
 
   /* ---------------- Map scene ---------------- */
@@ -434,6 +413,23 @@
     cards.forEach(function (d) { d.addEventListener('toggle', sync); });
   }
 
+  /* Compact Download CV that docks after the hero and steps aside at the contact section */
+  function setupCvDock() {
+    var dock = document.querySelector('.cv-dock');
+    var heroEl = document.querySelector('.hero');
+    var contact = document.querySelector('#contact');
+    if (!dock || !heroEl || !hasIO) return;
+    var pastHero = false, atContact = false;
+    function sync() {
+      var on = pastHero && !atContact;
+      dock.classList.toggle('is-shown', on);
+      if (on) dock.removeAttribute('inert'); else dock.setAttribute('inert', '');
+    }
+    sync();
+    new IntersectionObserver(function (es) { pastHero = !es[0].isIntersecting; sync(); }).observe(heroEl);
+    if (contact) new IntersectionObserver(function (es) { atContact = es[0].isIntersecting; sync(); }, { threshold: 0.05 }).observe(contact);
+  }
+
   /* ---------------- Boot ---------------- */
   setupReveals();
   setupTicker();
@@ -442,6 +438,7 @@
   startIntro();
   setupKmLinks();
   setupDecisions();
+  setupCvDock();
   loadGL();
   window.addEventListener('scroll', request, { passive: true });
   window.addEventListener('resize', function () { if (heroPulse) heroPulse.build(); request(); });
