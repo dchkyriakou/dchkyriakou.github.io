@@ -45,13 +45,13 @@
   <main id="top">
 
     <!-- ============ HERO ============ -->
-    <section class="hero" aria-labelledby="hero-title">
+    <section class="hero dark" aria-labelledby="hero-title">
       <div class="hero-text">
         <h1 id="hero-title" class="hero-name">
           <span class="mask"><span class="mask-in heavy">Dimitrios</span></span>
           <span class="mask"><span class="mask-in light">Kyriakou</span></span>
         </h1>
-        <p class="hero-lead">Electrical &amp; computer engineer in biomedical signal processing and machine learning, shaped by research in China and the USA.</p>
+        <p class="hero-lead">Electrical &amp; computer engineer, drawn to biomedical engineering. A foundation in signals, machine learning, electronics and energy, put to work in research in China and the USA.</p>
         <div class="hero-actions intro-fade">
           <a class="button magnetic" href="Dimitrios_Kyriakou_CV_2026.pdf" download>
             <span class="button-label">
@@ -72,12 +72,13 @@
         </div>
       </figure>
 
-      <div class="pulse pulse--hero" aria-hidden="true">
-        <svg class="pulse-svg" preserveAspectRatio="none">
-          <path class="pulse-base"/>
-          <path class="pulse-glint"/>
-        </svg>
+      <div class="hero-gl" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 899px)" srcset="assets/img/hero-still-mobile.webp" width="800" height="372">
+          <img class="hero-still" src="assets/img/hero-still-1600.webp" width="1400" height="651" alt="" decoding="async">
+        </picture>
       </div>
+      <p class="hero-caption intro-fade">Short-time Fourier spectrum of a simulated wrist pulse, 0.5–4 Hz. The orange ridge is the heart rate.</p>
     </section>
 
     <!-- ============ TICKER ============ -->
