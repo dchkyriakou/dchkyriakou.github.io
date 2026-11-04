@@ -2,12 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Thesis abstract — moved</title>
-  <meta name="robots" content="noindex">
-  <link rel="canonical" href="https://dchkyriakou.github.io/thesis/">
-  <meta http-equiv="refresh" content="0; url=thesis/#abstract">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thesis abstract — Dimitrios Kyriakou</title>
+  <meta name="description" content="Abstract (English) of the diploma thesis by Dimitrios Kyriakou: digital biomarkers from wrist photoplethysmography for Parkinson's disease discrimination using machine learning. Graded 10/10.">
+  <meta name="theme-color" content="#f3f5f6">
+  <link rel="canonical" href="https://dchkyriakou.github.io/thesis-abstract.html">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preload" href="assets/fonts/work-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/site.css">
+  <style>
+    .doc { max-width: 760px; margin: 0 auto; padding: clamp(28px, 6vw, 72px) var(--pad) 96px; }
+    .doc-top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; align-items: center; }
+    .doc-top a { padding: 10px 0; font-weight: 600; }
+    .doc h1 { margin-top: clamp(40px, 7vw, 88px); font-size: clamp(1.5rem, 1.15rem + 1.3vw, 2.25rem); font-weight: 300; line-height: 1.06; letter-spacing: -0.03em; text-wrap: balance; }
+    .doc-facts { display: flex; flex-wrap: wrap; gap: 16px 40px; margin-top: 28px; }
+    .doc-facts dt { font-size: var(--step-small); font-weight: 650; color: var(--muted); }
+    .doc-facts dd { font-weight: 600; }
+    .doc h2 { margin-top: 48px; font-size: var(--step-body); font-weight: 650; }
+    .doc h2::before { content: ""; display: block; width: 48px; height: 4px; background: var(--accent); margin-bottom: 16px; }
+    .doc-abstract { margin-top: 12px; font-size: var(--step-lead); line-height: 1.5; letter-spacing: -0.005em; }
+    .doc-note { margin-top: 32px; color: var(--muted); font-size: var(--step-small); }
+    .doc-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 28px; margin-top: 40px; }
+  </style>
 </head>
 <body>
-  <p>The thesis abstract has moved to <a href="thesis/#abstract">the thesis page</a>.</p>
+  <main class="doc">
+    <div class="doc-top">
+      <a class="hover-link" href="./#thesis">← Back to the site</a>
+      <a class="hover-link" href="Dimitrios_Kyriakou_CV_2026.pdf" download>Download CV (PDF)</a>
+    </div>
+
+    <h1>Digital Biomarkers from Wrist Photoplethysmography for Parkinson's Disease Discrimination Using Machine Learning</h1>
+
+    <dl class="doc-facts">
+      <div><dt>Author</dt><dd>Dimitrios Christos Kyriakou</dd></div>
+      <div><dt>Supervisor</dt><dd>Prof. Leontios Hadjileontiadis</dd></div>
+      <div><dt>Grade</dt><dd>10 / 10 · 30 ECTS</dd></div>
+      <div><dt>Institution</dt><dd>Electrical &amp; Computer Engineering, Aristotle University of Thessaloniki</dd></div>
+    </dl>
+
+    <h2>Abstract (English)</h2>
+    <p class="doc-abstract">Wrist photoplethysmography (PPG) recorded in daily life is dominated by motion and poor contact. This thesis builds an end-to-end Python pipeline on free-living PPG and accelerometer data from the PPMI cohort: 344 participants with Parkinson's disease, prodromal participants and healthy controls. A four-stage signal-quality gate (motion, waveform shape, template correlation ≥ 0.70 and a post-motion buffer) reduced 249.3 million candidate 30-second windows to 101.3 million clean windows (40.64%). Twenty-seven pulse-rate-variability indices, computed at 30-second and 5-minute scales by day and night, gave 594 features per participant. Logistic regression, random forest, XGBoost and support vector machines were evaluated with participant-level nested cross-validation and Nadeau–Bengio corrected tests. Pulse-rate-variability features improved Parkinson's-versus-control ROC-AUC by 0.298 to 0.323 over age and sex in all four models (p &lt; 0.05), and the gain was stable across sensitivity analyses. No added value was shown for prodromal participants versus controls, a result reported as such.</p>
+
+    <p class="doc-note">The engineering decisions behind each step are on the main page.</p>
+    <div class="doc-actions">
+      <a class="hover-link" href="./#decisions">See the engineering decisions</a>
+      <a class="hover-link" href="mailto:dchkyriakou@gmail.com">dchkyriakou@gmail.com</a>
+    </div>
+  </main>
 </body>
 </html>

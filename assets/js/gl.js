@@ -1,14 +1,16 @@
-/* WebGL layer for the hero spectrogram. One renderer; rendering stops when the
-   hero is off screen or the tab is hidden. Loaded lazily (desktop, motion
-   allowed, WebGL available); a still rendered from this scene is the fallback. */
+/* WebGL layer: one shared Three.js renderer for the two places 3D earns its keep,
+   the hero spectrogram and the knowledge map. The single canvas is moved into
+   whichever view is most on screen; rendering stops when neither is visible or
+   the tab is hidden. Loaded lazily (desktop, motion allowed, WebGL available). */
 import {
   WebGLRenderer, Scene, PerspectiveCamera, Group, Color,
   BufferGeometry, BufferAttribute, LineSegments, LineBasicMaterial, Points,
-  ShaderMaterial, Vector2, Vector3
+  ShaderMaterial, Vector2, Vector3, Raycaster
 } from '../vendor/three.custom.min.js';
 
 const DPR = Math.min(window.devicePixelRatio || 1, 2);
 const ORANGE = new Color('#ff5b14');
+const INK = new Color('#eef2f4');
 const FIELD = new Color('#0c1a24');
 
 /* ------------------------------------------------------------------ */
@@ -118,6 +120,349 @@ function pointMaterial() {
   });
 }
 
+/* Deterministic random */
+function rng(seed) { return () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646; }
+
+/* ------------------------------------------------------------------ */
+/* Knowledge map                                                       */
+/* ------------------------------------------------------------------ */
+function createKnowledgeMap(root) {
+  const host = root.querySelector('.km-stage');
+  const labelsEl = root.querySelector('.km-labels');
+  const panel = root.querySelector('.km-panel');
+  const legend = root.querySelector('.km-legend');
+
+  // ---- read the graph from the accessible accordion ----
+  const domains = [...root.querySelectorAll('.km-domain')].map((d) => ({
+    id: d.dataset.domain, label: d.dataset.label,
+    caps: [...d.querySelectorAll('.km-caps li')].map((li) => ({
+      id: li.dataset.id, label: li.textContent.trim(), projects: (li.dataset.projects || '').split(' ').filter(Boolean),
+    })),
+    courses: [...d.querySelectorAll('.km-courses li')].map((li) => ({
+      label: li.querySelector('span').textContent, grade: li.dataset.grade || null,
+    })),
+  }));
+  const projects = [...root.querySelectorAll('.km-projects-data li')].map((li) => ({
+    id: li.dataset.id, label: li.dataset.label, domain: li.dataset.domain, href: li.dataset.href,
+    evidence: li.textContent.trim(), uses: [],
+  }));
+  const projById = Object.fromEntries(projects.map((p) => [p.id, p]));
+  domains.forEach((d) => d.caps.forEach((c) => c.projects.forEach((pid) => { if (projById[pid]) projById[pid].uses.push(c.id); })));
+
+  // ---- layout: domains on a sphere, capabilities around their domain, projects between ----
+  const rand = rng(11);
+  const R = 5.1;
+  const nodes = [];
+  const byId = {};
+  const centers = {};
+  domains.forEach((d, i) => {
+    const k = i + 0.5, n = domains.length;
+    const phi = Math.acos(1 - (2 * k) / n), theta = Math.PI * (1 + Math.sqrt(5)) * k;
+    const c = new Vector3(Math.cos(theta) * Math.sin(phi), Math.cos(phi) * 0.82, Math.sin(theta) * Math.sin(phi)).multiplyScalar(R);
+    centers[d.id] = c;
+    d.caps.forEach((cap) => {
+      const v = new Vector3(rand() - 0.5, rand() - 0.5, rand() - 0.5).normalize().multiplyScalar(0.8 + rand() * 0.9);
+      const node = { kind: 'cap', id: cap.id, label: cap.label, domain: d.id, cap, pos: c.clone().add(v), size: cap.projects.length ? 20 : 15 };
+      nodes.push(node); byId[cap.id] = node;
+    });
+  });
+  projects.forEach((p) => {
+    const ds = [...new Set(p.uses.map((u) => byId[u] && byId[u].domain).filter(Boolean).concat(p.domain))];
+    const avg = new Vector3();
+    ds.forEach((d) => avg.add(centers[d]));
+    avg.divideScalar(ds.length);
+    const pos = avg.clone().normalize().multiplyScalar(Math.max(2.2, Math.min(avg.length() * 0.9 + 1.2, R * 0.85)));
+    pos.add(new Vector3(rand() - 0.5, rand() - 0.5, rand() - 0.5).multiplyScalar(0.6));
+    const node = { kind: 'project', id: p.id, label: p.label, domain: p.domain, pos, size: 34, project: p };
+    nodes.push(node); byId[p.id] = node;
+  });
+
+  // ---- geometry ----
+  const N = nodes.length;
+  const pos = new Float32Array(N * 3), col = new Float32Array(N * 3), siz = new Float32Array(N), alp = new Float32Array(N);
+  const alphaTarget = new Float32Array(N).fill(1);
+  const CAP = new Color('#d3dce2'), CAP_QUIET = new Color('#8fa1ad');
+  nodes.forEach((n, i) => {
+    n.index = i;
+    pos.set([n.pos.x, n.pos.y, n.pos.z], i * 3);
+    const c = n.kind === 'project' ? ORANGE : (n.cap.projects.length ? CAP : CAP_QUIET);
+    col.set([c.r, c.g, c.b], i * 3);
+    siz[i] = n.size; alp[i] = 1;
+  });
+  const pGeo = new BufferGeometry();
+  pGeo.setAttribute('position', new BufferAttribute(pos, 3));
+  pGeo.setAttribute('aColor', new BufferAttribute(col, 3));
+  pGeo.setAttribute('aSize', new BufferAttribute(siz, 1));
+  pGeo.setAttribute('aAlpha', new BufferAttribute(alp, 1));
+  const points = new Points(pGeo, pointMaterial());
+
+  const edges = [];
+  nodes.forEach((n) => { if (n.kind === 'cap') edges.push({ a: n.pos, b: centers[n.domain], kind: 'hub', from: n, to: null }); });
+  projects.forEach((p) => p.uses.forEach((u) => { if (byId[u]) edges.push({ a: byId[p.id].pos, b: byId[u].pos, kind: 'use', from: byId[p.id], to: byId[u] }); }));
+  const ePos = new Float32Array(edges.length * 6), eCol = new Float32Array(edges.length * 8);
+  const HUB = new Color('#5f7889');
+  edges.forEach((e, i) => {
+    ePos.set([e.a.x, e.a.y, e.a.z, e.b.x, e.b.y, e.b.z], i * 6);
+    const c = e.kind === 'use' ? ORANGE : HUB;
+    const a = e.kind === 'use' ? 0.34 : 0.42;
+    eCol.set([c.r, c.g, c.b, a, c.r, c.g, c.b, a], i * 8);
+  });
+  const eGeo = new BufferGeometry();
+  eGeo.setAttribute('position', new BufferAttribute(ePos, 3));
+  eGeo.setAttribute('color', new BufferAttribute(eCol, 4));
+  const lines = new LineSegments(eGeo, new LineBasicMaterial({ vertexColors: true, transparent: true, depthWrite: false }));
+  const edgeBase = edges.map((e) => (e.kind === 'use' ? 0.34 : 0.42));
+  const edgeTarget = edgeBase.slice();
+  const edgeNow = edgeBase.slice();
+
+  const hubPos = new Float32Array(domains.length * 3);
+  domains.forEach((d, i) => hubPos.set([centers[d.id].x, centers[d.id].y, centers[d.id].z], i * 3));
+  const hubGeo = new BufferGeometry();
+  hubGeo.setAttribute('position', new BufferAttribute(hubPos, 3));
+  hubGeo.setAttribute('aColor', new BufferAttribute(new Float32Array(domains.length * 3).fill(0.42), 3));
+  hubGeo.setAttribute('aSize', new BufferAttribute(new Float32Array(domains.length).fill(10), 1));
+  hubGeo.setAttribute('aAlpha', new BufferAttribute(new Float32Array(domains.length).fill(1), 1));
+  const hubs = new Points(hubGeo, pointMaterial());
+
+  const group = new Group();
+  group.add(lines, hubs, points);
+  const scene = new Scene();
+  scene.add(group);
+  const camera = new PerspectiveCamera(42, 1, 0.1, 100);
+  camera.position.set(0, 0.3, 13.6);
+  camera.lookAt(0, 0, 0);
+
+  // ---- HTML labels (domains + projects), placed without overlaps each frame ----
+  const labelFor = [];
+  domains.forEach((d) => {
+    const el = document.createElement('span');
+    el.className = 'km-label km-label--domain';
+    el.textContent = d.label;
+    labelsEl.appendChild(el);
+    labelFor.push({ el, pos: centers[d.id], domain: d.id, prio: 2, dy: -1.9 });
+  });
+  projects.forEach((p) => {
+    const el = document.createElement('span');
+    el.className = 'km-label km-label--project';
+    el.textContent = p.label;
+    labelsEl.appendChild(el);
+    labelFor.push({ el, pos: byId[p.id].pos, project: p.id, prio: 1, dy: 0.7 });
+  });
+  const tip = document.createElement('span');
+  tip.className = 'km-label km-label--tip';
+  labelsEl.appendChild(tip);
+  function measure() { labelFor.forEach((l) => { l.w = l.el.offsetWidth; l.h = l.el.offsetHeight; }); }
+
+  // ---- legend buttons (keyboard path into the map) ----
+  domains.forEach((d) => {
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'km-chip'; b.dataset.domain = d.id;
+    b.setAttribute('aria-pressed', 'false');
+    b.textContent = d.label;
+    b.addEventListener('click', () => select({ type: 'domain', id: d.id }));
+    legend.appendChild(b);
+  });
+
+  // ---- highlight + selection ----
+  let hoverIdx = -1;
+  let selection = null;
+  const domainOf = (id) => domains.find((x) => x.id === id);
+
+  function related(sel) {
+    if (!sel) return null;
+    const set = new Set();
+    if (sel.type === 'domain') {
+      nodes.forEach((n) => { if (n.kind === 'cap' && n.domain === sel.id) { set.add(n.index); n.cap.projects.forEach((p) => byId[p] && set.add(byId[p].index)); } });
+    } else {
+      const n = byId[sel.id];
+      set.add(n.index);
+      if (n.kind === 'project') n.project.uses.forEach((u) => byId[u] && set.add(byId[u].index));
+      else n.cap.projects.forEach((p) => byId[p] && set.add(byId[p].index));
+    }
+    return set;
+  }
+
+  function applyFocus() {
+    const sel = hoverIdx >= 0 ? { type: 'node', id: nodes[hoverIdx].id } : selection;
+    const set = related(sel);
+    nodes.forEach((n, i) => { alphaTarget[i] = !set || set.has(i) ? 1 : 0.14; });
+    edges.forEach((e, i) => {
+      if (!set) { edgeTarget[i] = edgeBase[i]; return; }
+      const on = e.kind === 'use' ? set.has(e.from.index) && set.has(e.to.index) : set.has(e.from.index);
+      edgeTarget[i] = on ? (e.kind === 'use' ? 0.9 : 0.6) : 0.04;
+    });
+    labelFor.forEach((l) => {
+      let dim = false;
+      if (set) {
+        if (l.project) dim = !set.has(byId[l.project].index);
+        else dim = !(sel.type === 'domain' ? sel.id === l.domain : [...set].some((i) => nodes[i].domain === l.domain && nodes[i].kind === 'cap'));
+      }
+      l.dim = dim;
+      l.el.classList.toggle('is-dim', dim);
+    });
+  }
+
+  const btn = (type, id, text) => `<button type="button" class="km-link" data-select-type="${type}" data-select-id="${id}">${text}</button>`;
+  const courseList = (d) => `<p class="km-panel-sub">Coursework</p><ul class="km-panel-list km-panel-courses">${d.courses.map((c) => `<li><span>${c.label}</span><span class="km-grade">${c.grade || ''}</span></li>`).join('')}</ul>`;
+
+  function renderPanel() {
+    if (!selection) {
+      const nCaps = nodes.filter((n) => n.kind === 'cap').length;
+      panel.innerHTML = `<h3 class="km-panel-title">Pick a domain or a point</h3>
+        <p class="km-panel-meta">${domains.length} domains · ${nCaps} capabilities · ${projects.length} projects</p>
+        <p class="km-panel-text">Orange points are projects; their lines run to the capabilities they show. Coursework and grades sit behind each domain.</p>`;
+      return;
+    }
+    if (selection.type === 'domain') {
+      const d = domainOf(selection.id);
+      const pids = [...new Set(d.caps.flatMap((c) => c.projects))];
+      panel.innerHTML = `<h3 class="km-panel-title">${d.label}</h3>
+        <p class="km-panel-meta">Domain</p>
+        <p class="km-panel-sub">Capabilities</p>
+        <ul class="km-panel-list">${d.caps.map((c) => `<li>${btn('node', c.id, c.label)}</li>`).join('')}</ul>
+        ${pids.length ? `<p class="km-panel-sub">Shown in</p><ul class="km-panel-list">${pids.map((p) => `<li>${btn('node', p, projById[p].label)}</li>`).join('')}</ul>` : ''}
+        ${courseList(d)}`;
+    } else {
+      const n = byId[selection.id];
+      if (n.kind === 'project') {
+        const p = n.project;
+        panel.innerHTML = `<h3 class="km-panel-title">${p.label}</h3>
+          <p class="km-panel-meta">Project</p>
+          <p class="km-panel-text">${p.evidence}</p>
+          <p class="km-panel-sub">Capabilities shown</p>
+          <ul class="km-panel-list">${p.uses.map((u) => `<li>${btn('node', u, byId[u].label)}</li>`).join('')}</ul>
+          <p><a class="km-go hover-link" href="${p.href}">Read about ${p.label}</a></p>`;
+      } else {
+        const d = domainOf(n.domain);
+        panel.innerHTML = `<h3 class="km-panel-title">${n.label}</h3>
+          <p class="km-panel-meta">Capability · ${btn('domain', d.id, d.label)}</p>
+          ${n.cap.projects.length
+            ? `<p class="km-panel-sub">Shown in</p><ul class="km-panel-list">${n.cap.projects.map((p) => `<li>${btn('node', p, projById[p].label)}</li>`).join('')}</ul>`
+            : '<p class="km-panel-text">A foundation from coursework, not yet shown in a project.</p>'}
+          ${courseList(d)}`;
+      }
+    }
+  }
+  panel.addEventListener('click', (e) => {
+    const b = e.target.closest('[data-select-type]');
+    if (b) select({ type: b.dataset.selectType, id: b.dataset.selectId });
+  });
+
+  function select(sel) {
+    selection = sel;
+    legend.querySelectorAll('.km-chip').forEach((c) => {
+      const on = !!sel && ((sel.type === 'domain' && c.dataset.domain === sel.id) || (sel.type === 'node' && byId[sel.id] && byId[sel.id].kind === 'cap' && byId[sel.id].domain === c.dataset.domain));
+      c.setAttribute('aria-pressed', String(on));
+    });
+    renderPanel();
+    applyFocus();
+  }
+  renderPanel();
+
+  // ---- pointer: drag to rotate, hover, click ----
+  let rotY = 0.6, rotX = -0.12, velY = 0, velX = 0, dragging = false, moved = 0;
+  let lastX = 0, lastY = 0;
+  const ndc = new Vector2(-9, -9);
+  const ray = new Raycaster();
+  ray.params.Points.threshold = 0.32;
+
+  host.addEventListener('pointerdown', (e) => {
+    dragging = true; moved = 0; lastX = e.clientX; lastY = e.clientY;
+    host.setPointerCapture(e.pointerId); host.classList.add('is-dragging');
+  });
+  host.addEventListener('pointermove', (e) => {
+    const r = host.getBoundingClientRect();
+    ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    if (!dragging) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
+    velY = dx * 0.0055; velX = dy * 0.0045;
+    rotY += velY; rotX = Math.max(-0.7, Math.min(0.7, rotX + velX));
+  });
+  const end = (e) => {
+    if (!dragging) return;
+    dragging = false; host.classList.remove('is-dragging');
+    try { host.releasePointerCapture(e.pointerId); } catch (_) { /* already released */ }
+    if (moved < 6) { if (hoverIdx >= 0) select({ type: 'node', id: nodes[hoverIdx].id }); else select(null); }
+  };
+  host.addEventListener('pointerup', end);
+  host.addEventListener('pointercancel', end);
+  host.addEventListener('pointerleave', () => { ndc.set(-9, -9); });
+  root.addEventListener('km:select', (e) => select(e.detail));
+
+  // ---- per-frame ----
+  const tmp = new Vector3();
+  let w = 1, h = 1;
+  const placed = [];
+  function overlaps(r) {
+    for (let i = 0; i < placed.length; i++) {
+      const q = placed[i];
+      if (r.x < q.x + q.w + 8 && r.x + r.w + 8 > q.x && r.y < q.y + q.h + 4 && r.y + r.h + 4 > q.y) return true;
+    }
+    return false;
+  }
+  function update(dt) {
+    if (!dragging) {
+      velY *= 0.94; velX *= 0.9;
+      rotY += velY + (selection || hoverIdx >= 0 ? 0 : dt * 0.06);
+      rotX = Math.max(-0.7, Math.min(0.7, rotX + velX));
+    }
+    group.rotation.set(rotX, rotY, 0);
+    group.updateMatrixWorld();
+
+    let hit = -1;
+    if (ndc.x > -2) {
+      ray.setFromCamera(ndc, camera);
+      const hits = ray.intersectObject(points);
+      if (hits.length) hit = hits[0].index;
+    }
+    if (hit !== hoverIdx) { hoverIdx = hit; host.classList.toggle('is-hovering', hit >= 0); applyFocus(); }
+
+    const a = pGeo.attributes.aAlpha;
+    for (let i = 0; i < N; i++) a.array[i] += (alphaTarget[i] - a.array[i]) * Math.min(1, dt * 10);
+    a.needsUpdate = true;
+    const c = eGeo.attributes.color;
+    for (let i = 0; i < edges.length; i++) {
+      edgeNow[i] += (edgeTarget[i] - edgeNow[i]) * Math.min(1, dt * 10);
+      c.array[i * 8 + 3] = edgeNow[i]; c.array[i * 8 + 7] = edgeNow[i];
+    }
+    c.needsUpdate = true;
+
+    // tooltip first, then labels by priority (undimmed and nearer first); hide any that would overlap
+    placed.length = 0;
+    if (hoverIdx >= 0) {
+      const n = nodes[hoverIdx];
+      tmp.copy(n.pos).applyMatrix4(group.matrixWorld).project(camera);
+      const x = (tmp.x * 0.5 + 0.5) * w, y = (-tmp.y * 0.5 + 0.5) * h;
+      tip.textContent = n.label;
+      const tw = tip.offsetWidth, th = tip.offsetHeight;
+      tip.style.transform = `translate3d(${(x - tw / 2).toFixed(1)}px, ${(y + 16).toFixed(1)}px, 0)`;
+      tip.classList.add('is-on');
+      placed.push({ x: x - tw / 2, y: y + 16, w: tw, h: th });
+    } else tip.classList.remove('is-on');
+
+    labelFor.forEach((l) => {
+      tmp.copy(l.pos).applyMatrix4(group.matrixWorld);
+      l.depth = tmp.z;
+      tmp.project(camera);
+      l.x = (tmp.x * 0.5 + 0.5) * w; l.y = (-tmp.y * 0.5 + 0.5) * h;
+      l.score = (l.dim ? 0 : 10) + l.prio * 2 + l.depth * 0.2;
+    });
+    labelFor.slice().sort((p, q) => q.score - p.score).forEach((l) => {
+      const r = { x: l.x - l.w / 2, y: l.y + l.dy * l.h - l.h / 2, w: l.w, h: l.h };
+      const show = !overlaps(r) && r.x > -l.w * 0.3 && r.x + r.w < w + l.w * 0.3;
+      if (show) placed.push(r);
+      l.el.style.transform = `translate3d(${r.x.toFixed(1)}px, ${r.y.toFixed(1)}px, 0)`;
+      l.el.style.opacity = show ? String(Math.max(0.35, Math.min(1, 0.62 + l.depth / 9))) : '0';
+    });
+  }
+
+  root.classList.add('has-gl');
+  return {
+    host, scene, camera, update, clear: FIELD, clearAlpha: 0,
+    resize(W, H) { w = W; h = H; measure(); },
+  };
+}
 
 /* ------------------------------------------------------------------ */
 /* Hero: live waterfall spectrogram of a simulated wrist pulse          */
@@ -229,7 +574,7 @@ function createHero(host) {
           lCol[oc] = cr + (ORANGE.r - cr) * near;
           lCol[oc + 1] = cg + (ORANGE.g - cg) * near;
           lCol[oc + 2] = cb + (ORANGE.b - cb) * near;
-          lCol[oc + 3] = depth * depth * (0.18 + 0.5 * m);
+          lCol[oc + 3] = depth * depth * (0.25 + 0.75 * m);
         }
         si++;
       }
@@ -244,7 +589,7 @@ function createHero(host) {
     for (let r = 0; r < rows.length - 1; r++) {
       rPos.set([peakX[r], peakY[r], -r * DZ, peakX[r + 1], peakY[r + 1], -(r + 1) * DZ], r * 6);
       const a1 = (1 - r / ROWS) ** 1.5, a2 = (1 - (r + 1) / ROWS) ** 1.5;
-      rCol.set([ORANGE.r, ORANGE.g, ORANGE.b, a1 * 0.75, ORANGE.r, ORANGE.g, ORANGE.b, a2 * 0.75], r * 8);
+      rCol.set([ORANGE.r, ORANGE.g, ORANGE.b, a1, ORANGE.r, ORANGE.g, ORANGE.b, a2], r * 8);
     }
     // glowing markers on the newest spectrum: fundamental + two harmonics
     const f0 = rowHR[0];
@@ -309,6 +654,8 @@ export function init() {
   const views = [];
   const heroHost = document.querySelector('.hero-gl');
   if (heroHost) views.push(createHero(heroHost));
+  const km = document.querySelector('[data-km]');
+  if (km) views.push(createKnowledgeMap(km));
   if (!views.length) return;
   const m = createManager();
   views.forEach((v) => m.add(v));
