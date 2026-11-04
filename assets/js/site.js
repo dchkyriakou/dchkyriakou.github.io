@@ -359,7 +359,7 @@
 
   /* ---------------- WebGL (lazy, desktop only, motion allowed) ---------------- */
   function loadGL() {
-    if (reduce || !wide.matches) return;
+    if (reduce || !wide.matches || !document.querySelector('.hero-gl, [data-km]')) return;
     if (navigator.connection && navigator.connection.saveData) return;
     var ok = false;
     try {
@@ -411,6 +411,13 @@
       sync();
     });
     cards.forEach(function (d) { d.addEventListener('toggle', sync); });
+    function openFromHash() {
+      var id = decodeURIComponent(location.hash.slice(1));
+      var el = id && document.getElementById(id);
+      if (el && el.tagName === 'DETAILS') { el.open = true; el.scrollIntoView({ block: 'start' }); }
+    }
+    openFromHash();
+    window.addEventListener('hashchange', openFromHash);
   }
 
   /* Compact Download CV that docks after the hero and steps aside at the contact section */

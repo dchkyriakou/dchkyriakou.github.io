@@ -593,7 +593,8 @@ p { text-wrap: pretty; }
 .medals { display: grid; gap: 32px; perspective: 1100px; }
 @media (min-width: 900px) { .medals { gap: var(--gutter); } }
 @media (min-width: 900px) { .medals { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.medal { --rx: 0deg; --ry: 0deg; --gx: 50%; --gy: 0%; }
+.medal { --rx: 0deg; --ry: 0deg; --gx: 50%; --gy: 0%; display: flex; }
+.medal > .medal-face { flex: 1; }
 .medal-face {
   position: relative;
   display: flex; flex-direction: column;
@@ -628,6 +629,13 @@ p { text-wrap: pretty; }
 }
 .medal--bronze .medal-num { color: var(--bronze); }
 .medal--bronze .medal-face::before { border-color: rgba(210, 154, 106, 0.4); box-shadow: inset 0 0 0 14px rgba(210, 154, 106, 0.06); } /* taste-skill-ignore: requested glow / medal ring */
+.medal-photo {
+  position: relative; z-index: 1;
+  width: 100%; aspect-ratio: 1; object-fit: cover; margin-top: 24px;
+}
+.medal-photo--tkd { object-position: 50% 8%; }
+.medal-photo--sail { object-position: 50% 58%; }
+.medal-photo + .medal-what { padding-top: 24px; }
 .medal-what { margin-top: auto; padding-top: 48px; font-size: var(--step-lead); font-weight: 500; line-height: 1.2; letter-spacing: -0.015em; max-width: 18ch; }
 .medal-sport { margin-top: 10px; color: var(--field-muted); }
 
@@ -940,6 +948,24 @@ p { text-wrap: pretty; }
   margin-left: -0.05em;
 }
 .contact-legal { padding: 28px 0 32px; font-size: var(--step-small); color: var(--field-muted); }
+
+/* ==========================================================================
+   /thesis/ page
+   ========================================================================== */
+.page-thesis .masthead--page { position: relative; width: auto; background: var(--field); color: var(--field-ink); }
+.thesis-page { padding-top: clamp(24px, 4vw, 56px); }
+.back { margin-bottom: clamp(24px, 4vw, 48px); font-weight: 600; }
+.back a { padding: 8px 0; display: inline-block; }
+.thesis-page .thesis-title { font-size: var(--step-head); }
+.abstract-title { font-size: var(--step-body); font-weight: 650; }
+.abstract-title::before { content: ""; display: block; width: 48px; height: 4px; background: var(--accent); margin-bottom: 14px; }
+.abstract p { margin-top: 10px; color: var(--field-ink); line-height: 1.6; }
+.page-foot { background: var(--paper); padding: 48px 0 56px; }
+.page-foot-inner { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 32px; }
+
+/* Home thesis section, short version */
+.thesis-intro--short { display: block; max-width: 46ch; }
+.thesis-intro--short .lead { max-width: none; }
 
 /* ==========================================================================
    ENTRANCES
