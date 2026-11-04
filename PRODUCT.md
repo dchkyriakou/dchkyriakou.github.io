@@ -11,11 +11,11 @@ Inferred from the owner's written brief (no interview held; assumptions marked).
 - **Mode:** Experience / Persuade: the visitor should leave remembering the international
   research, the athletics, and the thesis, then download the CV or send an email.
 - **Source of truth:** `Dimitrios_Kyriakou_CV_2026.pdf`. No facts, numbers or roles beyond it.
-- **Section order:** hero → ticker → what I know (3D knowledge map) → research abroad → thesis
-  (gate demo + engineering decisions) → where I can contribute → athletics → ventures → skills →
-  contact.
-- **3D:** Three.js only in the hero spectrogram and the knowledge map, one shared renderer,
-  desktop only; static fallbacks for phones, reduced motion and no WebGL.
+- **Home (max ~5 screens, recruiter-first):** hero (title line, open-to line, CV / email / LinkedIn,
+  two proof chips, quiet spectrogram) → selected work (3 cards) → experience rows → beyond
+  engineering (4 tiles) → contact + what I can do. Depth lives on /thesis/.
+- **3D:** Three.js only for the hero spectrogram, desktop only; static still as fallback.
+- **Copy budget:** about 300 characters per card.
 - **Never show:** birth date, ID numbers, transcript contents, phone number.
 - **Stack:** static HTML/CSS/JS, no build step, GitHub Pages from the repo root.
 - **Visual world:** split stage with a light/dark rhythm. Cool white paper, sea-blue

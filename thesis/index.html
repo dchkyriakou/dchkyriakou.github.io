@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Thesis — Dimitrios Kyriakou</title>
+  <meta name="description" content="Diploma thesis by Dimitrios Kyriakou, graded 10/10: digital biomarkers from wrist photoplethysmography for Parkinson's disease discrimination. Interactive quality-gate demo, engineering decisions and abstract.">
+  <meta name="theme-color" content="#0c1a24">
+  <link rel="canonical" href="https://dchkyriakou.github.io/thesis/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://dchkyriakou.github.io/thesis/">
+  <meta property="og:title" content="A Parkinson's signal in the wrist pulse — thesis by Dimitrios Kyriakou">
+  <meta property="og:description" content="249.3 M wrist-PPG windows through a four-stage quality gate to 101.3 M clean; +0.30 ROC-AUC over age and sex. Graded 10/10.">
+  <meta property="og:image" content="https://dchkyriakou.github.io/assets/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="preload" href="../assets/fonts/work-sans-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../assets/css/site.css">
+  <script>document.documentElement.classList.add('js')</script>
+</head>
+<body class="page-thesis">
+  <div class="progress" aria-hidden="true"><span></span></div>
+  <a class="skip" href="#abstract">Skip to content</a>
+
+  <header class="masthead masthead--page">
+    <a class="wordmark" href="../" aria-label="D. Kyriakou, home">D. Kyriakou</a>
+    <nav aria-label="Thesis sections">
+      <ul class="nav">
+        <li><a class="hover-link" href="#abstract">Abstract</a></li>
+        <li><a class="hover-link" href="#gate">Demo</a></li>
+        <li><a class="hover-link" href="#decisions">Decisions</a></li>
+        <li><a class="hover-link" href="#earlier">Earlier research</a></li>
+        <li><a class="hover-link" href="../#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="thesis dark thesis-page" aria-labelledby="thesis-title">
+      <div class="wrap">
+        <p class="back"><a class="hover-link" href="../">← Home</a></p>
+        <h1 id="thesis-title" class="head thesis-title">A Parkinson's signal in the wrist pulse</h1>
+        <div class="thesis-intro">
+          <div>
+            <p class="lead">Digital Biomarkers from Wrist Photoplethysmography for Parkinson's Disease Discrimination Using Machine Learning. Diploma thesis, graded 10/10.</p>
+            <p class="meta">Supervisor: Prof. Leontios Hadjileontiadis · 30 ECTS · Electrical &amp; Computer Engineering, Aristotle University of Thessaloniki</p>
+            <p class="evidence-links"><a class="hover-link" href="../Dimitrios_Kyriakou_CV_2026.pdf" download>Download CV (PDF)</a><a class="hover-link" href="../assets/docs/tamu-2024-ppg-poster.pdf">Texas A&amp;M poster (PDF)</a></p>
+          </div>
+          <div class="abstract" id="abstract">
+            <h2 class="abstract-title">Abstract</h2>
+            <p>Wrist photoplethysmography (PPG) recorded in daily life is dominated by motion and poor contact. This thesis builds an end-to-end Python pipeline on free-living PPG and accelerometer data from the PPMI cohort: 344 participants with Parkinson's disease, prodromal participants and healthy controls. A four-stage signal-quality gate (motion, waveform shape, template correlation ≥ 0.70 and a post-motion buffer) reduced 249.3 million candidate 30-second windows to 101.3 million clean windows (40.64%). Twenty-seven pulse-rate-variability indices, computed at 30-second and 5-minute scales by day and night, gave 594 features per participant. Logistic regression, random forest, XGBoost and support vector machines were evaluated with participant-level nested cross-validation and Nadeau–Bengio corrected tests. Pulse-rate-variability features improved Parkinson's-versus-control ROC-AUC by 0.298 to 0.323 over age and sex in all four models (p &lt; 0.05), and the gain was stable across sensitivity analyses. No added value was shown for prodromal participants versus controls, a result reported as such.</p>
+          </div>
+        </div>
+
+        <figure class="gate" id="gate" aria-labelledby="gate-title">
+          <div class="gate-top">
+            <h3 id="gate-title" class="sub">Run the signal-quality gate</h3>
+            <p class="gate-note">Illustrative trace; figures from the thesis.</p>
+          </div>
+
+          <div class="gate-counters">
+            <div class="gate-count">
+              <p class="gate-count-num"><span data-gate="windows">249.3 M</span></p>
+              <p class="gate-count-label" data-gate="windows-label">249,275,571 candidate 30-second windows</p>
+            </div>
+            <p class="gate-trace-count" data-gate="trace-count">This trace: 10 of 10 windows kept</p>
+          </div>
+
+          <div class="gate-scope">
+            <svg class="gate-svg" viewBox="0 0 1200 220" preserveAspectRatio="none" role="img" aria-label="Illustrative PPG trace split into ten 30-second windows; windows rejected by the active stages are greyed out.">
+              <g class="gate-windows"></g>
+              <g class="gate-traces"></g>
+            </svg>
+          </div>
+
+          <ol class="gate-stages" aria-label="Gate stages">
+            <li><button type="button" class="gate-stage" data-stage-btn="motion" aria-pressed="false"><span class="gs-name">Motion</span><span class="gs-rule">Var(|a|) ≤ 0.025 g², tremor-band check</span><span class="gs-state">Off</span></button></li>
+            <li><button type="button" class="gate-stage" data-stage-btn="shape" aria-pressed="false"><span class="gs-name">Waveform shape</span><span class="gs-rule">Skewness −1.5 to 4.0, kurtosis 1.2 to 20</span><span class="gs-state">Off</span></button></li>
+            <li><button type="button" class="gate-stage" data-stage-btn="template" aria-pressed="false"><span class="gs-name">Template correlation</span><span class="gs-rule">Mean r ≥ 0.70 with the median pulse</span><span class="gs-state">Off</span></button></li>
+            <li><button type="button" class="gate-stage" data-stage-btn="buffer" aria-pressed="false"><span class="gs-name">Post-motion buffer</span><span class="gs-rule">45 s after motion</span><span class="gs-state">Off</span></button></li>
+          </ol>
+          <div class="gate-actions">
+            <button type="button" class="gate-run" data-gate-run>Run all four stages</button>
+            <button type="button" class="gate-reset hover-link" data-gate-reset>Reset</button>
+          </div>
+
+          <div class="gate-result" data-gate="result">
+            <div class="gate-result-inner">
+              <div class="gate-result-body">
+                <p class="gate-result-num">+0.30 <span>ROC-AUC over age and sex</span></p>
+                <div class="gate-result-text">
+                  <p>Parkinson's vs controls: pulse-rate-variability features improved ROC-AUC by 0.298 to 0.323 over age and sex in all four models (p &lt; 0.05), stable across sensitivity analyses.</p>
+                  <p class="gate-result-note">Prodromal vs controls: no added value shown, and reported as such (the PPMI prodromal group is heterogeneous).</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p class="visually-hidden" aria-live="polite" data-gate="live"></p>
+          <figcaption class="visually-hidden">Interactive illustration of the four-stage signal-quality gate: 249,275,571 candidate 30-second windows reduced to 101,310,466 clean windows.</figcaption>
+        </figure>
+
+        <div class="decisions" id="decisions">
+          <div class="decisions-head">
+            <h2 class="sub decisions-title">How the pipeline was built</h2>
+            <p class="decisions-lead">The choices behind each step: the problem, what I decided, and why.</p>
+            <button type="button" class="decisions-toggle hover-link" data-decisions-toggle aria-expanded="false">Expand all</button>
+          </div>
+          <div class="decision-grid">
+            <details class="decision" data-reveal>
+              <summary><span class="decision-title">Synchronisation</span><span class="decision-gist">Two sensors, two sample rates, gaps in the recording</span></summary>
+              <dl class="decision-body">
+                <div><dt>Problem</dt><dd>PPG at about 30 Hz and accelerometer at 100 Hz, recorded in daily life with gaps.</dd></div>
+                <div><dt>Decision</dt><dd>Both onto a common 30 Hz grid. A gap longer than 0.5 s starts a new segment; interpolation only inside continuous segments; filtering per segment, not per window. Local time from the recorded UTC offset, with each day anchored 07:00 to 07:00.</dd></div>
+                <div><dt>Why</dt><dd>Interpolating across a gap would invent signal, and filtering every window separately would put edge transients into every window.</dd></div>
+              </dl>
+            </details>
+
+            <details class="decision" data-reveal>
+              <summary><span class="decision-title">Windows</span><span class="decision-gist">30 s long, 15 s step</span></summary>
+              <dl class="decision-body">
+                <div><dt>Problem</dt><dd>Choosing a window long enough for pulse-rate variability, short enough to fit between movements.</dd></div>
+                <div><dt>Decision</dt><dd>30-second windows with a 15-second step.</dd></div>
+                <div><dt>Why</dt><dd>Periods of rest in daily life are short.</dd></div>
+              </dl>
+            </details>
+
+            <details class="decision" data-reveal>
+              <summary><span class="decision-title">Quality gate</span><span class="decision-gist">249,275,571 windows in, 101,310,466 out (40.64%)</span></summary>
+              <dl class="decision-body">
+                <div><dt>Problem</dt><dd>Free-living wrist PPG is dominated by motion and poor contact.</dd></div>
+                <div><dt>Decision</dt><dd><ol class="decision-steps">
+                  <li><b>Motion:</b> Var(|a|) ≤ 0.025 g²; reject when at least 10% of |a| power lies in 3.5–7.5 Hz (the Parkinsonian tremor band) and the dominant |a| and PPG frequencies are within 0.5 Hz of each other.</li>
+                  <li><b>Shape:</b> skewness in [−1.5, 4.0], kurtosis in [1.2, 20].</li>
+                  <li><b>Template:</b> mean correlation with the median pulse ≥ 0.70.</li>
+                  <li><b>Buffer:</b> 45 s after motion.</li>
+                </ol></dd></div>
+                <div><dt>Why</dt><dd>The buffer allows haemodynamic recovery after movement. The tremor rule targets the frequency band of Parkinsonian tremor specifically.</dd></div>
+                <div><dt>Result</dt><dd>40.64% of windows kept; about 55% of night windows were clean against about 13% by day.</dd></div>
+              </dl>
+            </details>
+
+            <details class="decision" data-reveal>
+              <summary><span class="decision-title">Beat detection</span><span class="decision-gist">Sub-sample timing from a 30 Hz signal</span></summary>
+              <dl class="decision-body">
+                <div><dt>Problem</dt><dd>At 30 Hz, beat timing is uncertain by ±16.65 ms.</dd></div>
+                <div><dt>Decision</dt><dd>Peaks above the 40th percentile with prominence ≥ 10% of the range, refined by parabolic 3-point interpolation. Inter-beat intervals kept within 333–2000 ms (30–180 bpm); a rolling-median filter removes intervals more than 25% from the median of 5 neighbours. A window needs ≤ 1 removal, ≥ 15 clean intervals and ≥ 14 valid pairs.</dd></div>
+                <div><dt>Why</dt><dd>Interpolating the peak recovers timing finer than the sampling grid.</dd></div>
+              </dl>
+            </details>
+
+            <details class="decision" data-reveal>
+              <summary><span class="decision-title">Features</span><span class="decision-gist">27 indices × night/day × 11 statistics = 594</span></summary>
+              <dl class="decision-body">
+                <div><dt>Problem</dt><dd>Overlapping windows are not independent samples.</dd></div>
+                <div><dt>Decision</dt><dd>6 PRV indices per 30 s window; 21 indices on reconstructed 5-minute segments (intervals to a cubic spline at 4 Hz, Welch with 64 s Hann windows, 50% overlap, detrending; LF 0.04–0.15 Hz, HF 0.15–0.40 Hz). Summarised per participant: 27 indices × night/day × 11 statistics = 594 features.</dd></div>
+                <div><dt>Why</dt><dd>The participant, not the window, is the unit of analysis.</dd></div>
+              </dl>
+            </details>
+
+            <details class="decision" data-reveal>
+              <summary><span class="decision-title">Parameters without ground truth</span><span class="decision-gist">No ECG reference to tune against</span></summary>
+              <dl class="decision-body">
+                <div><dt>Problem</dt><dd>No ECG ground truth in the free-living data.</dd></div>
+                <div><dt>Decision</dt><dd>Parameters chosen by day-to-day repeatability, ICC(3,1), on a 30-person development subset (10 per group).</dd></div>
+                <div><dt>Limitation</dt><dd>ICC measures repeatability, not accuracy, and the thesis states this.</dd></div>
+              </dl>
+            </details>
+
+            <details class="decision" data-reveal>
+              <summary><span class="decision-title">Validation</span><span class="decision-gist">Nested cross-validation, corrected tests</span></summary>
+              <dl class="decision-body">
+                <div><dt>Problem</dt><dd>A small cohort, many features, and training sets that overlap across folds.</dd></div>
+                <div><dt>Decision</dt><dd>5 outer folds stratified at participant level × 10 repeats (seeds 42–51). 3 inner folds for feature selection (drop features with more than 20% missing or zero variance, prune Spearman |ρ| &gt; 0.90, SelectKBest with k ∈ {3, 5, 10, 20}), hyperparameters and decision threshold. Balanced class weights; age and sex as a parallel baseline branch.</dd></div>
+                <div><dt>Why</dt><dd>Nadeau–Bengio corrected t-tests, because the training sets overlap.</dd></div>
+              </dl>
+            </details>
+
+            <details class="decision" data-reveal>
+              <summary><span class="decision-title">Results</span><span class="decision-gist">+0.298 to +0.323 ROC-AUC; an honest negative too</span></summary>
+              <dl class="decision-body">
+                <div><dt>Parkinson's vs controls</dt><dd>ROC-AUC +0.298 to +0.323 over age and sex in all four models (p &lt; 0.05), stable across sensitivity analyses (residualised on age and sex, correlation filters at 0.80 and 0.70, L1 selection).</dd></div>
+                <div><dt>Prodromal vs controls</dt><dd>No added value shown, reported as such (PPMI prodromal heterogeneity).</dd></div>
+                <div><dt>Most selected</dt><dd>HF in normalised units and LF/HF variability (88–94% of runs), SD1/SD2 extremes, and nocturnal entropy for the prodromal group.</dd></div>
+              </dl>
+            </details>
+          </div>
+
+          <div id="earlier">
+          <h2 class="decisions-sub">Earlier research</h2>
+          <div class="decision-grid">
+            <details class="decision" id="tamu-2024" data-reveal>
+              <summary><span class="decision-title">Texas A&amp;M 2024</span><span class="decision-gist">Which device, site and pressure gives the cleanest PPG?</span></summary>
+              <dl class="decision-body">
+                <div><dt>Setup</dt><dd>Two devices, MAX86173 and MAXM86161, at chest, forehead and finger, at contact pressures of 15, 50 and 90 mmHg.</dd></div>
+                <div><dt>Measures</dt><dd>Signal quality by perfusion index; SpO2 from the empirical SpO2 = 110 − 25·R, compared against a Masimo oximeter.</dd></div>
+                <div><dt>Evidence</dt><dd><a class="hover-link" href="../assets/docs/tamu-2024-ppg-poster.pdf">Research poster (PDF)</a></dd></div>
+              </dl>
+            </details>
+            <details class="decision" id="fudan-2025" data-reveal>
+              <summary><span class="decision-title">Fudan 2025</span><span class="decision-gist">Neural signals, DBS and closed-loop design</span></summary>
+              <dl class="decision-body">
+                <div><dt>Acquisition</dt><dd>Sampling and Nyquist; FIR and IIR filtering; 50/60 Hz line noise and EMG/EOG artifacts.</dd></div>
+                <div><dt>Analysis</dt><dd>Coherence and phase-locking value; entropy (ApEn); Welch PSD, spectrograms and FOOOF on clinical LFP.</dd></div>
+                <div><dt>Stimulation</dt><dd>130 Hz DBS artifact removal; a closed-loop in-vitro rig (host PC, MCU, recorder, stimulator, saline bath) with charge-balanced biphasic stimulation.</dd></div>
+              </dl>
+            </details>
+          </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-foot">
+    <div class="wrap page-foot-inner">
+      <a class="button" href="../Dimitrios_Kyriakou_CV_2026.pdf" download><span class="button-label"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2.5v9m0 0-3.75-3.75M9 11.5l3.75-3.75M3 15.5h12" stroke="currentColor" stroke-width="1.75" stroke-linecap="square"/></svg>Download CV</span></a>
+      <a class="hover-link" href="mailto:dchkyriakou@gmail.com">dchkyriakou@gmail.com</a>
+      <a class="hover-link" href="../">Back to home</a>
+    </div>
+  </footer>
+
+  <script src="../assets/js/site.js" defer></script>
+  <script src="../assets/js/gate.js" defer></script>
+</body>
+</html>
