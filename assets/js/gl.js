@@ -305,33 +305,33 @@ function createKnowledgeMap(root) {
   function renderPanel() {
     if (!selection) {
       const graded = nodes.filter((n) => n.grade && parseFloat(n.grade) >= 9.5).length;
-      panel.innerHTML = `<p class="km-panel-kicker">${domains.length} domains · ${nodes.filter((n) => n.kind === 'course').length} courses · ${projects.length} projects</p>
-        <h3 class="km-panel-title">Pick a domain or a point</h3>
+      panel.innerHTML = `<h3 class="km-panel-title">Pick a domain or a point</h3>
+        <p class="km-panel-meta">${domains.length} domains · ${nodes.filter((n) => n.kind === 'course').length} courses · ${projects.length} projects</p>
         <p class="km-panel-text">Orange points are projects; their lines run to the courses they drew on. Brighter points are courses graded 9.5 or higher (${graded} of them).</p>`;
       return;
     }
     if (selection.type === 'domain') {
       const d = domains.find((x) => x.id === selection.id);
       const ps = projects.filter((p) => p.domain === d.id || p.uses.some((u) => byId[u] && byId[u].domain === d.id));
-      panel.innerHTML = `<p class="km-panel-kicker">Domain</p>
-        <h3 class="km-panel-title">${d.label}</h3>
+      panel.innerHTML = `<h3 class="km-panel-title">${d.label}</h3>
+        <p class="km-panel-meta">Domain</p>
         <ul class="km-panel-list">${d.courses.map((c) => `<li>${btn('node', c.id, c.label)}<span class="km-grade">${c.grade || ''}</span></li>`).join('')}</ul>
         ${ps.length ? `<p class="km-panel-sub">Used in</p><ul class="km-panel-list">${ps.map((p) => `<li>${btn('node', p.id, p.label)}</li>`).join('')}</ul>` : ''}`;
     } else {
       const n = byId[selection.id];
       if (n.kind === 'project') {
         const p = n.project;
-        panel.innerHTML = `<p class="km-panel-kicker">Project</p>
-          <h3 class="km-panel-title">${p.label}</h3>
+        panel.innerHTML = `<h3 class="km-panel-title">${p.label}</h3>
+          <p class="km-panel-meta">Project</p>
           <p class="km-panel-text">${p.evidence}</p>
           <p class="km-panel-sub">Drew on</p>
           <ul class="km-panel-list">${p.uses.map((u) => `<li>${btn('node', u, byId[u].label)}<span class="km-grade">${byId[u].grade || ''}</span></li>`).join('')}</ul>
-          <p><a class="km-go hover-link" href="${p.href}">Read more</a></p>`;
+          <p><a class="km-go hover-link" href="${p.href}">Read about ${p.label}</a></p>`;
       } else {
         const d = domains.find((x) => x.id === n.domain);
         const ps = projects.filter((p) => p.uses.includes(n.id));
-        panel.innerHTML = `<p class="km-panel-kicker">Course · ${btn('domain', d.id, d.label)}</p>
-          <h3 class="km-panel-title">${n.label}</h3>
+        panel.innerHTML = `<h3 class="km-panel-title">${n.label}</h3>
+          <p class="km-panel-meta">Course · ${btn('domain', d.id, d.label)}</p>
           <p class="km-panel-grade">${gradeText(n.grade)}</p>
           ${ps.length ? `<p class="km-panel-sub">Used in</p><ul class="km-panel-list">${ps.map((p) => `<li>${btn('node', p.id, p.label)}</li>`).join('')}</ul>` : ''}`;
       }
