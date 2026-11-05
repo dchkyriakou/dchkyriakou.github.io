@@ -89,7 +89,7 @@ DOMAINS = [
 
 PROJECTS = [
     ("thesis", "Diploma thesis", "bio", "#thesis",
-     "Wrist-PPG biomarkers for Parkinson's, graded 10/10: 249.3 M candidate windows through a four-stage quality gate to 101.3 M clean, 594 features per participant, +0.30 ROC-AUC over age and sex in all four models."),
+     "Wrist-PPG biomarkers for Parkinson's: 249.3 M candidate windows through a four-stage quality gate to 101.3 M clean, 594 features per participant, +0.30 ROC-AUC over age and sex in all four models."),
     ("tamu", "Texas A&M optical biosensing", "bio", "#p-tamu",
      "IRB-approved human-subjects study (2024): two PPG devices at chest, forehead and finger, three contact pressures, validated against a Masimo oximeter; first-author poster."),
     ("fudan", "Fudan neural signals & DBS", "bio", "#p-grips",

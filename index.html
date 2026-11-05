@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Dimitrios Kyriakou — Electrical &amp; Computer Engineer</title>
-  <meta name="description" content="Electrical & Computer Engineer (AUTh, 2026), drawn to biomedical engineering, with a foundation in signals, machine learning, electronics and energy. Research at Fudan University (China) and Texas A&M University (USA). Diploma thesis graded 10/10.">
+  <meta name="description" content="Electrical & Computer Engineer (AUTh, 2026), drawn to biomedical engineering, with a foundation in signals, machine learning, electronics and energy. Research at Fudan University (China) and Texas A&M University (USA).">
   <meta name="theme-color" content="#0c1a24">
   <link rel="canonical" href="https://dchkyriakou.github.io/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dchkyriakou.github.io/">
   <meta property="og:title" content="Dimitrios Kyriakou — Electrical & Computer Engineer, drawn to biomedical engineering">
-  <meta property="og:description" content="Signals, machine learning, electronics and energy, put to work in research at Fudan University and Texas A&M. Wrist-PPG thesis graded 10/10. European bronze medallist in Taekwon-Do.">
+  <meta property="og:description" content="Signals, machine learning, electronics and energy, put to work in research at Fudan University and Texas A&M. Wrist-PPG thesis on Parkinson's. European bronze medallist in Taekwon-Do.">
   <meta property="og:image" content="https://dchkyriakou.github.io/assets/img/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -50,7 +50,7 @@
           <span class="mask"><span class="mask-in heavy">Dimitrios</span></span>
           <span class="mask"><span class="mask-in light">Kyriakou</span></span>
         </h1>
-        <p class="hero-lead">Electrical &amp; computer engineer who turns raw body signals into hard evidence, from a 10/10 thesis to research labs in Shanghai and Texas.</p>
+        <p class="hero-lead">Electrical &amp; computer engineer who turns raw body signals into hard evidence, from Parkinson's research on wrist-worn sensors to labs in Shanghai and Texas.</p>
         <p class="hero-open">Next: medtech, signal processing or ML, wherever the hardest problems are. Based in Thessaloniki, ready to move.</p>
         <div class="hero-actions intro-fade">
           <a class="button magnetic" href="Dimitrios_Kyriakou_CV_2026.pdf" download>
@@ -82,23 +82,26 @@
     <!-- ============ THESIS ============ -->
     <section id="thesis" class="thesis dark" aria-labelledby="thesis-title">
       <div class="wrap">
-        <h2 id="thesis-title" class="head thesis-title" data-reveal>A Parkinson's signal in the wrist pulse</h2>
+        <h2 id="thesis-title" class="head thesis-title" data-reveal>Finding a heartbeat in the noise of daily life</h2>
         <div class="thesis-chapter">
           <div class="program" data-reveal-group>
-            <h3 class="sub" data-reveal>Diploma thesis, graded 10/10</h3>
-            <p class="meta" data-reveal>Aristotle University of Thessaloniki · Supervisor: Prof. Leontios Hadjileontiadis</p>
-            <p data-reveal>Free-living wrist PPG and accelerometer data from 344 participants of the PPMI cohort: Parkinson's, prodromal and healthy controls.</p>
-            <p data-reveal>I built the end-to-end Python pipeline: a four-stage quality gate cut 249.3 M candidate windows to 101.3 M clean ones, then 594 pulse-rate-variability features per participant fed four models under nested cross-validation.</p>
-            <p class="callout" data-reveal>+0.30 ROC-AUC over age and sex for Parkinson's vs controls, in all four models (p &lt; 0.05).</p>
-            <p class="meta" data-reveal>Prodromal vs controls: no added value shown, and reported as such.</p>
-            <p class="evidence-links" data-reveal><a class="hover-link" href="thesis/">Read the full thesis write-up</a></p>
+            <p class="lead thesis-intro-text" data-reveal>A wrist-worn sensor records your pulse all day, while you walk, type, sleep or shake. For my diploma thesis I asked whether that messy signal can tell people with Parkinson's apart from healthy people. Getting the answer taught me more than the answer itself.</p>
+            <h3 class="sub lessons-title" data-reveal>What it taught me</h3>
+            <ul class="lessons">
+              <li data-reveal><b>Most real-world data is noise. Deciding what to throw away matters more than the model.</b> My four-stage filter rejected about 59% of 249 million signal windows on purpose, and every rule had to be defensible.</li>
+              <li data-reveal><b>No ground truth? Define one you can defend.</b> With no ECG to compare against, I tuned the pipeline on how repeatable each person's values were from day to day.</li>
+              <li data-reveal><b>Honest validation beats a pretty number.</b> Every model was tested only on people it had never seen, with statistics that don't flatter overlapping folds.</li>
+              <li data-reveal><b>A negative result is still a result.</b> The signal clearly separates diagnosed Parkinson's (+0.30 ROC-AUC over age and sex) and shows nothing yet for the prodromal stage. I reported both.</li>
+            </ul>
+            <p class="evidence-links" data-reveal><a class="hover-link" href="thesis/">The full story, with the interactive filter <span aria-hidden="true">→</span></a></p>
           </div>
-          <template data-figure-slot="thesis-delta-auc">
-            <figure class="thesis-figure" data-reveal>
-              <img src="assets/img/thesis-delta-auc-1600.webp" srcset="assets/img/thesis-delta-auc-900.webp 900w, assets/img/thesis-delta-auc-1600.webp 1600w" sizes="(min-width: 900px) 46vw, 100vw" width="1600" height="1000" loading="lazy" alt="Added value of wrist PRV features over age and sex for four models, with 95% confidence intervals.">
-              <figcaption>Added value of wrist PRV features over age + sex, 4 models, 95% CI</figcaption>
-            </figure>
-          </template>
+          <figure class="thesis-figure beats" data-beats data-reveal>
+            <div class="beats-frame">
+              <svg class="beats-svg" viewBox="0 0 640 240" role="img" aria-label="Illustration: a noisy grey wrist signal is scanned and turned into clean orange pulses, with each detected beat marked."></svg>
+              <p class="beats-count" aria-hidden="true">beats found: <span data-beats-count>0</span></p>
+            </div>
+            <figcaption>Illustrative: raw wrist signal in, clean beats out.</figcaption>
+          </figure>
         </div>
       </div>
     </section>
@@ -147,18 +150,20 @@
             <div data-reveal-group>
               <h3 id="p-grips" class="sub" data-reveal>Fudan University, Shanghai</h3>
               <p class="meta" data-reveal>GRIPS 2025 Research Intern · Summer 2025</p>
-              <p data-reveal data-stage="poster">Selected for the Global Research Immersion Program for Young Scientists, with a recommendation from Prof. Gerard L. Coté (Texas A&amp;M). I worked at the Neural and Intelligent Engineering Centre, ISTBI, under Prof. Shouyan Wang, Vice Dean of the institute.</p>
+              <p data-reveal data-stage="poster">Prof. Gerard L. Coté (Texas A&amp;M) recommended me for the Global Research Immersion Program for Young Scientists, and I was selected.</p>
+              <p data-reveal>I joined the Neural and Intelligent Engineering Centre at ISTBI, under Prof. Shouyan Wang, Vice Dean of the institute.</p>
             </div>
             <figure class="inline-figure" data-reveal>
               <img src="assets/img/grips-poster-720.webp" width="720" height="960" loading="lazy" alt="Dimitrios beside the team's GRIPS Summer 2025 poster, “Neural Signal Processing: From Theory to Application in Parkinson's Disease”, holding a certificate of completion.">
               <figcaption>With our team's poster, GRIPS Summer 2025.</figcaption>
             </figure>
             <div class="program-step" data-reveal-group>
-              <p data-reveal>In a five-person international team, we analysed clinical local field potential (LFP) recordings from a Parkinson's patient, with deep brain stimulation off and on.</p>
-              <p data-reveal>I built the Python pipeline: beta oscillations (13–30 Hz) via Welch PSD, spectrograms and FOOOF, and 130 Hz DBS artifacts removed with a predict–blank–interpolate method.</p>
+              <p data-reveal>We were a five-person team from different countries, working on clinical local field potential (LFP) recordings from a Parkinson's patient, with deep brain stimulation off and on.</p>
+              <p data-reveal>I built the Python pipeline that followed the beta oscillations (13–30 Hz) through Welch PSD, spectrograms and FOOOF.</p>
+              <p data-reveal>Stimulation leaves its own fingerprint on the recording. I removed the 130 Hz DBS artifacts with a predict–blank–interpolate method, so what remained was the brain.</p>
             </div>
             <div class="gained" data-reveal-group>
-              <p class="gained-text" data-reveal><strong>What I gained:</strong> Neural signal processing (time-frequency, connectivity, entropy), closed-loop neuromodulation system design, and research in a multinational team.</p>
+              <p class="gained-text" data-reveal><strong>What I gained:</strong> I learned to read neural signals in time and frequency, to think of neuromodulation as a closed loop, and to do research in a team from many countries.</p>
             </div>
           </article>
 
@@ -171,8 +176,11 @@
             <div data-reveal-group>
               <h3 id="p-tamu" class="sub" data-reveal>Texas A&amp;M University, College Station</h3>
               <p class="meta" data-reveal>Undergraduate Research Intern, Optical Biosensing Laboratory · Summer 2024</p>
-              <p data-reveal data-stage="tamu-poster">Paired with a PhD student in Prof. Gerard L. Coté's lab (Center for Remote Health Technologies and Systems) on wearable multiwavelength optical sensors.</p>
-              <p data-reveal>I ran an IRB-approved human-subjects study: two PPG devices at chest, forehead and finger, at three contact pressures, validated against a Masimo oximeter. I wrote the Python processing and visualisation (perfusion-index heatmaps, 3D comparisons) and presented the work as first author of a research poster.</p>
+              <p data-reveal data-stage="tamu-poster">I worked alongside a PhD student in Prof. Gerard L. Coté's lab, part of the Center for Remote Health Technologies and Systems, on wearable multiwavelength optical sensors.</p>
+              <p data-reveal>I ran an IRB-approved human-subjects study around one practical question: where on the body, and how firmly pressed, does a PPG sensor give a signal you can trust?</p>
+              <p data-reveal>We put two PPG devices at chest, forehead and finger, and checked them against a Masimo oximeter.</p>
+              <p data-reveal>We also varied how firmly the sensors pressed, across three contact pressures.</p>
+              <p data-reveal>I wrote the Python processing and visualisation, from perfusion-index heatmaps to 3D comparisons, and presented the work as first author of a research poster.</p>
             </div>
             <figure class="inline-figure" data-reveal>
               <img src="assets/img/tamu-poster-800.webp" width="800" height="600" loading="lazy" alt="Dimitrios explaining his research poster on PPG sensor signal quality to a visitor.">
@@ -183,7 +191,7 @@
               <p>Prof. Coté's recommendation letter says I stood out “compared to other students at his educational level”.</p>
             </blockquote>
             <div class="gained" data-reveal-group>
-              <p class="gained-text" data-reveal><strong>What I gained:</strong> Clinical study protocols and sensor validation.</p>
+              <p class="gained-text" data-reveal><strong>What I gained:</strong> I saw how a clinical study protocol works from the inside, and learned how to show that a sensor reads true.</p>
             </div>
           </article>
 
@@ -196,19 +204,21 @@
             <div data-reveal-group>
               <h3 id="p-iftp" class="sub" data-reveal>Invent for the Planet 2022</h3>
               <p class="meta" data-reveal>Texas A&amp;M University · March – April 2022</p>
-              <p data-reveal>A 48-hour global design competition: build a working prototype and pitch it to judges. Our team, BIO-thess (AUTh), was chosen as a top finalist and flown to College Station, Texas, for the live final, with travel funded by Texas A&amp;M.</p>
+              <p data-reveal>A global design competition with 48 hours to build a working prototype and pitch it to judges.</p>
+              <p data-reveal>Our team, BIO-thess (AUTh), was chosen as a top finalist. Texas A&amp;M funded our travel to College Station, Texas, for the live final.</p>
             </div>
-            <p class="callout" data-stage="pitch" data-reveal>People's Choice award among 25 teams, with a $1,000 team prize, for “Energy from Home to Home”: an anaerobic digester turning household organic waste into gas for building heating.</p>
+            <p class="callout" data-stage="pitch" data-reveal>We won the People's Choice award among 25 teams with “Energy from Home to Home”: an anaerobic digester that turns household organic waste into gas for heating buildings.</p>
+            <p class="meta" data-reveal>The team prize: $1,000.</p>
             <figure class="inline-figure" data-reveal>
               <img src="assets/img/iftp-team-800.webp" width="800" height="600" loading="lazy" alt="Dimitrios and a BIO-thess teammate laughing in two armchairs.">
               <figcaption>With a BIO-thess teammate, Invent for the Planet 2022.</figcaption>
             </figure>
             <div class="gained" data-reveal-group>
-              <p class="gained-text" data-reveal><strong>What I gained:</strong> Rapid engineering design, prototyping and pitching to an international jury.</p>
+              <p class="gained-text" data-reveal><strong>What I gained:</strong> I learned to design fast, prototype against a deadline and pitch to an international jury.</p>
             </div>
           </article>
 
-          <p class="aside" data-reveal>Also: mentor at Junior Achievement Europe's Foodathon 2023 (16 October – 10 November 2023), as a volunteer.</p>
+          <p class="aside" data-reveal>I also volunteered as a mentor at Junior Achievement Europe's Foodathon 2023 (16 October – 10 November 2023).</p>
         </div>
 
         <aside class="stage" aria-label="Photographs from the programs">
@@ -415,7 +425,7 @@
     <p class="km-used">Shown in: <a href="#ventures">ART.IO (founder)</a>, <a href="#ventures">Elysium Retreat</a></p>
   </details>
   <ul class="km-projects-data" hidden>
-    <li data-id="thesis" data-domain="bio" data-href="#thesis" data-label="Diploma thesis">Wrist-PPG biomarkers for Parkinson&#x27;s, graded 10/10: 249.3 M candidate windows through a four-stage quality gate to 101.3 M clean, 594 features per participant, +0.30 ROC-AUC over age and sex in all four models.</li>
+    <li data-id="thesis" data-domain="bio" data-href="#thesis" data-label="Diploma thesis">Wrist-PPG biomarkers for Parkinson&#x27;s: 249.3 M candidate windows through a four-stage quality gate to 101.3 M clean, 594 features per participant, +0.30 ROC-AUC over age and sex in all four models.</li>
     <li data-id="tamu" data-domain="bio" data-href="#p-tamu" data-label="Texas A&amp;M optical biosensing">IRB-approved human-subjects study (2024): two PPG devices at chest, forehead and finger, three contact pressures, validated against a Masimo oximeter; first-author poster.</li>
     <li data-id="fudan" data-domain="bio" data-href="#p-grips" data-label="Fudan neural signals &amp; DBS">GRIPS 2025: Python pipeline for clinical LFP recordings (Welch PSD, spectrograms, FOOOF) and 130 Hz DBS artifact removal; closed-loop neuromodulation system design.</li>
     <li data-id="iftp" data-domain="energy" data-href="#p-iftp" data-label="Invent for the Planet 2022">People&#x27;s Choice among 25 teams: an anaerobic digester turning household organic waste into gas for building heating.</li>
@@ -433,15 +443,15 @@
       <div class="wrap">
         <div class="roles-head" data-reveal-group>
           <h2 id="roles-title" class="head" data-reveal>Three roles that fit my evidence</h2>
-          <p class="lead" data-reveal>The next role may not be my thesis topic. Each path below links to its evidence on this page.</p>
+          <p class="lead" data-reveal>My next job doesn't have to be my thesis topic. Here are three directions I'm ready for, each linked to its proof on this page.</p>
         </div>
         <ol class="role-list">
           <li class="role" data-reveal>
             <h3 class="role-title">Medtech &amp; wearable signals</h3>
             <p class="role-scope">Signal engineering for medical devices and wearables</p>
             <ul class="role-evidence">
-              <li>A wrist-PPG pipeline from raw free-living data to features: <a href="#thesis">the thesis</a>.</li>
-              <li>PPG devices compared across body sites against a clinical oximeter: <a href="assets/docs/tamu-2024-ppg-poster.pdf">poster (PDF)</a>.</li>
+              <li>I've taken wrist-PPG data from raw, real-life recordings all the way to features (<a href="#thesis">the thesis</a>).</li>
+              <li>I've compared PPG devices across body sites against a clinical oximeter (<a href="assets/docs/tamu-2024-ppg-poster.pdf">poster, PDF</a>).</li>
               <li>Biomedical Technology 10, Measurement Systems 10.</li>
             </ul>
             <p class="role-map">In the map: <a href="#capabilities" data-km-select="bio">Biomedical engineering</a> <a href="#capabilities" data-km-select="signals">Signal processing</a></p>
@@ -450,8 +460,8 @@
             <h3 class="role-title">ML on time-series data</h3>
             <p class="role-scope">Health, energy, telecom or finance</p>
             <ul class="role-evidence">
-              <li>Participant-level nested cross-validation with corrected tests, and a negative result reported as such: <a href="thesis/#decisions">decisions</a>.</li>
-              <li>Spectral features from PPG and LFP time series: <a href="#p-grips">Fudan</a>.</li>
+              <li>I test models only on people they have never seen, correct the statistics for it, and report negative results too (<a href="thesis/#decisions">the decisions</a>).</li>
+              <li>I've pulled spectral features out of PPG and LFP time series (<a href="#p-grips">Fudan</a>).</li>
               <li>Neural Networks &amp; Deep Learning 9.6, Computational Intelligence 9.5, Data Analysis 10.</li>
             </ul>
             <p class="role-map">In the map: <a href="#capabilities" data-km-select="ml">Machine learning &amp; statistics</a> <a href="#capabilities" data-km-select="signals">Signal processing</a></p>
@@ -460,8 +470,8 @@
             <h3 class="role-title">Sensors, measurement &amp; test</h3>
             <p class="role-scope">Hardware validation</p>
             <ul class="role-evidence">
-              <li>Two optical sensors, three body sites, three contact pressures; perfusion index and SpO2 against a Masimo reference: <a href="#p-tamu">Texas A&amp;M</a>.</li>
-              <li>Closed-loop neuromodulation system design: <a href="#p-grips">Fudan</a>.</li>
+              <li>I've validated two optical sensors across body sites and contact pressures, checking perfusion index and SpO2 against a Masimo reference (<a href="#p-tamu">Texas A&amp;M</a>).</li>
+              <li>I've worked through the design of a closed-loop neuromodulation system (<a href="#p-grips">Fudan</a>).</li>
               <li>Measurement Systems 10, Electronics II 10.</li>
             </ul>
             <p class="role-map">In the map: <a href="#capabilities" data-km-select="electronics">Electronics &amp; measurement</a> <a href="#capabilities" data-km-select="control">Control</a></p>
@@ -537,14 +547,16 @@
             <figure class="vent-shot" hidden><!-- screenshot slot: ART.IO --></figure>
             <h3 class="vent-name">ART.IO</h3>
             <p class="vent-role">Founder</p>
-            <p class="vent-desc">Interactive 3D walkthroughs with a dollhouse view for real estate, hospitality, event venues and yachting. I built the product and its website.</p>
+            <p class="vent-desc">ART.IO lets you walk through a space in 3D, with a dollhouse view, for real estate, hospitality, event venues and yachting.</p>
+            <p class="vent-desc">I built the product and its website myself.</p>
             <a class="vent-link hover-link" href="https://artio3d.github.io/artio-website-new/" rel="noopener" target="_blank" aria-label="Visit site: ART.IO (opens in a new tab)">Visit site <span aria-hidden="true">↗</span></a>
           </li>
           <li class="vent-card" data-reveal>
             <figure class="vent-shot" hidden><!-- screenshot slot: Elysium Retreat --></figure>
             <h3 class="vent-name">Elysium Retreat</h3>
             <p class="vent-role">Owner, since 2022</p>
-            <p class="vent-desc">Boutique short-term rental in central Thessaloniki. I designed and built its website and run guest operations.</p>
+            <p class="vent-desc">A boutique short-term rental in central Thessaloniki, which I own and run.</p>
+            <p class="vent-desc">I designed and built its website, and I handle the guests and day-to-day operations.</p>
             <a class="vent-link hover-link" href="https://elysiumretreat.gr/" rel="noopener" target="_blank" aria-label="Visit site: Elysium Retreat (opens in a new tab)">Visit site <span aria-hidden="true">↗</span></a>
           </li>
         </ul>
@@ -557,7 +569,7 @@
     <div class="contact-inner wrap">
       <div class="contact-main" data-reveal-group>
         <h2 id="contact-title" class="head" data-reveal>Hiring in medtech, signals or ML?</h2>
-        <p class="lead" data-reveal>For roles, research collaborations, or Prof. Coté's reference letter, which is available on request, write to me.</p>
+        <p class="lead" data-reveal>Tell me what you're building. I'm open to roles and research collaborations, and Prof. Coté's reference letter is available on request.</p>
         <p class="contact-mail" data-reveal><a class="hover-link" href="mailto:dchkyriakou@gmail.com">dchkyriakou@gmail.com</a></p>
         <div class="contact-actions" data-reveal>
           <a class="button magnetic" href="Dimitrios_Kyriakou_CV_2026.pdf" download>
@@ -581,5 +593,6 @@
   </a>
 
   <script src="assets/js/site.js" defer></script>
+  <script src="assets/js/beats.js" defer></script>
 </body>
 </html>
