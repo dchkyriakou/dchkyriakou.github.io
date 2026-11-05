@@ -178,8 +178,16 @@ p { text-wrap: pretty; }
 .hero-actions .text-link { padding: 10px 0; }
 .hero-meta { margin-top: 28px; font-size: var(--step-small); color: var(--muted); max-width: 44ch; }
 
-.hero-portrait { order: -1; position: relative; overflow: hidden; margin: 0 var(--gutter); aspect-ratio: 4 / 3.4; max-height: 31svh; background: var(--field); }
-.hero-portrait-inner { position: absolute; inset: -6% 0; transform: translate3d(0, var(--parallax, 0px), 0); }
+.hero-portrait {
+  order: -1; position: relative; overflow: hidden; background: var(--field);
+  margin: 0 var(--pad); align-self: flex-start;
+  aspect-ratio: 1; height: min(36svh, 420px, calc(100vw - 2 * var(--pad))); width: auto; max-width: calc(100% - 2 * var(--pad));
+}
+@media (max-width: 899px) {
+  .hero-portrait-inner { inset: 0; transform: none; }
+  .hero-portrait img { object-position: 50% 50%; }
+}
+.hero-portrait-inner { position: absolute; inset: -3% 0; transform: translate3d(0, min(var(--parallax, 0px), 2.6%), 0); }
 .hero-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 38%; transform: scale(var(--settle, 1)); }
 .duo { position: absolute; inset: 0; pointer-events: none; }
 .duo-shadow { background: #10314a; mix-blend-mode: lighten; }
@@ -586,78 +594,6 @@ p { text-wrap: pretty; }
 @keyframes settle { from { transform: translate3d(0, 8%, 0) scale(1.08); } to { transform: none; } }
 
 /* ==========================================================================
-   ATHLETICS
-   ========================================================================== */
-.athletics { padding: var(--section-gap) 0; }
-.athletics-head { display: grid; gap: 24px; margin-bottom: clamp(48px, 6vw, 96px); }
-.athletics-head .lead { max-width: 36ch; }
-@media (min-width: 900px) {
-  .athletics-head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; gap: 48px; }
-}
-.medals { display: grid; gap: 32px; perspective: 1100px; }
-@media (min-width: 900px) { .medals { gap: var(--gutter); } }
-@media (min-width: 900px) { .medals { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-.medal { --rx: 0deg; --ry: 0deg; --gx: 50%; --gy: 0%; display: flex; }
-.medal > .medal-face { flex: 1; }
-.medal-face {
-  position: relative;
-  display: flex; flex-direction: column;
-  min-height: clamp(320px, 34vw, 520px);
-  padding: clamp(26px, 2.6vw, 40px);
-  background: var(--field-2);
-  overflow: hidden;
-  transform: rotateX(var(--rx)) rotateY(var(--ry));
-  transition: transform 600ms var(--ease-out);
-}
-.medal.is-tilting .medal-face { transition: transform 120ms linear; }
-.medal-face::before {
-  content: "";
-  position: absolute; right: -18%; top: -14%;
-  width: 62%; aspect-ratio: 1;
-  border-radius: 50%;
-  border: 2px solid rgba(238, 242, 244, 0.12);
-  box-shadow: inset 0 0 0 14px rgba(238, 242, 244, 0.03); /* taste-skill-ignore: requested glow / medal ring */
-}
-.medal-face::after {
-  content: "";
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at var(--gx) var(--gy), rgba(255, 255, 255, 0.13), transparent 46%); /* taste-skill-ignore: requested medal sheen that follows the pointer */
-  opacity: 0; transition: opacity 300ms ease;
-  pointer-events: none;
-}
-.medal.is-tilting .medal-face::after { opacity: 1; }
-.medal-num {
-  font-size: var(--step-display);
-  font-weight: 820; line-height: 0.85; letter-spacing: -0.05em;
-  color: var(--field-ink);
-}
-.medal--bronze .medal-num { color: var(--bronze); }
-.medal--bronze .medal-face::before { border-color: rgba(210, 154, 106, 0.4); box-shadow: inset 0 0 0 14px rgba(210, 154, 106, 0.06); } /* taste-skill-ignore: requested glow / medal ring */
-.medal-photo {
-  position: relative; z-index: 1;
-  width: 100%; aspect-ratio: 3 / 2; object-fit: cover; margin-top: 24px;
-}
-.medal-photo--tkd { object-position: 50% 12%; }
-.medal-photo--sail { object-position: 50% 50%; }
-@media (min-width: 900px) { .medals--two { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.champ-line {
-  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 20px;
-  margin-top: var(--gutter); padding: clamp(20px, 2.4vw, 32px) clamp(26px, 2.6vw, 40px);
-  background: var(--field-2);
-}
-.champ-num { font-size: var(--step-title); font-weight: 820; letter-spacing: -0.04em; line-height: 1; }
-.champ-what { font-size: var(--step-lead); font-weight: 500; letter-spacing: -0.015em; }
-.champ-sport { color: var(--field-muted); }
-.medal-photo + .medal-what { padding-top: 24px; }
-.medal-what { margin-top: auto; padding-top: 48px; font-size: var(--step-lead); font-weight: 500; line-height: 1.2; letter-spacing: -0.015em; max-width: 18ch; }
-.medal-sport { margin-top: 10px; color: var(--field-muted); }
-
-.distinctions { display: grid; gap: 48px; margin-top: clamp(48px, 6vw, 88px); }
-@media (min-width: 900px) { .distinctions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-.distinctions li { display: grid; gap: 6px; color: var(--field-muted); }
-.distinctions b { font-size: var(--step-head); font-weight: 300; line-height: 1; letter-spacing: -0.035em; color: var(--field-ink); }
-
-/* ==========================================================================
    THESIS + GATE
    ========================================================================== */
 .thesis { padding: var(--section-gap) 0; }
@@ -876,51 +812,6 @@ p { text-wrap: pretty; }
 .roles .grades { margin-top: 0 !important; }
 
 /* ==========================================================================
-   VENTURES
-   ========================================================================== */
-.ventures { padding: var(--section-gap) 0; }
-.ventures-head { display: grid; gap: 24px; margin-bottom: clamp(48px, 6vw, 88px); }
-.ventures-head .lead { max-width: 36ch; }
-@media (min-width: 900px) { .ventures-head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; gap: 48px; } }
-.ventures-list { display: grid; gap: var(--gutter); margin-top: clamp(48px, 6vw, 88px); }
-.venture-link {
-  position: relative; isolation: isolate;
-  display: grid; gap: 14px 40px;
-  padding: clamp(24px, 3vw, 48px);
-  background: var(--field-2); color: var(--field-ink);
-  text-decoration: none;
-  overflow: hidden;
-}
-.venture-link::before {
-  content: ""; position: absolute; inset: 0; z-index: -1;
-  background: var(--field-3);
-  transform: scaleY(0); transform-origin: bottom;
-  transition: transform 520ms var(--ease-out);
-}
-.venture-link:hover::before, .venture-link:focus-visible::before { transform: scaleY(1); }
-.venture-name {
-  font-size: var(--step-display);
-  font-weight: 820; line-height: 0.9; letter-spacing: -0.045em;
-  transition: transform 520ms var(--ease-out);
-}
-.venture-link:hover .venture-name { transform: translateX(14px); }
-.venture-role { font-weight: 600; }
-.venture-desc { color: var(--field-muted); max-width: 52ch; }
-.venture-go {
-  width: 56px; height: 56px; display: grid; place-items: center;
-  background: var(--paper); color: var(--ink);
-  transition: transform 520ms var(--ease-out), background-color 300ms ease, color 300ms ease;
-}
-.venture-link:hover .venture-go, .venture-link:focus-visible .venture-go { transform: rotate(45deg); background: var(--accent); color: var(--accent-ink); }
-@media (min-width: 900px) {
-  .venture-link { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr) auto; align-items: end; }
-  .venture-name { grid-row: 1 / span 2; align-self: end; }
-  .venture-role { grid-column: 2; grid-row: 1; align-self: end; }
-  .venture-desc { grid-column: 2; grid-row: 2; }
-  .venture-go { grid-column: 3; grid-row: 1 / span 2; align-self: end; }
-}
-
-/* ==========================================================================
    SKILLS
    ========================================================================== */
 .skills { padding: var(--section-gap) 0; background: var(--surface); }
@@ -942,12 +833,6 @@ p { text-wrap: pretty; }
    CONTACT / FOOTER
    ========================================================================== */
 .contact { position: relative; overflow: hidden; isolation: isolate; padding-top: var(--section-gap); }
-.contact-bg {
-  position: absolute; inset: 0; z-index: -1;
-  width: 100%; height: 100%; object-fit: cover;
-  filter: grayscale(1) brightness(0.17) contrast(1.15);
-  object-position: 50% 30%;
-}
 .contact-main { max-width: 52rem; }
 .contact-main .lead { margin-top: 24px; max-width: 40ch; color: var(--field-muted); }
 .contact-mail { margin-top: 40px; font-size: var(--step-title); font-weight: 600; letter-spacing: -0.03em; line-height: 1.1; overflow-wrap: anywhere; }
@@ -990,6 +875,60 @@ p { text-wrap: pretty; }
 }
 
 /* ==========================================================================
+   SPORT (dark) + SIDE VENTURES (light)
+   ========================================================================== */
+.sport { padding: var(--section-gap) 0; }
+.block-head { display: grid; gap: 20px; margin-bottom: clamp(32px, 4vw, 56px); }
+.block-head .lead { max-width: 44ch; }
+@media (min-width: 900px) { .block-head { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; gap: 48px; } }
+
+.photo-cards { display: grid; gap: var(--gutter); }
+@media (min-width: 768px) { .photo-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.photo-card figure { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #000; }
+.photo-card-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 50%; }
+.photo-card-img--tkd { object-position: 50% 20%; }
+.photo-bar {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px;
+  padding: 14px clamp(14px, 2vw, 22px) 16px;
+  background: rgba(12, 26, 36, 0.9);
+  color: var(--field-ink);
+}
+.photo-tag {
+  display: inline-flex; align-items: center; min-height: 24px; padding: 0 8px;
+  background: var(--accent); color: var(--accent-ink);
+  font-size: var(--step-small); font-weight: 750; text-transform: uppercase; /* taste-skill-ignore: tag requested by the owner */
+}
+.photo-title { font-weight: 600; line-height: 1.3; }
+.photo-sub { flex-basis: 100%; font-size: var(--step-small); color: var(--field-muted); }
+
+.champ-line {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px;
+  margin-top: var(--gutter); padding: clamp(18px, 2.2vw, 28px) clamp(20px, 2.6vw, 36px);
+  background: var(--field-2);
+}
+.champ-num { font-size: var(--step-title); font-weight: 820; letter-spacing: -0.04em; line-height: 1; }
+.champ-what { font-size: var(--step-lead); font-weight: 500; letter-spacing: -0.015em; }
+.champ-sport { color: var(--field-muted); font-size: var(--step-lead); }
+.champ-dot { color: var(--field-muted); font-size: var(--step-lead); }
+@media (max-width: 599px) { .champ-dot { display: none; } .champ-sport { flex-basis: 100%; } }
+
+.side-ventures { padding: var(--section-gap) 0; background: var(--paper); }
+.vent-cards { display: grid; gap: var(--gutter); align-items: stretch; }
+@media (min-width: 768px) { .vent-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.vent-card { display: flex; flex-direction: column; gap: 6px; padding: clamp(22px, 2.6vw, 36px); background: var(--surface); }
+.vent-shot { margin: calc(clamp(22px, 2.6vw, 36px) * -1) calc(clamp(22px, 2.6vw, 36px) * -1) 16px; aspect-ratio: 16 / 10; overflow: hidden; }
+.vent-shot img { width: 100%; height: 100%; object-fit: cover; }
+.vent-name { font-size: var(--step-lead); font-weight: 800; letter-spacing: -0.02em; line-height: 1.2; }
+.vent-role { font-size: var(--step-small); font-weight: 650; color: var(--muted); }
+.vent-desc { margin-top: 8px; max-width: 52ch; }
+.vent-link { align-self: flex-start; margin-top: auto; padding: 14px 0 2px; font-weight: 650; }
+
+/* Thesis section without its figure (slot waits for the delta-AUC chart) */
+.thesis-chapter:not(:has(.thesis-figure)) { grid-template-columns: minmax(0, 1fr); }
+.thesis-chapter:not(:has(.thesis-figure)) .program { max-width: var(--measure); }
+
+/* ==========================================================================
    ENTRANCES
    ========================================================================== */
 @keyframes reveal-failsafe { to { opacity: 1; transform: none; clip-path: inset(0 0 0 0); } }
@@ -1008,8 +947,6 @@ html.reveal-on [data-reveal] {
     transform 1000ms var(--ease-out) calc(var(--i, 0) * 80ms);
 }
 html.reveal-on [data-reveal].is-in { opacity: 1; transform: none; }
-html.reveal-on .medal[data-reveal] { transform: translate3d(0, 48px, 0); }
-html.reveal-on .medal[data-reveal].is-in { transform: none; }
 
 html.reveal-on .chapter-card--inline { clip-path: inset(100% 0 0 0); transition: clip-path 1000ms var(--ease-in-out); }
 html.reveal-on .chapter-card--inline.is-in { clip-path: inset(0 0 0 0); }
@@ -1044,7 +981,6 @@ html.intro.pulse-live .pulse-glint { opacity: 1; animation: glint 2.6s linear in
   html { scroll-behavior: auto; }
   .cv-dock, .cv-dock.is-shown { transition: opacity 150ms linear, visibility 0s; transform: none; }
   html.reveal-on [data-reveal],
-  html.reveal-on .medal[data-reveal] { transform: none; transition: opacity 250ms linear; }
   html.reveal-on .chapter-card--inline { clip-path: none; transition: none; }
   html.reveal-on .mask-in, html.reveal-on .hero-lead, html.reveal-on .intro-fade { transform: none; clip-path: none; opacity: 1; transition: none; }
   html.reveal-on .hero-portrait img { --settle: 1; }
@@ -1058,7 +994,7 @@ html.intro.pulse-live .pulse-glint { opacity: 1; animation: glint 2.6s linear in
   .ticker-track { flex-wrap: wrap; width: auto; white-space: normal; gap: 10px 0; padding: 20px var(--pad); }
   .stage-item.is-entering, .stage-item.is-entering > * { animation: none !important; }
   .map-pin.is-here .map-pin-halo { animation: none; opacity: 0.25; transform: scale(1.4); }
-  .medal-face, .venture-link::before, .venture-name, .venture-go, .button, .button-label { transition: none !important; }
+  .button, .button-label { transition: none !important; }
   .button, .button-label { transform: none !important; }
   .gate-result { transition: none; }
 }

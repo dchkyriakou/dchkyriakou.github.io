@@ -93,10 +93,12 @@
             <p class="meta" data-reveal>Prodromal vs controls: no added value shown, and reported as such.</p>
             <p class="evidence-links" data-reveal><a class="hover-link" href="thesis/">Read the full thesis write-up</a></p>
           </div>
-          <figure class="thesis-figure" data-reveal>
-            <a href="thesis/#gate" tabindex="-1" aria-hidden="true"><img src="assets/img/work-thesis-900.webp" srcset="assets/img/work-thesis-560.webp 560w, assets/img/work-thesis-900.webp 900w" sizes="(min-width: 900px) 42vw, 100vw" width="900" height="675" loading="lazy" alt="The four-stage signal-quality gate on an illustrative PPG trace: rejected windows greyed out, 101.3 million clean windows kept."></a>
-            <figcaption>The signal-quality gate on an illustrative trace; figures from the thesis. <a class="hover-link" href="thesis/#gate">Try the interactive version</a></figcaption>
-          </figure>
+          <template data-figure-slot="thesis-delta-auc">
+            <figure class="thesis-figure" data-reveal>
+              <img src="assets/img/thesis-delta-auc-1600.webp" srcset="assets/img/thesis-delta-auc-900.webp 900w, assets/img/thesis-delta-auc-1600.webp 1600w" sizes="(min-width: 900px) 46vw, 100vw" width="1600" height="1000" loading="lazy" alt="Added value of wrist PRV features over age and sex for four models, with 95% confidence intervals.">
+              <figcaption>Added value of wrist PRV features over age + sex, 4 models, 95% CI</figcaption>
+            </figure>
+          </template>
         </div>
       </div>
     </section>
@@ -155,13 +157,9 @@
               <p data-reveal>In a five-person international team, we analysed clinical local field potential (LFP) recordings from a Parkinson's patient, with deep brain stimulation off and on.</p>
               <p data-reveal>I built the Python pipeline: beta oscillations (13–30 Hz) via Welch PSD, spectrograms and FOOOF, and 130 Hz DBS artifacts removed with a predict–blank–interpolate method.</p>
             </div>
-            <div class="gained" data-stage="closing" data-reveal-group>
+            <div class="gained" data-reveal-group>
               <p class="gained-text" data-reveal><strong>What I gained:</strong> Neural signal processing (time-frequency, connectivity, entropy), closed-loop neuromodulation system design, and research in a multinational team.</p>
             </div>
-            <figure class="inline-figure" data-reveal>
-              <img src="assets/img/grips-closing-800.webp" width="800" height="600" loading="lazy" alt="GRIPS Summer 2025 participants at the closing ceremony, each holding the sign of their home university; Dimitrios holds Aristotle University of Thessaloniki's.">
-              <figcaption>GRIPS 2025 closing ceremony.</figcaption>
-            </figure>
           </article>
 
           <article class="program" aria-labelledby="p-tamu" data-stage="card-cs-2024">
@@ -184,13 +182,9 @@
             <blockquote class="quote" data-reveal>
               <p>Prof. Coté's recommendation letter says I stood out “compared to other students at his educational level”.</p>
             </blockquote>
-            <div class="gained" data-stage="tamu-group" data-reveal-group>
+            <div class="gained" data-reveal-group>
               <p class="gained-text" data-reveal><strong>What I gained:</strong> Clinical study protocols and sensor validation.</p>
             </div>
-            <figure class="inline-figure" data-reveal>
-              <img src="assets/img/tamu-group-800.webp" width="800" height="600" loading="lazy" alt="Group photo of the lab's poster session in front of Dimitrios's research poster.">
-              <figcaption>Optical Biosensing Lab poster session, Texas A&amp;M 2024.</figcaption>
-            </figure>
           </article>
 
           <article class="program" aria-labelledby="p-iftp" data-stage="card-cs-2022">
@@ -228,10 +222,6 @@
               <img src="assets/img/grips-poster-1200.webp" width="1200" height="1600" loading="lazy" alt="Dimitrios beside the team's GRIPS Summer 2025 poster.">
               <figcaption class="stage-cap">Poster session, GRIPS Summer 2025</figcaption>
             </figure>
-            <figure class="stage-item stage-item--closing" data-key="closing">
-              <img src="assets/img/grips-closing-1600.webp" width="1600" height="1200" loading="lazy" alt="GRIPS 2025 participants at the closing ceremony.">
-              <figcaption class="stage-cap">GRIPS 2025 closing ceremony</figcaption>
-            </figure>
             <div class="stage-item chapter-card" data-key="card-cs-2024" aria-hidden="true">
               <p class="cc-city">College Station</p>
               <p class="cc-coords"><span class="cc-dot"></span>30.6° N, 96.3° W · Texas A&amp;M University</p>
@@ -240,10 +230,6 @@
             <figure class="stage-item stage-item--tamu-poster" data-key="tamu-poster">
               <img src="assets/img/tamu-poster-1600.webp" width="1600" height="1200" loading="lazy" alt="Dimitrios explaining his research poster to a visitor.">
               <figcaption class="stage-cap">Presenting my research poster, Texas A&amp;M, Summer 2024</figcaption>
-            </figure>
-            <figure class="stage-item stage-item--tamu-group" data-key="tamu-group">
-              <img src="assets/img/tamu-group-1600.webp" width="1600" height="1200" loading="lazy" alt="Group photo of the lab's poster session.">
-              <figcaption class="stage-cap">Optical Biosensing Lab poster session, Texas A&amp;M 2024</figcaption>
             </figure>
             <div class="stage-item chapter-card" data-key="card-cs-2022" aria-hidden="true">
               <p class="cc-city">College Station</p>
@@ -514,51 +500,52 @@
       </div>
     </section>
 
-    <!-- ============ ATHLETICS & VENTURES ============ -->
-    <section id="athletics" class="athletics dark" aria-labelledby="athletics-title">
+    <!-- ============ SPORT ============ -->
+    <section id="athletics" class="sport dark" aria-labelledby="sport-title">
       <div class="wrap">
-        <div class="athletics-head" data-reveal-group>
-          <h2 id="athletics-title" class="head" data-reveal>Taekwon-Do, sailing and two ventures</h2>
-          <p class="lead" data-reveal>Years of competitive sport alongside engineering: daily training, performing under pressure, and crew work offshore. Outside the lab, I also build 3D-tour and web products for real businesses.</p>
+        <div class="block-head" data-reveal-group>
+          <h2 id="sport-title" class="head" data-reveal>On the mat and offshore</h2>
+          <p class="lead" data-reveal>Competing taught me to train every day, perform when it counts and trust the crew.</p>
         </div>
-        <ul class="medals medals--two">
-          <li class="medal medal--bronze" data-tilt data-reveal>
-            <div class="medal-face">
-              <p class="medal-num">Bronze</p>
-              <img class="medal-photo medal-photo--tkd" src="assets/img/tkd-podium-560.webp" srcset="assets/img/tkd-podium-560.webp 560w, assets/img/tkd-podium-900.webp 900w" sizes="(min-width: 900px) 45vw, 100vw" width="560" height="700" loading="lazy" alt="Dimitrios on the podium with a bronze medal and the Greek flag, European Taekwon-Do Championships 2018.">
-              <p class="medal-what">European Championship 2018</p>
-              <p class="medal-sport">Taekwon-Do (ITF)</p>
-            </div>
+        <ul class="photo-cards">
+          <li class="photo-card" data-reveal>
+            <figure>
+              <img class="photo-card-img photo-card-img--tkd" src="assets/img/tkd-podium-560.webp" srcset="assets/img/tkd-podium-560.webp 560w, assets/img/tkd-podium-900.webp 900w" sizes="(min-width: 768px) 46vw, 100vw" width="560" height="700" loading="lazy" alt="Dimitrios on the podium with a bronze medal and the Greek flag, European Taekwon-Do Championships 2018.">
+              <figcaption class="photo-bar"><span class="photo-tag">Bronze</span><span class="photo-title">European Championship 2018</span><span class="photo-sub">Taekwon-Do (ITF)</span></figcaption>
+            </figure>
           </li>
-          <li class="medal" data-tilt data-reveal>
-            <div class="medal-face">
-              <p class="medal-num">1st</p>
-              <img class="medal-photo medal-photo--sail" src="assets/img/sailing-crew-720.webp" srcset="assets/img/sailing-crew-720.webp 720w, assets/img/sailing-crew-1200.webp 1200w" sizes="(min-width: 900px) 45vw, 100vw" width="720" height="480" loading="lazy" alt="Dimitrios with his sailing crew behind a table of trophies at night.">
-              <p class="medal-what">Panhellenic Offshore Sailing Championship 2023</p>
-              <p class="medal-sport">Offshore sailing, ORC B class</p>
-            </div>
+          <li class="photo-card" data-reveal>
+            <figure>
+              <img class="photo-card-img" src="assets/img/sailing-crew-45-720.webp" srcset="assets/img/sailing-crew-45-720.webp 720w, assets/img/sailing-crew-45-1200.webp 1200w" sizes="(min-width: 768px) 46vw, 100vw" width="720" height="900" loading="lazy" alt="Dimitrios with his sailing crew behind a table of trophies at night.">
+              <figcaption class="photo-bar"><span class="photo-tag">1st</span><span class="photo-title">Panhellenic Offshore Sailing Championship 2023</span><span class="photo-sub">ORC B class</span></figcaption>
+            </figure>
           </li>
         </ul>
-        <p class="champ-line" data-reveal><span class="champ-num">5×</span><span class="champ-what">Greek National Champion</span><span class="champ-sport">Taekwon-Do (ITF)</span></p>
+        <p class="champ-line" data-reveal><span class="champ-num">5×</span><span class="champ-what">Greek National Champion</span><span class="champ-dot" aria-hidden="true">·</span><span class="champ-sport">Taekwon-Do (ITF)</span></p>
+      </div>
+    </section>
 
-        <ul class="ventures-list" id="ventures" aria-label="Ventures">
-          <li class="venture" data-reveal>
-            <a class="venture-link" href="https://artio3d.github.io/artio-website-new/" rel="noopener" target="_blank">
-              <span class="venture-name">ART.IO</span>
-              <span class="venture-role">Founder · 3D virtual tours</span>
-              <span class="venture-desc">A side venture: I built the product and its website. Interactive 3D walkthroughs with a dollhouse view for real estate, hospitality, event venues, architecture and yachting.</span>
-              <span class="venture-go" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M8 20 20 8M10 8h10v10" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></span>
-              <span class="visually-hidden">(opens in a new tab)</span>
-            </a>
+    <!-- ============ SIDE VENTURES ============ -->
+    <section id="ventures" class="side-ventures" aria-labelledby="ventures-title">
+      <div class="wrap">
+        <div class="block-head" data-reveal-group>
+          <h2 id="ventures-title" class="head" data-reveal>Side ventures</h2>
+          <p class="lead" data-reveal>Outside the lab I build and run real products.</p>
+        </div>
+        <ul class="vent-cards">
+          <li class="vent-card" data-reveal>
+            <figure class="vent-shot" hidden><!-- screenshot slot: ART.IO --></figure>
+            <h3 class="vent-name">ART.IO</h3>
+            <p class="vent-role">Founder</p>
+            <p class="vent-desc">Interactive 3D walkthroughs with a dollhouse view for real estate, hospitality, event venues and yachting. I built the product and its website.</p>
+            <a class="vent-link hover-link" href="https://artio3d.github.io/artio-website-new/" rel="noopener" target="_blank" aria-label="Visit site: ART.IO (opens in a new tab)">Visit site <span aria-hidden="true">↗</span></a>
           </li>
-          <li class="venture" data-reveal>
-            <a class="venture-link" href="https://elysiumretreat.gr/" rel="noopener" target="_blank">
-              <span class="venture-name">Elysium Retreat</span>
-              <span class="venture-role">Owner · boutique short-term rental, since 2022</span>
-              <span class="venture-desc">My own rental in central Thessaloniki. I designed and built the website (photo tour, amenities, parking guide, booking link) and handle guest communication and operations.</span>
-              <span class="venture-go" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M8 20 20 8M10 8h10v10" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg></span>
-              <span class="visually-hidden">(opens in a new tab)</span>
-            </a>
+          <li class="vent-card" data-reveal>
+            <figure class="vent-shot" hidden><!-- screenshot slot: Elysium Retreat --></figure>
+            <h3 class="vent-name">Elysium Retreat</h3>
+            <p class="vent-role">Owner, since 2022</p>
+            <p class="vent-desc">Boutique short-term rental in central Thessaloniki. I designed and built its website and run guest operations.</p>
+            <a class="vent-link hover-link" href="https://elysiumretreat.gr/" rel="noopener" target="_blank" aria-label="Visit site: Elysium Retreat (opens in a new tab)">Visit site <span aria-hidden="true">↗</span></a>
           </li>
         </ul>
       </div>
@@ -567,7 +554,6 @@
 
   <!-- ============ CONTACT ============ -->
   <footer id="contact" class="contact dark" aria-labelledby="contact-title">
-    <img class="contact-bg" src="assets/img/grips-closing-800.webp" srcset="assets/img/grips-closing-800.webp 800w, assets/img/grips-closing-1600.webp 1600w" sizes="100vw" width="1600" height="1200" loading="lazy" alt="">
     <div class="contact-inner wrap">
       <div class="contact-main" data-reveal-group>
         <h2 id="contact-title" class="head" data-reveal>Hiring in medtech, signals or ML?</h2>
