@@ -50,8 +50,8 @@
           <span class="mask"><span class="mask-in heavy">Dimitrios</span></span>
           <span class="mask"><span class="mask-in light">Kyriakou</span></span>
         </h1>
-        <p class="hero-lead">Electrical &amp; computer engineer, drawn to biomedical engineering. A foundation in signals, machine learning, electronics and energy, put to work in research in China and the USA.</p>
-        <p class="hero-open">Open to roles in medtech, signal processing &amp; ML · Thessaloniki, open to relocation</p>
+        <p class="hero-lead">Electrical &amp; computer engineer who turns raw body signals into hard evidence, from a 10/10 thesis to research labs in Shanghai and Texas.</p>
+        <p class="hero-open">Next: medtech, signal processing or ML, wherever the hardest problems are. Based in Thessaloniki, ready to move.</p>
         <div class="hero-actions intro-fade">
           <a class="button magnetic" href="Dimitrios_Kyriakou_CV_2026.pdf" download>
             <span class="button-label">
@@ -77,75 +77,27 @@
           <img class="hero-still" src="assets/img/hero-still-1600.webp" width="1400" height="651" alt="" decoding="async">
         </picture>
       </div>
-      <p class="hero-caption intro-fade">Short-time Fourier spectrum of a simulated wrist pulse, 0.5–4 Hz. The orange ridge is the heart rate.</p>
-    </section>
-
-    <!-- ============ TICKER ============ -->
-    <section class="ticker" aria-label="At a glance" tabindex="0">
-      <ul class="ticker-track">
-        <li><b>3</b> countries</li>
-        <li><b>249M</b> signal windows</li>
-        <li><b>10/10</b> thesis</li>
-        <li><b>European</b> bronze</li>
-        <li><b>5×</b> national champion</li>
-      </ul>
     </section>
 
     <!-- ============ THESIS ============ -->
     <section id="thesis" class="thesis dark" aria-labelledby="thesis-title">
       <div class="wrap">
         <h2 id="thesis-title" class="head thesis-title" data-reveal>A Parkinson's signal in the wrist pulse</h2>
-        <div class="thesis-intro thesis-intro--short" data-reveal-group>
-          <p class="lead" data-reveal>My diploma thesis, graded 10/10: digital biomarkers from wrist photoplethysmography (PPG) for Parkinson's disease discrimination using machine learning.</p>
-          <p class="evidence-links" data-reveal><a class="hover-link" href="thesis/">Read the full thesis write-up</a></p>
+        <div class="thesis-chapter">
+          <div class="program" data-reveal-group>
+            <h3 class="sub" data-reveal>Diploma thesis, graded 10/10</h3>
+            <p class="meta" data-reveal>Aristotle University of Thessaloniki · Supervisor: Prof. Leontios Hadjileontiadis</p>
+            <p data-reveal>Free-living wrist PPG and accelerometer data from 344 participants of the PPMI cohort: Parkinson's, prodromal and healthy controls.</p>
+            <p data-reveal>I built the end-to-end Python pipeline: a four-stage quality gate cut 249.3 M candidate windows to 101.3 M clean ones, then 594 pulse-rate-variability features per participant fed four models under nested cross-validation.</p>
+            <p class="callout" data-reveal>+0.30 ROC-AUC over age and sex for Parkinson's vs controls, in all four models (p &lt; 0.05).</p>
+            <p class="meta" data-reveal>Prodromal vs controls: no added value shown, and reported as such.</p>
+            <p class="evidence-links" data-reveal><a class="hover-link" href="thesis/">Read the full thesis write-up</a></p>
+          </div>
+          <figure class="thesis-figure" data-reveal>
+            <a href="thesis/#gate" tabindex="-1" aria-hidden="true"><img src="assets/img/work-thesis-900.webp" srcset="assets/img/work-thesis-560.webp 560w, assets/img/work-thesis-900.webp 900w" sizes="(min-width: 900px) 42vw, 100vw" width="900" height="675" loading="lazy" alt="The four-stage signal-quality gate on an illustrative PPG trace: rejected windows greyed out, 101.3 million clean windows kept."></a>
+            <figcaption>The signal-quality gate on an illustrative trace; figures from the thesis. <a class="hover-link" href="thesis/#gate">Try the interactive version</a></figcaption>
+          </figure>
         </div>
-
-        <figure class="gate" id="gate" aria-labelledby="gate-title">
-          <div class="gate-top">
-            <h3 id="gate-title" class="sub">Run the signal-quality gate</h3>
-            <p class="gate-note">Illustrative trace; figures from the thesis.</p>
-          </div>
-
-          <div class="gate-counters">
-            <div class="gate-count">
-              <p class="gate-count-num"><span data-gate="windows">249.3 M</span></p>
-              <p class="gate-count-label" data-gate="windows-label">249,275,571 candidate 30-second windows</p>
-            </div>
-            <p class="gate-trace-count" data-gate="trace-count">This trace: 10 of 10 windows kept</p>
-          </div>
-
-          <div class="gate-scope">
-            <svg class="gate-svg" viewBox="0 0 1200 220" preserveAspectRatio="none" role="img" aria-label="Illustrative PPG trace split into ten 30-second windows; windows rejected by the active stages are greyed out.">
-              <g class="gate-windows"></g>
-              <g class="gate-traces"></g>
-            </svg>
-          </div>
-
-          <ol class="gate-stages" aria-label="Gate stages">
-            <li><button type="button" class="gate-stage" data-stage-btn="motion" aria-pressed="false"><span class="gs-name">Motion</span><span class="gs-rule">Var(|a|) ≤ 0.025 g², tremor-band check</span><span class="gs-state">Off</span></button></li>
-            <li><button type="button" class="gate-stage" data-stage-btn="shape" aria-pressed="false"><span class="gs-name">Waveform shape</span><span class="gs-rule">Skewness −1.5 to 4.0, kurtosis 1.2 to 20</span><span class="gs-state">Off</span></button></li>
-            <li><button type="button" class="gate-stage" data-stage-btn="template" aria-pressed="false"><span class="gs-name">Template correlation</span><span class="gs-rule">Mean r ≥ 0.70 with the median pulse</span><span class="gs-state">Off</span></button></li>
-            <li><button type="button" class="gate-stage" data-stage-btn="buffer" aria-pressed="false"><span class="gs-name">Post-motion buffer</span><span class="gs-rule">45 s after motion</span><span class="gs-state">Off</span></button></li>
-          </ol>
-          <div class="gate-actions">
-            <button type="button" class="gate-run" data-gate-run>Run all four stages</button>
-            <button type="button" class="gate-reset hover-link" data-gate-reset>Reset</button>
-          </div>
-
-          <div class="gate-result" data-gate="result">
-            <div class="gate-result-inner">
-              <div class="gate-result-body">
-                <p class="gate-result-num">+0.30 <span>ROC-AUC over age and sex</span></p>
-                <div class="gate-result-text">
-                  <p>Parkinson's vs controls: pulse-rate-variability features improved ROC-AUC by 0.298 to 0.323 over age and sex in all four models (p &lt; 0.05), stable across sensitivity analyses.</p>
-                  <p class="gate-result-note">Prodromal vs controls: no added value shown, and reported as such (the PPMI prodromal group is heterogeneous).</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <p class="visually-hidden" aria-live="polite" data-gate="live"></p>
-          <figcaption class="visually-hidden">Interactive illustration of the four-stage signal-quality gate: 249,275,571 candidate 30-second windows reduced to 101,310,466 clean windows.</figcaption>
-        </figure>
       </div>
     </section>
 
@@ -199,14 +151,10 @@
               <img src="assets/img/grips-poster-720.webp" width="720" height="960" loading="lazy" alt="Dimitrios beside the team's GRIPS Summer 2025 poster, “Neural Signal Processing: From Theory to Application in Parkinson's Disease”, holding a certificate of completion.">
               <figcaption>With our team's poster, GRIPS Summer 2025.</figcaption>
             </figure>
-            <div class="program-step" data-stage="talk" data-reveal-group>
+            <div class="program-step" data-reveal-group>
               <p data-reveal>In a five-person international team, we analysed clinical local field potential (LFP) recordings from a Parkinson's patient, with deep brain stimulation off and on.</p>
               <p data-reveal>I built the Python pipeline: beta oscillations (13–30 Hz) via Welch PSD, spectrograms and FOOOF, and 130 Hz DBS artifacts removed with a predict–blank–interpolate method.</p>
             </div>
-            <figure class="inline-figure" data-reveal>
-              <img src="assets/img/grips-talk-800.webp" width="800" height="600" loading="lazy" alt="Dimitrios presenting a slide of a closed-loop system with an LFP recorder, stimulator and saline bath.">
-              <figcaption>Presenting at GRIPS 2025.</figcaption>
-            </figure>
             <div class="gained" data-stage="closing" data-reveal-group>
               <p class="gained-text" data-reveal><strong>What I gained:</strong> Neural signal processing (time-frequency, connectivity, entropy), closed-loop neuromodulation system design, and research in a multinational team.</p>
             </div>
@@ -233,13 +181,9 @@
               <figcaption>Presenting my research poster, Texas A&amp;M, Summer 2024.</figcaption>
             </figure>
             <p class="evidence-links" data-reveal><a class="hover-link" href="assets/docs/tamu-2024-ppg-poster.pdf">Read the poster (PDF, 1.7 MB)</a></p>
-            <blockquote class="quote" data-reveal data-stage="tamu-colleagues">
+            <blockquote class="quote" data-reveal>
               <p>Prof. Coté's recommendation letter says I stood out “compared to other students at his educational level”.</p>
             </blockquote>
-            <figure class="inline-figure" data-reveal>
-              <img src="assets/img/tamu-colleagues-720.webp" width="720" height="960" loading="lazy" alt="Dimitrios standing with two lab colleagues beside his research poster.">
-              <figcaption>At the poster session with lab colleagues, Texas A&amp;M 2024.</figcaption>
-            </figure>
             <div class="gained" data-stage="tamu-group" data-reveal-group>
               <p class="gained-text" data-reveal><strong>What I gained:</strong> Clinical study protocols and sensor validation.</p>
             </div>
@@ -261,9 +205,9 @@
               <p data-reveal>A 48-hour global design competition: build a working prototype and pitch it to judges. Our team, BIO-thess (AUTh), was chosen as a top finalist and flown to College Station, Texas, for the live final, with travel funded by Texas A&amp;M.</p>
             </div>
             <p class="callout" data-stage="pitch" data-reveal>People's Choice award among 25 teams, with a $1,000 team prize, for “Energy from Home to Home”: an anaerobic digester turning household organic waste into gas for building heating.</p>
-            <figure class="inline-figure inline-figure--small" data-reveal>
-              <img src="assets/img/tamu-pitch-501.webp" width="501" height="493" loading="lazy" alt="Dimitrios pitching in front of a Texas A&amp;M Engineering backdrop.">
-              <figcaption>Pitching at Texas A&amp;M Engineering, College Station.</figcaption>
+            <figure class="inline-figure" data-reveal>
+              <img src="assets/img/iftp-team-800.webp" width="800" height="600" loading="lazy" alt="Dimitrios and a BIO-thess teammate laughing in two armchairs.">
+              <figcaption>With a BIO-thess teammate, Invent for the Planet 2022.</figcaption>
             </figure>
             <div class="gained" data-reveal-group>
               <p class="gained-text" data-reveal><strong>What I gained:</strong> Rapid engineering design, prototyping and pitching to an international jury.</p>
@@ -284,10 +228,6 @@
               <img src="assets/img/grips-poster-1200.webp" width="1200" height="1600" loading="lazy" alt="Dimitrios beside the team's GRIPS Summer 2025 poster.">
               <figcaption class="stage-cap">Poster session, GRIPS Summer 2025</figcaption>
             </figure>
-            <figure class="stage-item stage-item--talk" data-key="talk">
-              <img src="assets/img/grips-talk-1600.webp" width="1600" height="1200" loading="lazy" alt="Dimitrios presenting a closed-loop LFP system slide.">
-              <figcaption class="stage-cap">Presenting at GRIPS 2025</figcaption>
-            </figure>
             <figure class="stage-item stage-item--closing" data-key="closing">
               <img src="assets/img/grips-closing-1600.webp" width="1600" height="1200" loading="lazy" alt="GRIPS 2025 participants at the closing ceremony.">
               <figcaption class="stage-cap">GRIPS 2025 closing ceremony</figcaption>
@@ -301,10 +241,6 @@
               <img src="assets/img/tamu-poster-1600.webp" width="1600" height="1200" loading="lazy" alt="Dimitrios explaining his research poster to a visitor.">
               <figcaption class="stage-cap">Presenting my research poster, Texas A&amp;M, Summer 2024</figcaption>
             </figure>
-            <figure class="stage-item" data-key="tamu-colleagues">
-              <img src="assets/img/tamu-colleagues-1200.webp" width="1200" height="1600" loading="lazy" alt="Dimitrios with two lab colleagues beside his poster.">
-              <figcaption class="stage-cap">At the poster session with lab colleagues, Texas A&amp;M 2024</figcaption>
-            </figure>
             <figure class="stage-item stage-item--tamu-group" data-key="tamu-group">
               <img src="assets/img/tamu-group-1600.webp" width="1600" height="1200" loading="lazy" alt="Group photo of the lab's poster session.">
               <figcaption class="stage-cap">Optical Biosensing Lab poster session, Texas A&amp;M 2024</figcaption>
@@ -314,9 +250,9 @@
               <p class="cc-coords"><span class="cc-dot"></span>30.6° N, 96.3° W · Invent for the Planet</p>
               <p class="cc-year">2022</p>
             </div>
-            <figure class="stage-item stage-item--print" data-key="pitch">
-              <img src="assets/img/tamu-pitch-501.webp" width="501" height="493" loading="lazy" alt="Dimitrios pitching at Texas A&amp;M Engineering.">
-              <figcaption class="stage-cap">Pitching at Texas A&amp;M Engineering</figcaption>
+            <figure class="stage-item stage-item--iftp" data-key="pitch">
+              <img src="assets/img/iftp-team-1600.webp" width="1600" height="1200" loading="lazy" alt="Dimitrios and a BIO-thess teammate in two armchairs.">
+              <figcaption class="stage-cap">With a BIO-thess teammate, Invent for the Planet 2022</figcaption>
             </figure>
           </div>
         </aside>
@@ -585,31 +521,25 @@
           <h2 id="athletics-title" class="head" data-reveal>Taekwon-Do, sailing and two ventures</h2>
           <p class="lead" data-reveal>Years of competitive sport alongside engineering: daily training, performing under pressure, and crew work offshore. Outside the lab, I also build 3D-tour and web products for real businesses.</p>
         </div>
-        <ul class="medals">
+        <ul class="medals medals--two">
           <li class="medal medal--bronze" data-tilt data-reveal>
             <div class="medal-face">
               <p class="medal-num">Bronze</p>
-              <img class="medal-photo medal-photo--tkd" src="assets/img/tkd-podium-560.webp" srcset="assets/img/tkd-podium-560.webp 560w, assets/img/tkd-podium-900.webp 900w" sizes="(min-width: 900px) 30vw, 100vw" width="560" height="700" loading="lazy" alt="Dimitrios on the podium with a bronze medal and the Greek flag, European Taekwon-Do Championships 2018.">
+              <img class="medal-photo medal-photo--tkd" src="assets/img/tkd-podium-560.webp" srcset="assets/img/tkd-podium-560.webp 560w, assets/img/tkd-podium-900.webp 900w" sizes="(min-width: 900px) 45vw, 100vw" width="560" height="700" loading="lazy" alt="Dimitrios on the podium with a bronze medal and the Greek flag, European Taekwon-Do Championships 2018.">
               <p class="medal-what">European Championship 2018</p>
               <p class="medal-sport">Taekwon-Do (ITF)</p>
             </div>
           </li>
           <li class="medal" data-tilt data-reveal>
             <div class="medal-face">
-              <p class="medal-num">5×</p>
-              <p class="medal-what">Greek National Champion</p>
-              <p class="medal-sport">Taekwon-Do (ITF)</p>
-            </div>
-          </li>
-          <li class="medal" data-tilt data-reveal>
-            <div class="medal-face">
               <p class="medal-num">1st</p>
-              <img class="medal-photo medal-photo--sail" src="assets/img/sailing-trophy-560.webp" srcset="assets/img/sailing-trophy-560.webp 560w, assets/img/sailing-trophy-900.webp 900w" sizes="(min-width: 900px) 30vw, 100vw" width="560" height="700" loading="lazy" alt="Dimitrios holding a sailing trophy at a marina at night.">
+              <img class="medal-photo medal-photo--sail" src="assets/img/sailing-crew-720.webp" srcset="assets/img/sailing-crew-720.webp 720w, assets/img/sailing-crew-1200.webp 1200w" sizes="(min-width: 900px) 45vw, 100vw" width="720" height="480" loading="lazy" alt="Dimitrios with his sailing crew behind a table of trophies at night.">
               <p class="medal-what">Panhellenic Offshore Sailing Championship 2023</p>
               <p class="medal-sport">Offshore sailing, ORC B class</p>
             </div>
           </li>
         </ul>
+        <p class="champ-line" data-reveal><span class="champ-num">5×</span><span class="champ-what">Greek National Champion</span><span class="champ-sport">Taekwon-Do (ITF)</span></p>
 
         <ul class="ventures-list" id="ventures" aria-label="Ventures">
           <li class="venture" data-reveal>
@@ -665,6 +595,5 @@
   </a>
 
   <script src="assets/js/site.js" defer></script>
-  <script src="assets/js/gate.js" defer></script>
 </body>
 </html>
