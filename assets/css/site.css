@@ -924,30 +924,66 @@ p { text-wrap: pretty; }
 .vent-desc { margin-top: 8px; max-width: 52ch; }
 .vent-link { align-self: flex-start; margin-top: auto; padding: 14px 0 2px; font-weight: 650; }
 
-/* Thesis: lessons list + "raw signal in, clean beats out" animation */
-.thesis-intro-text { color: var(--field-ink) !important; max-width: 46ch; }
-.lessons-title { margin-top: 36px !important; }
-.lessons { display: grid; gap: 18px; margin-top: 14px; }
-.lessons li { position: relative; padding-left: 22px; color: var(--field-muted); }
-.lessons li::before { content: ""; position: absolute; left: 0; top: 0.62em; width: 8px; height: 8px; background: var(--accent); }
-.lessons b { display: block; font-weight: 650; color: var(--field-ink); margin-bottom: 2px; }
-.beats-frame { display: flex; flex-direction: column; background: var(--field-2); padding: clamp(14px, 2vw, 24px); }
-.beats-svg { display: block; width: 100%; height: auto; aspect-ratio: 640 / 240; overflow: visible; }
-.bt-raw { fill: none; stroke: #8a979f; stroke-width: 1.6; stroke-linejoin: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1 1; }
-.bt-clean { fill: none; stroke: var(--accent); stroke-width: 2.4; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
-.bt-gap { fill: none; stroke: rgba(163, 177, 186, 0.45); stroke-width: 1.4; stroke-dasharray: 4 5; vector-effect: non-scaling-stroke; }
-.bt-band { fill: rgba(238, 242, 244, 0.08); transition: opacity 300ms ease; }
-.bt-dot { fill: var(--accent); stroke: var(--field-2); stroke-width: 2; vector-effect: non-scaling-stroke; }
-.beats-count {
-  order: -1; text-align: right; margin-bottom: 6px;
-  font-size: var(--step-small); color: var(--field-muted); font-variant-numeric: tabular-nums;
+/* Thesis: chapter-style text + "thesis in five scenes" animation */
+.thesis-head { font-size: var(--step-title); }
+@media (min-width: 900px) {
+  .thesis-chapter { align-items: start; }
+  .thesis-chapter .story { position: sticky; top: 88px; }
 }
-.beats-count span { color: var(--field-ink); font-weight: 700; }
-.beats figcaption { margin-top: 10px; font-size: var(--step-small); color: var(--field-muted); }
+.story-play { background: var(--field-2); padding: clamp(14px, 2vw, 22px); }
+.story-cap { display: grid; gap: 2px; min-height: 2.9em; line-height: 1.35; font-size: var(--step-small); color: var(--field-muted); font-variant-numeric: tabular-nums; }
+.story-cap b { color: var(--field-ink); font-weight: 650; }
+.story-svg { display: block; width: 100%; height: auto; aspect-ratio: 480 / 320; margin-top: 8px; overflow: visible; font-family: inherit; }
+.story-dots { display: flex; gap: 6px; margin-top: 12px; }
+.story-dot {
+  position: relative; width: 28px; height: 28px; padding: 0; border: 0; background: none;
+  display: grid; place-items: center;
+}
+.story-dot::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: rgba(163, 177, 186, 0.45); transition: width 260ms var(--ease-out), border-radius 260ms var(--ease-out), background-color 200ms ease; }
+.story-dot span { position: absolute; left: 50%; top: 50%; width: 22px; height: 4px; margin: -2px 0 0 -11px; background: var(--accent); transform: scaleX(0); transform-origin: left; opacity: 0; }
+.story-dot[aria-current="step"]::before { width: 22px; height: 4px; border-radius: 2px; background: rgba(163, 177, 186, 0.35); }
+.story-dot[aria-current="step"] span { opacity: 1; }
+.story-dot:active::before { transform: scale(0.94); }
+@media (hover: hover) and (pointer: fine) { .story-dot:hover::before { background: var(--field-ink); } }
+.story.is-held .story-dot[aria-current="step"]::before { background: var(--field-ink); }
+.story-note { display: block; margin-top: 10px; font-size: var(--step-small); color: var(--field-muted); }
 
-/* Thesis section without its figure (slot waits for the delta-AUC chart) */
-.thesis-chapter:not(:has(.thesis-figure)) { grid-template-columns: minmax(0, 1fr); }
-.thesis-chapter:not(:has(.thesis-figure)) .program { max-width: var(--measure); }
+/* SVG marks: thin lines, dim by default, orange only for the active element */
+.story-svg text { font-size: calc(var(--u, 1) * 12.5px); fill: var(--field-muted); text-anchor: middle; dominant-baseline: central; }
+.story-svg .st-big { font-size: calc(var(--u, 1) * 30px); font-weight: 750; fill: var(--field-ink); }
+.story-svg .st-mid { font-size: calc(var(--u, 1) * 16px); font-weight: 650; fill: var(--field-ink); }
+.story-svg .st-res { font-size: calc(var(--u, 1) * 15px); font-weight: 750; fill: var(--accent); text-anchor: end; }
+.story-svg .st-note { text-anchor: start; }
+.st-raw { fill: none; stroke: #8a979f; stroke-width: 1.4; stroke-linejoin: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1 1; }
+.st-clean { fill: none; stroke: var(--accent); stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; }
+.st-gap { fill: none; stroke: rgba(163, 177, 186, 0.45); stroke-width: 1.2; stroke-dasharray: 4 5; vector-effect: non-scaling-stroke; }
+.st-band { fill: rgba(238, 242, 244, 0.08); }
+.st-dot { fill: var(--accent); stroke: var(--field-2); stroke-width: 2; vector-effect: non-scaling-stroke; }
+.st-tick { fill: none; stroke: var(--accent); stroke-width: 1.4; vector-effect: non-scaling-stroke; stroke-dasharray: 1 1; }
+.st-chip rect { fill: none; stroke: rgba(163, 177, 186, 0.5); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.st-chip text { fill: var(--field-ink); }
+.st-chip.is-on rect { stroke: var(--accent); }
+.st-badge { fill: none; stroke: var(--accent); stroke-width: 1.6; vector-effect: non-scaling-stroke; }
+.st-day { fill: rgba(238, 242, 244, 0.42); }
+.st-day.is-on { fill: var(--accent); }
+.st-night { fill: #2b4352; }
+.st-axis { stroke: rgba(163, 177, 186, 0.55); stroke-width: 1; vector-effect: non-scaling-stroke; fill: none; }
+.st-curve { fill: none; stroke: var(--accent); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-dasharray: 1 1; }
+.st-sticks { stroke: var(--field-ink); stroke-width: 1; vector-effect: non-scaling-stroke; }
+.st-row { stroke: rgba(163, 177, 186, 0.38); stroke-width: 3.4; stroke-dasharray: 9 2; }
+.st-row.is-on, .st-row.is-test { stroke: var(--accent); }
+.st-more { fill: rgba(163, 177, 186, 0.6); }
+.st-model { fill: none; stroke: rgba(163, 177, 186, 0.7); stroke-width: 1.4; vector-effect: non-scaling-stroke; }
+.st-model.is-on { fill: var(--accent); stroke: var(--accent); }
+.st-fill { fill: var(--accent); }
+
+/* Reduced motion: a static five-panel storyboard */
+.story.is-static .story-play { display: none; }
+.story-board { display: grid; gap: 10px; max-width: 360px; }
+.story-board li { background: var(--field-2); padding: 12px 14px; }
+.story-board .story-svg { margin-top: 4px; }
+@media (min-width: 900px) { .story.is-static { position: static; } }
+
 
 /* ==========================================================================
    ENTRANCES

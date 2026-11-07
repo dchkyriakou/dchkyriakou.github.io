@@ -82,25 +82,32 @@
     <!-- ============ THESIS ============ -->
     <section id="thesis" class="thesis dark" aria-labelledby="thesis-title">
       <div class="wrap">
-        <h2 id="thesis-title" class="head thesis-title" data-reveal>Finding a heartbeat in the noise of daily life</h2>
         <div class="thesis-chapter">
           <div class="program" data-reveal-group>
-            <p class="lead thesis-intro-text" data-reveal>A wrist-worn sensor records your pulse all day, while you walk, type, sleep or shake. For my diploma thesis I asked whether that messy signal can tell people with Parkinson's apart from healthy people. Getting the answer taught me more than the answer itself.</p>
-            <h3 class="sub lessons-title" data-reveal>What it taught me</h3>
-            <ul class="lessons">
-              <li data-reveal><b>Most real-world data is noise. Deciding what to throw away matters more than the model.</b> My four-stage filter rejected about 59% of 249 million signal windows on purpose, and every rule had to be defensible.</li>
-              <li data-reveal><b>No ground truth? Define one you can defend.</b> With no ECG to compare against, I tuned the pipeline on how repeatable each person's values were from day to day.</li>
-              <li data-reveal><b>Honest validation beats a pretty number.</b> Every model was tested only on people it had never seen, with statistics that don't flatter overlapping folds.</li>
-              <li data-reveal><b>A negative result is still a result.</b> The signal clearly separates diagnosed Parkinson's (+0.30 ROC-AUC over age and sex) and shows nothing yet for the prodromal stage. I reported both.</li>
-            </ul>
+            <h2 id="thesis-title" class="sub thesis-head" data-reveal>Diploma thesis: Parkinson's in the wrist pulse</h2>
+            <p class="meta" data-reveal>Aristotle University of Thessaloniki · Supervisor: Prof. Leontios Hadjileontiadis · 2026</p>
+            <p data-reveal>I asked whether the pulse a wrist-worn sensor records in daily life can tell people with Parkinson's apart from healthy people. The data came from 344 participants of the PPMI cohort: Parkinson's, prodromal and healthy controls.</p>
+            <p data-reveal>I built the Python pipeline end to end, from the raw wrist signal to four machine-learning models tested only on people they had never seen.</p>
+            <p class="callout" data-reveal>Pulse-rate variability added +0.30 ROC-AUC over age and sex for Parkinson's vs controls, in all four models. For the prodromal group it added nothing yet, and I reported that too.</p>
+            <div class="gained" data-reveal-group>
+              <p class="gained-text" data-reveal><strong>What I gained:</strong> I learned to make messy real-world data trustworthy, to validate without fooling myself, and to report a negative result as clearly as a positive one.</p>
+            </div>
             <p class="evidence-links" data-reveal><a class="hover-link" href="thesis/">The full story, with the interactive filter <span aria-hidden="true">→</span></a></p>
           </div>
-          <figure class="thesis-figure beats" data-beats data-reveal>
-            <div class="beats-frame">
-              <svg class="beats-svg" viewBox="0 0 640 240" role="img" aria-label="Illustration: a noisy grey wrist signal is scanned and turned into clean orange pulses, with each detected beat marked."></svg>
-              <p class="beats-count" aria-hidden="true">beats found: <span data-beats-count>0</span></p>
+          <figure class="thesis-figure story" data-story data-reveal>
+            <div class="story-play">
+              <p class="story-cap" aria-hidden="true"><b data-story-label>Clean the signal</b><span data-story-fig>249.3 M → 101.3 M windows</span></p>
+              <svg class="story-svg" viewBox="0 0 480 320" aria-hidden="true"></svg>
+              <div class="story-dots" role="group" aria-label="Thesis summary scenes">
+              <button type="button" class="story-dot" data-scene="0" aria-label="Scene 1 of 5: Clean the signal"><span></span></button>
+              <button type="button" class="story-dot" data-scene="1" aria-label="Scene 2 of 5: Measure the rhythm"><span></span></button>
+              <button type="button" class="story-dot" data-scene="2" aria-label="Scene 3 of 5: Summarise 180 days"><span></span></button>
+              <button type="button" class="story-dot" data-scene="3" aria-label="Scene 4 of 5: One row per person"><span></span></button>
+              <button type="button" class="story-dot" data-scene="4" aria-label="Scene 5 of 5: Test on unseen people"><span></span></button>
+              </div>
             </div>
-            <figcaption>Illustrative: raw wrist signal in, clean beats out.</figcaption>
+            <figcaption><span class="story-note">Illustrative summary of the thesis; figures from the thesis.</span>
+              <span class="visually-hidden">Five scenes: 1, clean the signal: 249.3 million candidate 30-second windows reduced to 101.3 million clean ones. 2, measure the rhythm: inter-beat intervals give 27 pulse-rate-variability indices. 3, summarise 180 days: day and night values summarised with 11 statistics. 4, one row per person: 344 people by 594 features, 27 times 2 times 11. 5, test on unseen people: four models, Logistic Regression, Random Forest, XGBoost and SVM, add 0.30 ROC-AUC over age and sex; no added value for the prodromal group.</span></figcaption>
           </figure>
         </div>
       </div>
@@ -593,6 +600,6 @@
   </a>
 
   <script src="assets/js/site.js" defer></script>
-  <script src="assets/js/beats.js" defer></script>
+  <script src="assets/js/story.js" defer></script>
 </body>
 </html>
