@@ -114,7 +114,7 @@ function thesisLine(j, l, u, i, t) {
 }
 function lineShape(k, u, i, s, t, out) {
   switch (k) {
-    case 0: { const x = portrait ? (u - 0.5) * 15 : lerp(-4.2, 6.6, u), beat = Math.exp(-fr(t / 1.05) / 0.11);
+    case 0: { const x = portrait ? (u - 0.5) * 15 : lerp(-3.2, 6.8, u), beat = Math.exp(-fr(t / 1.05) / 0.11);
       out[0] = x; out[1] = ecg(fr(x / 3.2 + 0.3)) * 1.5 * (1 + 0.22 * beat) + HERO_Y; out[2] = 0; out[3] = sstep(0, 0.06, u) * sstep(1, 0.94, u); break; }
     case 1: circuit(u, out); break;
     case 2: { const a = u * Math.PI * 2 * 2.5 + t * 0.3, r = 1.32 + 0.38 * ppg(fr(u * 9 - t * 1.1));
@@ -463,5 +463,5 @@ window.addEventListener('load', measure);
 new ResizeObserver(measure).observe(document.querySelector('main'));
 gsap.ticker.add((time) => { lenis.raf(time * 1000); frame(time); });
 gsap.ticker.lagSmoothing(0);
-requestAnimationFrame(() => requestAnimationFrame(() => canvas.classList.add('is-live')));
+requestAnimationFrame(() => requestAnimationFrame(() => { canvas.classList.add('is-live'); root.classList.add('gl-live'); }));
 root.classList.add('story-ready');
