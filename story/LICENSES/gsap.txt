@@ -1,0 +1,2 @@
+GSAP 3.13.0 (gsap, ScrollTrigger) is used under the GreenSock Standard "No Charge" License:
+https://gsap.com/standard-license
